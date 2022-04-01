@@ -5,8 +5,8 @@ export default class HomeScreen extends Component {
     render(){
         return (
             <View style={styles.container}>
-               <Image source={require('./assets/unimate_logo.png')} style={{marginVertical:10}} />
-               <Image source={require('./assets/start_logo.png')} style={{marginVertical:10}} />
+               <Image source={require('../assets/unimate_logo.png')} style={{marginVertical:10}} />
+               <Image source={require('../assets/start_logo.png')} style={{marginVertical:10}} />
             </View>
           );
     }

@@ -15,7 +15,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 //type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
 function SignUp({navigation}) {
-
+  
   const toTos = useCallback(() => {
     navigation.navigate('Tos');
   }, [navigation]);
@@ -25,7 +25,7 @@ function SignUp({navigation}) {
   const [grade, setGrade] = useState(null);
 
   return (
-    <SafeAreaView style={{backgroundColor: '#ffffff'}}>
+    <SafeAreaView style={{backgroundColor: '#ffffff'}}> 
         <View style={{paddingLeft: 30}}>
             <Text style={styles.pageTitle1}>대학 친구를 만나는</Text>
             <Text style={styles.pageTitle1}>
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
       borderRadius: 12,
       backgroundColor: '#F2F4F8',
     },
-
+    
     schoolButtonFont: {
       color: '#A4ACB3',
     },

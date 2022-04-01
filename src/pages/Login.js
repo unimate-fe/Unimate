@@ -66,7 +66,7 @@ function Login({navigation}: LoginScreenProps){
     const toSearch = useCallback(() => {
         navigation.navigate('Search');
       }, [navigation]);
-
+      
     return (
     <DismissKeyboardView style={{backgroundColor: 'white'}}>
       <View style={styles.inputWrapper}>
