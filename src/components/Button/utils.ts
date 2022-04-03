@@ -44,9 +44,7 @@ export const getLabelStyle = (type: ButtonType, disabled?: boolean) => {
   };
   if (type === 'Solid-Long') {
     style.opacity = disabled ? 0.6 : 1;
-  } else if (type === 'Solid-Long-White') {
-    style.color = colors.DARK_GREY4;
-  } else if (type === 'Solid-ShortRound-Cancel') {
+  } else if (type === 'Solid-Long-White' || 'Solid-ShortRound-Cancel') {
     style.color = colors.DARK_GREY4;
   }
   return style;

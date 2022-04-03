@@ -16,8 +16,11 @@ interface ButtonProps {
   type: ButtonType;
   label: string;
   disabled?: boolean;
+  // Pressable style
   style?: StyleProp<ViewStyle>;
+  // View style
   contentStyle?: StyleProp<ViewStyle>;
+  // Text style
   typoStyle?: StyleProp<TextStyle>;
 }
 

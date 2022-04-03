@@ -19,7 +19,7 @@ import RegisterFinish from '../../../src/screens/RegisterFinish';
 
 const Stack = createNativeStackNavigator<RootStackParams>();
 
-// 유저 인증 없는 부분
+// 유저 인증 전
 const UnauthorizedGroup = (
   <Stack.Group>
     <Stack.Screen
@@ -42,6 +42,9 @@ const UnauthorizedGroup = (
     <Stack.Screen name={'RegisterFinish'} component={RegisterFinish} />
   </Stack.Group>
 );
+
+// 유저 인증 이후
+// const AuthorizedGroup;
 
 const RootStackNavigator = function RootStackNavigator() {
   const navigation = useNavigation<RootStackNavigationProps>();
