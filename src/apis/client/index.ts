@@ -1,7 +1,7 @@
 import axios, {AxiosResponse} from 'axios';
 import qs from 'qs';
 import Config from 'react-native-config';
-import {HttpMethod, RequestParams} from '../../../src/apis/client/types';
+import {HttpMethod, RequestParams} from '@src/apis/client/types';
 
 const instance = axios.create({
   // 3초뒤 요청 타임아웃

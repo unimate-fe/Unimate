@@ -1,12 +1,12 @@
 import React from 'react';
 import {FunctionComponent} from 'react';
-import {StyleProp, StyleSheet, Text, TextProps} from 'react-native';
-import {typos, TypoType} from '../Typo/type';
-import {colors} from '../@styles/colors';
+import {StyleProp, StyleSheet, Text, TextProps, TextStyle} from 'react-native';
+import {typos, TypoType} from '@components/Typo/type';
+import {colors} from '@components/Styles/colors';
 
 interface TypoProps extends TextProps {
   type: TypoType;
-  style?: StyleProp<TextProps>;
+  style?: StyleProp<TextStyle>;
 }
 
 const Typo: FunctionComponent<TypoProps> = function Typo({

@@ -1,6 +1,7 @@
-import {ButtonType} from '../../../src/components/Button/types';
 import {StyleProp, TextStyle, ViewStyle} from 'react-native';
-import {colors} from '../../../src/components/@styles/colors';
+
+import {ButtonType} from '@components/Button/types';
+import {colors} from '@components/Styles/colors';
 
 export const getStyle = (type: ButtonType) => {
   const style: StyleProp<ViewStyle> = {

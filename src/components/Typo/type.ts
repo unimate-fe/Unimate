@@ -1,4 +1,4 @@
-import fonts from '../../../assets/fonts';
+import fonts from '@assets/fonts';
 
 export const typos = {
   H1: {

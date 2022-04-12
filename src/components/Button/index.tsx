@@ -8,13 +8,14 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import {ButtonType} from '../../../src/components/Button/types';
-import {getLabelStyle, getStyle} from '../../../src/components/Button/utils';
-import Typo from '../../../src/components/Typo';
+import {getLabelStyle, getStyle} from '@components/Button/utils';
+import {ButtonType} from '@components/Button/types';
+import Typo from '@components/Typo';
 
 interface ButtonProps {
   type: ButtonType;
   label: string;
+  onPress: () => void;
   disabled?: boolean;
   // Pressable style
   style?: StyleProp<ViewStyle>;
@@ -27,6 +28,7 @@ interface ButtonProps {
 const Button: FunctionComponent<ButtonProps> = function Button({
   type,
   label,
+  onPress,
   disabled,
   style,
   contentStyle,
@@ -34,7 +36,8 @@ const Button: FunctionComponent<ButtonProps> = function Button({
 }) {
   return (
     <Pressable
-      style={({pressed}) => [pressed ? {opacity: 0.6} : undefined, style]}>
+      style={({pressed}) => [pressed ? {opacity: 0.6} : undefined, style]}
+      onPress={onPress}>
       <View style={[styles.contents, getStyle(type), contentStyle]}>
         <Typo
           type={'Button1'}
