@@ -10,15 +10,10 @@
     "lint": "eslint ."
   },
   "dependencies": {
-<<<<<<< HEAD
     "@react-navigation/bottom-tabs": "^6.3.1",
     "@react-navigation/drawer": "^6.4.1",
     "@react-navigation/native-stack": "^6.6.1",
     "@react-navigation/stack": "^6.2.1",
-=======
-    "@react-navigation/native-stack": "^6.6.1",
-    "@types/axios": "^0.14.0",
->>>>>>> da0488ed4592bdce1d2d60a1fe986079090753b7
     "axios": "^0.26.1",
     "qs": "^6.10.3",
     "react": "17.0.2",
@@ -31,17 +26,8 @@
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
-<<<<<<< HEAD
     "@types/react": "^17.0.43",
     "@types/react-native": "^0.67.3",
-=======
-    "@react-navigation/native": "^6.0.10",
-    "@types/jest": "^27.4.1",
-    "@types/react": "^17.0.43",
-    "@types/react-native": "^0.67.3",
-    "@types/react-navigation": "^3.4.0",
-    "@types/react-test-renderer": "^17.0.1",
->>>>>>> da0488ed4592bdce1d2d60a1fe986079090753b7
     "babel-jest": "^26.6.3",
     "eslint": "7.14.0",
     "jest": "^26.6.3",
