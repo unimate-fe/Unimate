@@ -16,6 +16,12 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   request => {
+    const requestBody = request.data;
+    const BaseUrl = request.url;
+    console.log('>> BaseUrl: ', BaseUrl);
+    if (requestBody) {
+      console.log('>> requestBody: ', JSON.stringify(requestBody));
+    }
     return request;
   },
   error => {

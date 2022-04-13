@@ -1,15 +1,28 @@
-import React, {FunctionComponent} from 'react';
-import {View, Text, StyleSheet, Alert} from 'react-native';
+import React, {FunctionComponent, useEffect} from 'react';
+import {Alert, StyleSheet, Text, View} from 'react-native';
 import Button from '@components/Button';
 import {colors} from '@components/Styles/colors';
 import SafeContainer from '@components/SafeContainer';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import {strings} from '@screens/HomeScreen/string';
+import {request} from '@src/apis/client';
+import {HttpMethod} from '@src/apis/client/types';
 
 interface Props {}
 
 const HomeScreen: FunctionComponent<Props> = function HomeScreen() {
   const navigation = useScreenNavigation();
+
+  useEffect(() => {
+    const fetchUniv = async () => {
+      try {
+        const res = await request({method: HttpMethod.GET, url: '/university'});
+        return res.data;
+      } catch (e) {}
+    };
+    console.log(fetchUniv());
+  });
+
   return (
     <SafeContainer style={{backgroundColor: colors.BLACK}}>
       <Text style={[styles.title, styles.top]}>{strings.TITLE}</Text>
