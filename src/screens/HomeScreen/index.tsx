@@ -2,59 +2,56 @@ import React, {FunctionComponent} from 'react';
 import {View, Text, StyleSheet, Alert} from 'react-native';
 import Button from '@components/Button';
 import {colors} from '@components/Styles/colors';
+import SafeContainer from '@components/SafeContainer';
 import useScreenNavigation from '@hooks/useScreenNavigation';
+import {strings} from '@screens/HomeScreen/string';
 
 interface Props {}
 
 const HomeScreen: FunctionComponent<Props> = function HomeScreen() {
   const navigation = useScreenNavigation();
   return (
-    <View style={styles.Container}>
-      <Text style={[styles.Title, styles.Top]}>대학 친구를</Text>
-      <Text style={styles.Title}>만나는 새로운 방법,</Text>
-      <Text style={[styles.Title, styles.Strong]}>유니메이트!</Text>
-      <View style={styles.ButtonContainer}>
+    <SafeContainer style={{backgroundColor: colors.BLACK}}>
+      <Text style={[styles.title, styles.top]}>{strings.TITLE}</Text>
+      <Text style={styles.title}>{strings.DESC}</Text>
+      <Text style={[styles.title, styles.strong]}>{strings.DESC_STRONG}</Text>
+      <View style={styles.buttonContainer}>
         <Button
           type={'Solid-Long'}
-          label={'회원가입'}
-          style={styles.Button}
+          label={strings.REGISTER}
+          style={styles.button}
           onPress={() => navigation.navigate('RegisterSchool')}
         />
         <Button
           type={'Solid-Long-White'}
-          label={'로그인'}
+          label={strings.LOGIN}
           onPress={() => Alert.alert('아직 구현되지 않은 화면입니다.')}
         />
       </View>
-    </View>
+    </SafeContainer>
   );
 };
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  Container: {
-    paddingHorizontal: 30,
-    flex: 1,
-    backgroundColor: colors.BLACK,
-  },
-  Top: {
+  top: {
     marginTop: '30%',
   },
-  Title: {
+  title: {
     color: colors.WHITE,
     fontSize: 34,
     fontWeight: '700',
   },
-  Strong: {
+  strong: {
     color: colors.PRIMARY.NORMAL,
   },
-  ButtonContainer: {
+  buttonContainer: {
     position: 'absolute',
     bottom: '10%',
     left: 30,
     width: '100%',
   },
-  Button: {
+  button: {
     marginBottom: 16,
   },
 });

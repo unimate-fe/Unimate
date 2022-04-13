@@ -47,8 +47,6 @@ const UnauthorizedGroup = (
 // const AuthorizedGroup;
 
 const RootStackNavigator = function RootStackNavigator() {
-  const navigation = useNavigation<RootStackNavigationProps>();
-
   return (
     <Stack.Navigator screenOptions={{headerTitle: ''}}>
       {UnauthorizedGroup}
