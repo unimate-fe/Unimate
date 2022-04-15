@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TextInput,
   TextInputProps,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import {colors} from '@components/Styles/colors';
@@ -13,34 +14,55 @@ import Typo from '@components/Typo';
 import {FeedbackType} from '@components/Input/types';
 import {Icons} from '@assets/icons/_index';
 
-interface InputProps extends TextInputProps {
+interface InputViewProps extends TextInputProps {
   disabled?: boolean;
   onPress?: () => void;
+  value?: string;
+  boxPlaceHolder?: string;
   feedbackType?: FeedbackType;
   feedbackText?: string;
 }
 
-const Input: FunctionComponent<InputProps> = function Button({
+const InputView: FunctionComponent<InputViewProps> = function InputView({
   disabled,
   onPress,
+  value,
+  boxPlaceHolder,
   feedbackText,
   feedbackType,
   style,
   ...rest
 }) {
   // input 랜더링
-  const renderInput = (
-    <View style={styles.inputContainer}>
-      <TextInput
-        style={styles.input}
-        editable={!disabled}
-        selectTextOnFocus={!disabled}
-        {...rest}
-        placeholderTextColor={colors.GREY2}
-      />
-      <Image style={styles.iconWrapper} source={Icons.SEARCH} />
-    </View>
-  );
+  const renderInput = () => {
+    return (
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          editable={!disabled}
+          selectTextOnFocus={!disabled}
+          {...rest}
+          placeholderTextColor={colors.GREY2}
+        />
+        <Image style={styles.iconWrapper} source={Icons.SEARCH} />
+      </View>
+    );
+  };
+
+  const renderBox = () => {
+    return (
+      <View style={styles.inputContainer}>
+        <View style={styles.input}>
+          <Typo
+            type={'Body1'}
+            style={!value ? {color: colors.GREY2} : {color: colors.DARK_GREY4}}>
+            {value ? value : boxPlaceHolder}
+          </Typo>
+        </View>
+        <Image style={styles.iconWrapper} source={Icons.SEARCH} />
+      </View>
+    );
+  };
 
   // feedback 랜더링
   const renderFeedback = () => {
@@ -56,23 +78,21 @@ const Input: FunctionComponent<InputProps> = function Button({
     ) : null;
   };
 
-  return onPress ? (
+  return !onPress ? (
     <View style={[styles.base, style]}>
-      {renderInput}
-      {renderFeedback}
+      {renderInput()}
+      {renderFeedback()}
     </View>
   ) : (
-    <Pressable style={[styles.base, style]}>
-      {renderInput}
-      {renderFeedback}
-    </Pressable>
+    <TouchableOpacity onPress={onPress} style={[styles.base, style]}>
+      {renderBox()}
+      {renderFeedback()}
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  base: {
-    width: '100%',
-  },
+  base: {},
   inputContainer: {
     backgroundColor: colors.LIGHT_GREY1,
     flexDirection: 'row',
@@ -105,4 +125,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Input;
+export default InputView;

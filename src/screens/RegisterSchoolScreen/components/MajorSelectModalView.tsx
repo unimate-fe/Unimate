@@ -4,19 +4,23 @@ import Input from '@components/Input';
 import {strings} from '@screens/RegisterSchoolScreen/string';
 import Button from '@components/Button';
 
-interface Props {}
-const DepartSelectModalView: FunctionComponent<Props> =
-  function DepartSelectModalView() {
+interface Props {
+  onClose?: () => void;
+}
+const MajorSelectModalView: FunctionComponent<Props> =
+  function MajorSelectModalView({onClose}) {
     return (
       <View style={styles.base}>
-        <Input placeholder={strings.PLACEHOLDER_SCHOOL} />
+        <Input placeholder={strings.PLACEHOLDER_DEPART} />
         <View style={styles.btnContainer}>
-          <Button
-            type={'Solid-Short-Cancel'}
-            label={strings.CANCEL}
-            onPress={() => {}}
-            style={styles.cancelBtn}
-          />
+          {onClose && (
+            <Button
+              type={'Solid-Short-Cancel'}
+              label={strings.CANCEL}
+              onPress={onClose}
+              style={styles.cancelBtn}
+            />
+          )}
           <Button
             type={'Solid-Short-Confirm'}
             label={strings.CONFIRM}
@@ -27,7 +31,7 @@ const DepartSelectModalView: FunctionComponent<Props> =
       </View>
     );
   };
-export default DepartSelectModalView;
+export default MajorSelectModalView;
 
 const styles = StyleSheet.create({
   base: {

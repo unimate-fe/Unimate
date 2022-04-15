@@ -13,18 +13,8 @@ interface Props {}
 const HomeScreen: FunctionComponent<Props> = function HomeScreen() {
   const navigation = useScreenNavigation();
 
-  useEffect(() => {
-    const fetchUniv = async () => {
-      try {
-        const res = await request({method: HttpMethod.GET, url: '/university'});
-        return res.data;
-      } catch (e) {}
-    };
-    console.log(fetchUniv());
-  });
-
   return (
-    <SafeContainer style={{backgroundColor: colors.BLACK}}>
+    <SafeContainer style={[{backgroundColor: colors.BLACK}, styles.base]}>
       <Text style={[styles.title, styles.top]}>{strings.TITLE}</Text>
       <Text style={styles.title}>{strings.DESC}</Text>
       <Text style={[styles.title, styles.strong]}>{strings.DESC_STRONG}</Text>
@@ -47,6 +37,7 @@ const HomeScreen: FunctionComponent<Props> = function HomeScreen() {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
+  base: {},
   top: {
     marginTop: '30%',
   },

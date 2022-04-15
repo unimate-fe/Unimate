@@ -1,17 +1,17 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
+import {QueryClient, QueryClientProvider} from 'react-query';
 import RootStackNavigator from './src/navigations/RootStackNavigator';
-import HomeScreen from './src/screens/HomeScreen';
 
-const Stack = createNativeStackNavigator();
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <NavigationContainer>
-      <RootStackNavigator />
-    </NavigationContainer>
+    <QueryClientProvider client={queryClient}>
+      <NavigationContainer>
+        <RootStackNavigator />
+      </NavigationContainer>
+    </QueryClientProvider>
   );
 }
 export default App;

@@ -4,7 +4,7 @@ import {colors} from '@components/Styles/colors';
 
 interface CustomModalProps {
   visible: boolean;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 const CustomModal: FunctionComponent<CustomModalProps> = function CustomModal({
