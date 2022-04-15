@@ -10,7 +10,27 @@
     "noEmit": true,
     "strict": true,
     "target": "esnext",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    // 절대경로 설정
+    "baseUrl": "./" ,
+    "paths": {
+      "@assets/*": ["assets/*"],
+      "@src/*": ["src/*"],
+      "@components/*": ["src/components/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@screens/*": ["src/screens/*"]
+    }
   },
-  "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js"]
+  "include": [
+    "__tests__",
+    "@types",
+    "assets",
+    "src",
+    ".eslintrc.js",
+    "babel.config.js",
+    "index.js",
+    "metro.config.js",
+    "react-native.config.js",
+  ],
+  "exclude": ["node_modules", "metro.config.js", "jest.config.js"]
 }

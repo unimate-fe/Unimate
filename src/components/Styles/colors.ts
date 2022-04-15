@@ -27,6 +27,7 @@ export const colors = {
 
   BLACK: '#000000',
   WHITE: '#FFFFFF',
+
   // error
   ERROR: '#F25D53',
 };

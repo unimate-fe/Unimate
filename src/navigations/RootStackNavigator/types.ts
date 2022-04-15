@@ -4,7 +4,7 @@ export type RootStackParams = {
   // 홈
   Home: undefined;
   // 회원가입
-  Register: undefined;
+  RegisterSchool: undefined;
   // 이용약관
   RegisterTerms: undefined;
   // 회원정보 - 아이디 & 비밀번호

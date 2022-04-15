@@ -1,21 +1,21 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
 import {
   RootStackNavigationProps,
   RootStackParams,
-} from '../../../src/navigations/RootStackNavigator/types';
-import {useNavigation} from '@react-navigation/native';
-import HomeScreen from '../../../src/screens/HomeScreen';
-import RegisterScreen from '../../../src/screens/RegisterScreen';
-import RegisterTermsScreen from '../../../src/screens/RegisterTermsScreen';
-import RegisterInfoScreen from '../../../src/screens/RegisterInfoScreen';
-import RegisterPhoneScreen from '../../../src/screens/RegisterPhoneScreen';
-import RegisterEmailScreen from '../../../src/screens/RegisterEmailScreen';
-import RegisterMbtiScreen from '../../../src/screens/RegisterMbtiScreen';
-import RegisterNickScreen from '../../../src/screens/RegisterNickScreen';
-import RegisterInterestScreen from '../../../src/screens/RegisterInterestScreen';
-import RegisterDetailScreen from '../../../src/screens/RegisterDetailScreen';
-import RegisterFinish from '../../../src/screens/RegisterFinish';
+} from '@src/navigations/RootStackNavigator/types';
+import HomeScreen from '@screens/HomeScreen';
+import RegisterTermsScreen from '@screens/RegisterTermsScreen';
+import RegisterInfoScreen from '@screens/RegisterInfoScreen';
+import RegisterPhoneScreen from '@screens/RegisterPhoneScreen';
+import RegisterEmailScreen from '@screens/RegisterEmailScreen';
+import RegisterMbtiScreen from '@screens/RegisterMbtiScreen';
+import RegisterNickScreen from '@screens/RegisterNickScreen';
+import RegisterInterestScreen from '@screens/RegisterInterestScreen';
+import RegisterDetailScreen from '@screens/RegisterDetailScreen';
+import RegisterFinish from '@screens/RegisterFinish';
+import RegisterSchoolScreen from '@screens/RegisterSchoolScreen';
 
 const Stack = createNativeStackNavigator<RootStackParams>();
 
@@ -27,7 +27,7 @@ const UnauthorizedGroup = (
       component={HomeScreen}
       options={{headerShown: false}}
     />
-    <Stack.Screen name={'Register'} component={RegisterScreen} />
+    <Stack.Screen name={'RegisterSchool'} component={RegisterSchoolScreen} />
     <Stack.Screen name={'RegisterTerms'} component={RegisterTermsScreen} />
     <Stack.Screen name={'RegisterInfo'} component={RegisterInfoScreen} />
     <Stack.Screen name={'RegisterPhone'} component={RegisterPhoneScreen} />
