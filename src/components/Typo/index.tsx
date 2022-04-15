@@ -24,7 +24,7 @@ const Typo: FunctionComponent<TypoProps> = function Typo({
 
 const styles = StyleSheet.create({
   text: {
-    color: colors.BLACK,
+    color: colors.DARK_GREY4,
   },
 });
 

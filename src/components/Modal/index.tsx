@@ -16,7 +16,7 @@ const CustomModal: FunctionComponent<CustomModalProps> = function CustomModal({
     <View style={styles.base}>
       <View style={styles.modalBase}>
         <Modal
-          animationType="slide"
+          animationType="fade"
           transparent
           onRequestClose={onClose}
           visible={visible}>
@@ -32,10 +32,7 @@ export default CustomModal;
 
 const styles = StyleSheet.create({
   base: {
-    flex: 1,
     backgroundColor: `${colors.WHITE}`,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   modalBase: {
     justifyContent: 'center',
@@ -43,6 +40,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   modalView: {
+    width: '80%',
     backgroundColor: `${colors.WHITE}`,
     borderRadius: 20,
     shadowColor: `${colors.BLACK}`,
