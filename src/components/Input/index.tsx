@@ -1,18 +1,11 @@
 import React from 'react';
 import {FunctionComponent} from 'react';
-import {
-  Image,
-  Pressable,
-  StyleSheet,
-  TextInput,
-  TextInputProps,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, StyleSheet, TextInput, TextInputProps, View} from 'react-native';
 import {colors} from '@components/Styles/colors';
 import Typo from '@components/Typo';
 import {FeedbackType} from '@components/Input/types';
-import {Icons} from '@assets/icons/_index';
+import {Icons} from '@assets/icons';
+import Pressable from '@components/Pressable';
 
 interface InputViewProps extends TextInputProps {
   disabled?: boolean;
@@ -21,6 +14,7 @@ interface InputViewProps extends TextInputProps {
   boxPlaceHolder?: string;
   feedbackType?: FeedbackType;
   feedbackText?: string;
+  icon?: Element;
 }
 
 const InputView: FunctionComponent<InputViewProps> = function InputView({
@@ -30,6 +24,7 @@ const InputView: FunctionComponent<InputViewProps> = function InputView({
   boxPlaceHolder,
   feedbackText,
   feedbackType,
+  icon,
   style,
   ...rest
 }) {
@@ -44,7 +39,13 @@ const InputView: FunctionComponent<InputViewProps> = function InputView({
           {...rest}
           placeholderTextColor={colors.GREY2}
         />
-        <Image style={styles.iconWrapper} source={Icons.SEARCH} />
+        {icon ? (
+          <View style={styles.iconWrapper}>{icon}</View>
+        ) : (
+          <View style={styles.iconWrapper}>
+            <Image style={styles.searchIcon} source={Icons.SEARCH} />
+          </View>
+        )}
       </View>
     );
   };
@@ -84,10 +85,10 @@ const InputView: FunctionComponent<InputViewProps> = function InputView({
       {renderFeedback()}
     </View>
   ) : (
-    <TouchableOpacity onPress={onPress} style={[styles.base, style]}>
+    <Pressable onPress={onPress} style={[styles.base, style]}>
       {renderBox()}
       {renderFeedback()}
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 
@@ -111,6 +112,10 @@ const styles = StyleSheet.create({
   iconWrapper: {
     position: 'absolute',
     right: 16,
+    width: 24,
+    height: 24,
+  },
+  searchIcon: {
     width: 24,
     height: 24,
   },

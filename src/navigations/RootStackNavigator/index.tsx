@@ -16,6 +16,9 @@ import RegisterInterestScreen from '@screens/RegisterInterestScreen';
 import RegisterDetailScreen from '@screens/RegisterDetailScreen';
 import RegisterFinish from '@screens/RegisterFinish';
 import RegisterSchoolScreen from '@screens/RegisterSchoolScreen';
+import HeaderPrev from '@components/HeaderPrev';
+import useScreenNavigation from '@hooks/useScreenNavigation';
+import LoginScreen from '@screens/LoginScreen';
 
 const Stack = createNativeStackNavigator<RootStackParams>();
 
@@ -27,7 +30,11 @@ const UnauthorizedGroup = (
       component={HomeScreen}
       options={{headerShown: false}}
     />
-    <Stack.Screen name={'RegisterSchool'} component={RegisterSchoolScreen} />
+    <Stack.Screen
+      name={'RegisterSchool'}
+      component={RegisterSchoolScreen}
+      options={{headerTitle: ''}}
+    />
     <Stack.Screen name={'RegisterTerms'} component={RegisterTermsScreen} />
     <Stack.Screen name={'RegisterInfo'} component={RegisterInfoScreen} />
     <Stack.Screen name={'RegisterPhone'} component={RegisterPhoneScreen} />
@@ -40,6 +47,11 @@ const UnauthorizedGroup = (
     />
     <Stack.Screen name={'RegisterDetail'} component={RegisterDetailScreen} />
     <Stack.Screen name={'RegisterFinish'} component={RegisterFinish} />
+    <Stack.Screen
+      name={'Login'}
+      component={LoginScreen}
+      options={{headerTitle: '로그인'}}
+    />
   </Stack.Group>
 );
 
@@ -47,8 +59,16 @@ const UnauthorizedGroup = (
 // const AuthorizedGroup;
 
 const RootStackNavigator = function RootStackNavigator() {
+  const navigation = useScreenNavigation();
+  const headerLeft = () => <HeaderPrev onPress={() => navigation.goBack()} />;
+
   return (
-    <Stack.Navigator screenOptions={{headerTitle: ''}}>
+    <Stack.Navigator
+      screenOptions={{
+        headerShadowVisible: false,
+        headerBackTitleVisible: false,
+        headerLeft,
+      }}>
       {UnauthorizedGroup}
     </Stack.Navigator>
   );

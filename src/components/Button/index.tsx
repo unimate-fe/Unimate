@@ -1,16 +1,10 @@
 import React from 'react';
 import {FunctionComponent} from 'react';
-import {
-  Pressable,
-  StyleProp,
-  StyleSheet,
-  TextStyle,
-  View,
-  ViewStyle,
-} from 'react-native';
+import {StyleProp, StyleSheet, TextStyle, View, ViewStyle} from 'react-native';
 import {getLabelStyle, getStyle} from '@components/Button/utils';
 import {ButtonType} from '@components/Button/types';
 import Typo from '@components/Typo';
+import Pressable from '@components/Pressable';
 
 interface ButtonProps {
   type: ButtonType;
@@ -35,9 +29,7 @@ const Button: FunctionComponent<ButtonProps> = function Button({
   typoStyle,
 }) {
   return (
-    <Pressable
-      style={({pressed}) => [pressed ? {opacity: 0.6} : undefined, style]}
-      onPress={onPress}>
+    <Pressable style={style} onPress={onPress}>
       <View style={[styles.contents, getStyle(type), contentStyle]}>
         <Typo
           type={'Button1'}

@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react';
+import React, {FunctionComponent, useEffect, useState} from 'react';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
 import Input from '@components/Input';
 import {strings} from '@screens/RegisterSchoolScreen/string';
@@ -6,46 +6,83 @@ import Button from '@components/Button';
 import {UniversityType} from '@screens/RegisterSchoolScreen/api/types';
 import Typo from '@components/Typo';
 import {colors} from '@components/Styles/colors';
+import Pressable from '@components/Pressable';
 
 interface Props {
   data?: UniversityType[];
-  onClose?: () => void;
+  onClose: () => void;
+  schoolHandler: (atr: string) => void;
 }
 const SchoolSelectModalView: FunctionComponent<Props> =
-  function SchoolSelectModalView({data, onClose}) {
+  function SchoolSelectModalView({data, onClose, schoolHandler}) {
+    const [text, setText] = useState<string>();
+    const [filterList, setFilterList] = useState<UniversityType[]>();
+    const [listShow, setListShow] = useState(true);
+
+    const selectItemHandler = (item: string) => {
+      setText(item);
+      setListShow(false);
+    };
+
+    const selectConfirmHandler = () => {
+      if (text && !listShow) {
+        schoolHandler(text);
+        onClose();
+      }
+    };
+
+    useEffect(() => {
+      setFilterList(
+        data?.filter(item => {
+          if (text) return item.university.includes(text);
+          return false;
+        }),
+      );
+    }, [text]);
+
     const renderUniversity: FunctionComponent<{item: UniversityType}> = ({
       item,
     }) => {
       return (
-        <Typo type={'Body1'} style={styles.contentItem}>
-          {item.university}
-        </Typo>
+        <Pressable
+          style={styles.itemWrapper}
+          onPress={() => selectItemHandler(item.university)}>
+          <Typo type={'Body1'} style={styles.item}>
+            {item.university}
+          </Typo>
+        </Pressable>
       );
     };
-
-    console.log('data: ', data);
-
     return (
       <View style={styles.base}>
-        <Input placeholder={strings.PLACEHOLDER_SCHOOL} />
-        <FlatList<UniversityType>
-          data={data}
-          renderItem={renderUniversity}
-          style={styles.contentContainer}
+        <Input
+          value={text}
+          defaultValue={text}
+          placeholder={strings.PLACEHOLDER_SCHOOL}
+          onChangeText={value => {
+            setText(value);
+            setListShow(true);
+          }}
         />
+        {filterList && listShow && (
+          <FlatList<UniversityType>
+            data={filterList}
+            renderItem={renderUniversity}
+            style={styles.contentContainer}
+            keyExtractor={item => `${item.id}`}
+          />
+        )}
         <View style={styles.btnContainer}>
-          {onClose && (
-            <Button
-              type={'Solid-Short-Cancel'}
-              label={strings.CANCEL}
-              onPress={onClose}
-              style={styles.cancelBtn}
-            />
-          )}
+          <Button
+            type={'Solid-Short-Cancel'}
+            label={strings.CANCEL}
+            onPress={onClose}
+            style={styles.cancelBtn}
+          />
           <Button
             type={'Solid-Short-Confirm'}
             label={strings.CONFIRM}
-            onPress={() => {}}
+            onPress={selectConfirmHandler}
             style={styles.confirmBtn}
           />
         </View>
@@ -62,10 +99,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   contentContainer: {
-    borderWidth: 1,
     flex: 1,
+    padding: 24,
   },
-  contentItem: {
+  itemWrapper: {
+    paddingBottom: 18,
+  },
+  item: {
     color: colors.DARK_GREY3,
   },
   btnContainer: {

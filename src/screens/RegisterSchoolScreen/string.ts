@@ -7,7 +7,7 @@ export const strings = {
   PLACEHOLDER_DEPART: '학과를 검색하세요.',
   PLACEHOLDER_GRADE: '학년',
 
-  BTN: '학년',
+  BTN: '다음',
   CANCEL: '취소',
   CONFIRM: '완료',
 };

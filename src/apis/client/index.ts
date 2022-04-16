@@ -11,7 +11,7 @@ const instance = axios.create({
     qs.stringify(params, {arrayFormat: 'brackets'}),
   // cors error handling
   withCredentials: true,
-  baseURL: Config.BASE_URL,
+  baseURL: 'https://4273-49-165-186-117.ngrok.io',
 });
 
 instance.interceptors.request.use(
