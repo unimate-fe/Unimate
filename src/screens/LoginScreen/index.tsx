@@ -12,8 +12,8 @@ import useScreenNavigation from '@hooks/useScreenNavigation';
 interface Props {}
 
 const LoginScreen: FunctionComponent<Props> = function LoginScreen() {
-  const toastRef = useRef<Toast>(null);
   const navigation = useScreenNavigation();
+  const toastRef = useRef<Toast>(null);
   const showToast = () =>
     toastRef?.current?.show('아이디 혹은 비밀번호가 맞지 않아요');
 

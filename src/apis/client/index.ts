@@ -11,7 +11,7 @@ const instance = axios.create({
     qs.stringify(params, {arrayFormat: 'brackets'}),
   // cors error handling
   withCredentials: true,
-  baseURL: 'https://4273-49-165-186-117.ngrok.io',
+  baseURL: 'https://virtserver.swaggerhub.com/Unimate/Unimate_API/1.0.0',
 });
 
 instance.interceptors.request.use(

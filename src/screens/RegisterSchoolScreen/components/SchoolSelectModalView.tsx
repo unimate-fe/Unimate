@@ -1,12 +1,12 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
 import Input from '@components/Input';
-import {strings} from '@screens/RegisterSchoolScreen/string';
 import Button from '@components/Button';
-import {UniversityType} from '@screens/RegisterSchoolScreen/api/types';
 import Typo from '@components/Typo';
 import {colors} from '@components/Styles/colors';
 import Pressable from '@components/Pressable';
+import {UniversityType} from '@src/apis/fetchSchool/types';
+import {strings} from '@screens/RegisterSchoolScreen/string';
 
 interface Props {
   data?: UniversityType[];
@@ -83,6 +83,7 @@ const SchoolSelectModalView: FunctionComponent<Props> =
             type={'Solid-Short-Confirm'}
             label={strings.CONFIRM}
             onPress={selectConfirmHandler}
+            disabled={listShow}
             style={styles.confirmBtn}
           />
         </View>

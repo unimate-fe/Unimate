@@ -20,6 +20,8 @@ import HeaderPrev from '@components/HeaderPrev';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import LoginScreen from '@screens/LoginScreen';
 import FindAccountScreen from '@screens/FindAccountScreen';
+import RegisterIdPwd from '@screens/RegisterIdPwdScreen';
+import RegisterIdPwdScreen from '@screens/RegisterIdPwdScreen';
 
 const Stack = createNativeStackNavigator<RootStackParams>();
 
@@ -57,6 +59,11 @@ const UnauthorizedGroup = (
       name={'FindAccount'}
       component={FindAccountScreen}
       options={{headerTitle: '아이디 / 비밀번호 찾기'}}
+    />
+    <Stack.Screen
+      name={'RegisterIdPwd'}
+      component={RegisterIdPwdScreen}
+      options={{headerTitle: ''}}
     />
   </Stack.Group>
 );
