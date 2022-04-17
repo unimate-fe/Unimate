@@ -15,6 +15,7 @@ interface InputViewProps extends TextInputProps {
   feedbackType?: FeedbackType;
   feedbackText?: string;
   icon?: Element;
+  search?: boolean;
 }
 
 const InputView: FunctionComponent<InputViewProps> = function InputView({
@@ -25,6 +26,7 @@ const InputView: FunctionComponent<InputViewProps> = function InputView({
   feedbackText,
   feedbackType,
   icon,
+  search = false,
   style,
   ...rest
 }) {
@@ -39,9 +41,8 @@ const InputView: FunctionComponent<InputViewProps> = function InputView({
           {...rest}
           placeholderTextColor={colors.GREY2}
         />
-        {icon ? (
-          <View style={styles.iconWrapper}>{icon}</View>
-        ) : (
+        {icon && <View style={styles.iconWrapper}>{icon}</View>}
+        {search && (
           <View style={styles.iconWrapper}>
             <Image style={styles.searchIcon} source={Icons.SEARCH} />
           </View>
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '400',
     color: colors.DARK_GREY3,
-    paddingVertical: 20,
+    height: 56,
     paddingHorizontal: 24,
     paddingRight: 52,
     flex: 1,

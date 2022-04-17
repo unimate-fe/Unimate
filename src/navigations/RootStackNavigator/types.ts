@@ -25,6 +25,8 @@ export type RootStackParams = {
   RegisterFinish: undefined;
   // 로그인
   Login: undefined;
+  // 아이디 비밀번호 찾기
+  FindAccount: undefined;
 };
 
 export type RootStackNavigationProps =

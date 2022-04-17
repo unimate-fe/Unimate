@@ -46,16 +46,16 @@ const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
             defaultValue={school}
             onPress={() => setIsSchoolModalOpen(true)}
             boxPlaceHolder={strings.PLACEHOLDER_SCHOOL}
-            disabled
             style={styles.input}
             placeholder={strings.PLACEHOLDER_SCHOOL}
+            disabled
           />
           <InputView
             onPress={() => setIsMajorModalOpen(true)}
             boxPlaceHolder={strings.PLACEHOLDER_DEPART}
-            disabled
             style={styles.input}
             placeholder={strings.PLACEHOLDER_DEPART}
+            disabled
           />
           <View style={styles.pickerContainer}>
             <RNPickerSelect

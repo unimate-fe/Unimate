@@ -44,6 +44,7 @@ const Button: FunctionComponent<ButtonProps> = function Button({
 const styles = StyleSheet.create({
   contents: {
     flexDirection: 'row',
+    paddingVertical: 20,
   },
 });
 

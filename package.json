@@ -19,6 +19,7 @@
     "react": "17.0.2",
     "react-native": "0.67.4",
     "react-native-config": "^1.4.5",
+    "react-native-easy-toast": "^2.0.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-keyboard-aware-scrollview": "^2.1.0",
     "react-native-picker-select": "^8.0.4",
