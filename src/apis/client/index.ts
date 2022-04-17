@@ -11,14 +11,15 @@ const instance = axios.create({
     qs.stringify(params, {arrayFormat: 'brackets'}),
   // cors error handling
   withCredentials: true,
-  baseURL: Config.BASE_URL,
+  baseURL: 'https://4273-49-165-186-117.ngrok.io',
 });
 
 instance.interceptors.request.use(
   request => {
+    const url = `${request.baseURL}${request.url}`;
+    console.log(`>> REQUEST [${request.method}]: ${url}`);
+
     const requestBody = request.data;
-    const BaseUrl = request.url;
-    console.log('>> BaseUrl: ', BaseUrl);
     if (requestBody) {
       console.log('>> requestBody: ', JSON.stringify(requestBody));
     }

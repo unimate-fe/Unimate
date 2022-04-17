@@ -12,20 +12,25 @@ const AppSafeContainer: FunctionComponent<Props> = function AppSafeContainer({
   style,
   children,
 }) {
-  return isKeyboard === true ? (
-    <KeyboardAwareScrollView style={[styles.base, style]}>
-      {children}
-    </KeyboardAwareScrollView>
-  ) : (
-    <SafeAreaView style={[styles.base, style]}>{children}</SafeAreaView>
-  );
+  const renderContent = () => {
+    return isKeyboard === true ? (
+      <SafeAreaView style={styles.base}>
+        <KeyboardAwareScrollView style={[styles.base, style]}>
+          {children}
+        </KeyboardAwareScrollView>
+      </SafeAreaView>
+    ) : (
+      <SafeAreaView style={[styles.base, style]}>{children}</SafeAreaView>
+    );
+  };
+
+  return renderContent();
 };
 export default AppSafeContainer;
 
 const styles = StyleSheet.create({
   base: {
     flex: 1,
-    paddingHorizontal: 30,
     backgroundColor: colors.WHITE,
   },
 });

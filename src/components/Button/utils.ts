@@ -8,7 +8,7 @@ export const getStyle = (type: ButtonType) => {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.PRIMARY.NORMAL,
-    paddingVertical: 20,
+    paddingVertical: 16,
     borderWidth: 0,
   };
   if (type === 'Solid-Long') {
@@ -42,6 +42,8 @@ export const getStyle = (type: ButtonType) => {
 export const getLabelStyle = (type: ButtonType, disabled?: boolean) => {
   const style: StyleProp<TextStyle> = {
     color: colors.WHITE,
+    fontSize: 16,
+    fontWeight: '700',
   };
   if (type === 'Solid-Long') {
     style.opacity = disabled ? 0.6 : 1;

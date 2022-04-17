@@ -1,33 +1,24 @@
 import React, {FunctionComponent, useEffect} from 'react';
 import {Alert, StyleSheet, Text, View} from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
 import Button from '@components/Button';
 import {colors} from '@components/Styles/colors';
 import SafeContainer from '@components/SafeContainer';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import {strings} from '@screens/HomeScreen/string';
-import {request} from '@src/apis/client';
-import {HttpMethod} from '@src/apis/client/types';
 
 interface Props {}
 
 const HomeScreen: FunctionComponent<Props> = function HomeScreen() {
   const navigation = useScreenNavigation();
 
-  useEffect(() => {
-    const fetchUniv = async () => {
-      try {
-        const res = await request({method: HttpMethod.GET, url: '/university'});
-        return res.data;
-      } catch (e) {}
-    };
-    console.log(fetchUniv());
-  });
-
   return (
-    <SafeContainer style={{backgroundColor: colors.BLACK}}>
-      <Text style={[styles.title, styles.top]}>{strings.TITLE}</Text>
-      <Text style={styles.title}>{strings.DESC}</Text>
-      <Text style={[styles.title, styles.strong]}>{strings.DESC_STRONG}</Text>
+    <SafeContainer style={[{backgroundColor: colors.BLACK}]}>
+      <View style={styles.textContainer}>
+        <Text style={[styles.title, styles.top]}>{strings.TITLE}</Text>
+        <Text style={styles.title}>{strings.DESC}</Text>
+        <Text style={[styles.title, styles.strong]}>{strings.DESC_STRONG}</Text>
+      </View>
       <View style={styles.buttonContainer}>
         <Button
           type={'Solid-Long'}
@@ -38,7 +29,7 @@ const HomeScreen: FunctionComponent<Props> = function HomeScreen() {
         <Button
           type={'Solid-Long-White'}
           label={strings.LOGIN}
-          onPress={() => Alert.alert('아직 구현되지 않은 화면입니다.')}
+          onPress={() => navigation.navigate('Login')}
         />
       </View>
     </SafeContainer>
@@ -47,6 +38,9 @@ const HomeScreen: FunctionComponent<Props> = function HomeScreen() {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
+  textContainer: {
+    paddingHorizontal: 30,
+  },
   top: {
     marginTop: '30%',
   },
@@ -61,8 +55,8 @@ const styles = StyleSheet.create({
   buttonContainer: {
     position: 'absolute',
     bottom: '10%',
-    left: 30,
     width: '100%',
+    paddingHorizontal: 30,
   },
   button: {
     marginBottom: 16,
