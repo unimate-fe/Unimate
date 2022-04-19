@@ -13,6 +13,7 @@ import InputView from '@components/Input';
 import {useFetchMajor, useFetchUniversity} from '@hooks/api/useRegisterApi';
 import {Icons} from '@assets/icons';
 import Toast from 'react-native-easy-toast';
+import useScreenNavigation from '@hooks/useScreenNavigation';
 
 const gradeLIst = [
   {label: '1학년', value: 1},
@@ -22,6 +23,7 @@ const gradeLIst = [
 ];
 
 const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
+  const navigation = useScreenNavigation();
   const toastRef = useRef<Toast>(null);
 
   const [isSchoolModalOpen, setIsSchoolModalOpen] = useState(false);
@@ -55,7 +57,7 @@ const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
       <View style={styles.base}>
         <Typo type={'H2'}>{strings.TITLE}</Typo>
         <View style={styles.strongContainer}>
-          <Typo type={'H2'}>{strings.DESC}</Typo>
+          <Typo type={'H2'}>{strings.DESC} </Typo>
           <Typo type={'H2'} style={styles.strong}>
             {strings.DESC_STRONG}
           </Typo>
@@ -93,8 +95,9 @@ const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
         <Button
           type={'Solid-Long'}
           label={strings.BTN}
-          onPress={() => {}}
-          disabled={!validation}
+          onPress={() => navigation.navigate('RegisterIdPwd')}
+          // TODO : 유효성 검사할 경우 추가
+          // disabled={!validation}
         />
       </View>
       <CustomModal visible={isSchoolModalOpen}>

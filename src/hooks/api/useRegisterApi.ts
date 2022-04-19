@@ -7,6 +7,7 @@ export const useFetchUniversity = () => {
 
 export const useFetchMajor = (id?: number) => {
   return useQuery('major', () => fetchMajor(id), {
+    enabled: !!id,
     retry: false,
   });
 };

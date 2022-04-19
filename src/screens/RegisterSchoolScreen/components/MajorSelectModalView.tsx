@@ -83,6 +83,7 @@ const MajorSelectModalView: FunctionComponent<Props> =
             type={'Solid-Short-Confirm'}
             label={strings.CONFIRM}
             onPress={selectConfirmHandler}
+            disabled={listShow}
             style={styles.confirmBtn}
           />
         </View>
@@ -99,12 +100,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   contentContainer: {
-    borderWidth: 1,
     flex: 1,
     padding: 24,
   },
   itemWrapper: {
-    borderWidth: 1,
     paddingBottom: 18,
   },
   item: {
