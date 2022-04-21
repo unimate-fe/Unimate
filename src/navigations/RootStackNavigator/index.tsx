@@ -20,6 +20,7 @@ import HeaderPrev from '@components/HeaderPrev';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import LoginScreen from '@screens/LoginScreen';
 import FindAccountScreen from '@screens/FindAccountScreen';
+import RegisterTosScreen from '@src/screens/RegisterTosScreen';
 
 const Stack = createNativeStackNavigator<RootStackParams>();
 
@@ -34,6 +35,11 @@ const UnauthorizedGroup = (
     <Stack.Screen
       name={'RegisterSchool'}
       component={RegisterSchoolScreen}
+      options={{headerTitle: ''}}
+    />
+        <Stack.Screen
+      name={'RegisterTos'}
+      component={RegisterTosScreen}
       options={{headerTitle: ''}}
     />
     <Stack.Screen name={'RegisterTerms'} component={RegisterTermsScreen} />
