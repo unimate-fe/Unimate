@@ -29,6 +29,8 @@ export type RootStackParams = {
   Login: undefined;
   // 아이디 비밀번호 찾기
   FindAccount: undefined;
+  // 회원 가입 약관
+  RegisterTos : undefined;
 };
 
 export type RootStackNavigationProps =
