@@ -40,9 +40,21 @@ const UnauthorizedGroup = (
     />
     <Stack.Screen name={'RegisterTerms'} component={RegisterTermsScreen} />
     <Stack.Screen name={'RegisterInfo'} component={RegisterInfoScreen} />
-    <Stack.Screen name={'RegisterPhone'} component={RegisterPhoneScreen} />
-    <Stack.Screen name={'RegisterEmail'} component={RegisterEmailScreen} />
-    <Stack.Screen name={'RegisterNick'} component={RegisterNickScreen} />
+    <Stack.Screen
+      name={'RegisterPhone'}
+      component={RegisterPhoneScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RegisterEmail'}
+      component={RegisterEmailScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RegisterNick'}
+      component={RegisterNickScreen}
+      options={{headerTitle: ''}}
+    />
     <Stack.Screen name={'RegisterMbti'} component={RegisterMbtiScreen} />
     <Stack.Screen
       name={'RegisterInterest'}

@@ -6,11 +6,13 @@ import InputView from '@components/Input';
 import Button from '@components/Button';
 import {colors} from '@components/Styles/colors';
 import {FeedbackType} from '@components/Input/types';
-import {testPwd} from '@screens/RegisterIdPwdScreen/utils';
+import useScreenNavigation from '@hooks/useScreenNavigation';
+import {testPwd} from '@src/utils';
 
 interface Props {}
 const RegisterIdPwdScreen: FunctionComponent<Props> =
   function RegisterIdPwdScreen() {
+    const navigation = useScreenNavigation();
     // id
     const [id, setId] = useState<string>('');
     const [idValidation, setIdValidation] = useState(false);
@@ -32,7 +34,7 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
 
     const checkHandler = () => {
       setIdValidationStart(true);
-      if (id === 'admin') {
+      if (id === 'ADMIN') {
         setIdValidation(true);
       } else setIdValidation(false);
     };
@@ -40,6 +42,8 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
     const submitHandler = () => {
       setPwdValidationStart(true);
       setPwdValidation(testPwd(pwd));
+      if (idValidation && pwdValidation && pwd === confirmPwd)
+        navigation.navigate('RegisterEmail');
     };
 
     // id validation
@@ -93,7 +97,9 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
               value={id}
               onChangeText={value => {
                 setId(value);
-                setIdValidationStart(false);
+                if (!idValidation) {
+                  setIdValidationStart(false);
+                }
               }}
               feedbackText={idFeedbackText}
               feedbackType={idFeedbackType}
@@ -113,6 +119,7 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
             feedbackText={pwdFeedbackText}
             style={{marginBottom: 14}}
             placeholder={'새 비밀번호'}
+            secureTextEntry
           />
           <InputView
             value={confirmPwd}
@@ -120,13 +127,16 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
             feedbackType={confirmPwdFeedbackType}
             feedbackText={confirmPwdFeedbackText}
             placeholder={'새 비밀번호 확인'}
+            secureTextEntry
           />
           <Button
             style={styles.lastBtn}
             type={'Solid-Long'}
             label={'다음'}
-            disabled={id && pwd && confirmPwd ? false : true}
-            onPress={submitHandler}
+            // TODO : 유효성 검사 스킵
+            // disabled={id && pwd && confirmPwd ? false : true}
+            // onPress={submitHandler}
+            onPress={() => navigation.navigate('RegisterEmail')}
           />
         </View>
       </SafeContainer>
