@@ -3,33 +3,39 @@ import {View, Text, StyleSheet, FlatList} from 'react-native';
 import Input from '@components/Input';
 import {strings} from '@screens/RegisterSchoolScreen/string';
 import Button from '@components/Button';
-import {MajorType} from '@src/apis/fetchSchool/types';
+import {CollegeUtilType, MajorType} from '@src/apis/fetchSchool/types';
 import Pressable from '@components/Pressable';
 import Typo from '@components/Typo';
 import {colors} from '@components/Styles/colors';
+import {useFetchCollege} from '@hooks/api/useRegisterApi';
 
 interface Props {
   data?: MajorType[];
+  majorState?: MajorType;
   onClose: () => void;
-  majorHandler: (atr: string) => void;
+  majorHandler: (data: MajorType, label: string) => void;
 }
 const MajorSelectModalView: FunctionComponent<Props> =
-  function MajorSelectModalView({data, onClose, majorHandler}) {
+  function MajorSelectModalView({data, majorState, onClose, majorHandler}) {
     const [text, setText] = useState<string>();
+    const [collegeRequestState, setCollegeRequestState] = useState<MajorType>();
     const [filterList, setFilterList] = useState<MajorType[]>();
     const [listShow, setListShow] = useState(true);
 
-    const selectItemHandler = (item: string) => {
+    const selectItemHandler = (item: string, data: MajorType) => {
+      setCollegeRequestState(data);
       setText(item);
       setListShow(false);
     };
 
     const selectConfirmHandler = () => {
-      if (text && !listShow) {
-        majorHandler(text);
+      if (collegeRequestState && text && !listShow) {
+        majorHandler(collegeRequestState, text);
         onClose();
       }
     };
+
+    useEffect(() => {}, []);
 
     useEffect(() => {
       setFilterList(
@@ -44,7 +50,7 @@ const MajorSelectModalView: FunctionComponent<Props> =
       return (
         <Pressable
           style={styles.itemWrapper}
-          onPress={() => selectItemHandler(item.major)}>
+          onPress={() => selectItemHandler(item.major, item)}>
           <Typo type={'Body1'} style={styles.item}>
             {item.major}
           </Typo>
