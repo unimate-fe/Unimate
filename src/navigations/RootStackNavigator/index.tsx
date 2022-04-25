@@ -20,13 +20,9 @@ import HeaderPrev from '@components/HeaderPrev';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import LoginScreen from '@screens/LoginScreen';
 import FindAccountScreen from '@screens/FindAccountScreen';
-<<<<<<< HEAD
-import RegisterTosScreen from '@src/screens/RegisterTosScreen';
-=======
 import RegisterIdPwd from '@screens/RegisterIdPwdScreen';
 import RegisterIdPwdScreen from '@screens/RegisterIdPwdScreen';
->>>>>>> 844552f1ee8e7a650bf53bfda72105a88d89d190
-
+import RegisterTosScreen from '@screens/RegisterTosScreen';
 const Stack = createNativeStackNavigator<RootStackParams>();
 
 // 유저 인증 전
