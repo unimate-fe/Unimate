@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useState} from 'react';
+import React, {FunctionComponent, useEffect, useRef, useState} from 'react';
 import {View, StyleSheet, Image} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import {colors} from '@components/Styles/colors';
@@ -10,8 +10,10 @@ import CustomModal from '@components/Modal';
 import SchoolSelectModalView from '@screens/RegisterSchoolScreen/components/SchoolSelectModalView';
 import MajorSelectModalView from '@screens/RegisterSchoolScreen/components/MajorSelectModalView';
 import InputView from '@components/Input';
-import {useFetchUniversity} from '@hooks/api/useFetchSchool';
+import {useFetchMajor, useFetchUniversity} from '@hooks/api/useRegisterApi';
 import {Icons} from '@assets/icons';
+import Toast from 'react-native-easy-toast';
+import useScreenNavigation from '@hooks/useScreenNavigation';
 
 const gradeLIst = [
   {label: '1학년', value: 1},
@@ -21,21 +23,41 @@ const gradeLIst = [
 ];
 
 const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
+  const navigation = useScreenNavigation();
+  const toastRef = useRef<Toast>(null);
+
   const [isSchoolModalOpen, setIsSchoolModalOpen] = useState(false);
   const [isMajorModalOpen, setIsMajorModalOpen] = useState(false);
 
   const [school, setSchool] = useState<string>();
+  const [schoolIdx, setSchoolIdx] = useState<number>();
+  const [major, setMajor] = useState<string>();
   const [grade, setGrade] = useState<number>();
-  const {data: universityList, isLoading} = useFetchUniversity();
+  const [validation, setValidation] = useState(false);
 
-  const schoolHandler = (atr: string) => setSchool(atr);
+  const {data: universityList} = useFetchUniversity();
+  const {data: majorList} = useFetchMajor(schoolIdx);
+
+  const showToast = () => toastRef?.current?.show('학교를 먼저 선택해주세요.');
+  const schoolHandler = (atr: string) => {
+    setSchool(atr);
+    setSchoolIdx(universityList?.find(univ => univ.university === atr)?.id);
+  };
+  const majorHandler = (atr: string) => {
+    setMajor(atr);
+  };
+
+  useEffect(() => {
+    if (school && major && grade) setValidation(true);
+    else setValidation(false);
+  }, [school, major, grade]);
 
   return (
     <SafeContainer isKeyboard>
       <View style={styles.base}>
         <Typo type={'H2'}>{strings.TITLE}</Typo>
         <View style={styles.strongContainer}>
-          <Typo type={'H2'}>{strings.DESC}</Typo>
+          <Typo type={'H2'}>{strings.DESC} </Typo>
           <Typo type={'H2'} style={styles.strong}>
             {strings.DESC_STRONG}
           </Typo>
@@ -51,7 +73,9 @@ const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
             disabled
           />
           <InputView
-            onPress={() => setIsMajorModalOpen(true)}
+            value={major}
+            defaultValue={major}
+            onPress={school ? () => setIsMajorModalOpen(true) : showToast}
             boxPlaceHolder={strings.PLACEHOLDER_DEPART}
             style={styles.input}
             placeholder={strings.PLACEHOLDER_DEPART}
@@ -68,7 +92,13 @@ const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
             <Image source={Icons.ARROW_DROP_DOWN} style={styles.downIcon} />
           </View>
         </View>
-        <Button type={'Solid-Long'} label={strings.BTN} onPress={() => {}} />
+        <Button
+          type={'Solid-Long'}
+          label={strings.BTN}
+          onPress={() => navigation.navigate('RegisterIdPwd')}
+          // TODO : 유효성 검사할 경우 추가
+          // disabled={!validation}
+        />
       </View>
       <CustomModal visible={isSchoolModalOpen}>
         <SchoolSelectModalView
@@ -81,11 +111,19 @@ const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
       </CustomModal>
       <CustomModal visible={isMajorModalOpen}>
         <MajorSelectModalView
+          majorHandler={majorHandler}
+          data={majorList}
           onClose={() => {
             setIsMajorModalOpen(false);
           }}
         />
       </CustomModal>
+      <Toast
+        ref={toastRef}
+        positionValue={200}
+        fadeInDuration={400}
+        fadeOutDuration={400}
+      />
     </SafeContainer>
   );
 };

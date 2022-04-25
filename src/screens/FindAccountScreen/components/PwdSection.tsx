@@ -24,10 +24,6 @@ const PwdSection: FunctionComponent<Props> = function PwdSection() {
     } else setIdValidation(false);
   };
 
-  useEffect(() => {
-    console.log('idValidation: ', idValidation);
-  }, [idValidation]);
-
   const renderInputId = () => {
     return (
       <View style={styles.base}>

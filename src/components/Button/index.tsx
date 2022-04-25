@@ -29,7 +29,7 @@ const Button: FunctionComponent<ButtonProps> = function Button({
   typoStyle,
 }) {
   return (
-    <Pressable style={style} onPress={onPress}>
+    <Pressable style={style} onPress={onPress} disabled={disabled}>
       <View style={[styles.contents, getStyle(type), contentStyle]}>
         <Typo
           type={'Button1'}

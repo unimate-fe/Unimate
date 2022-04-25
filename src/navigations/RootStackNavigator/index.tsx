@@ -20,7 +20,12 @@ import HeaderPrev from '@components/HeaderPrev';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import LoginScreen from '@screens/LoginScreen';
 import FindAccountScreen from '@screens/FindAccountScreen';
+<<<<<<< HEAD
 import RegisterTosScreen from '@src/screens/RegisterTosScreen';
+=======
+import RegisterIdPwd from '@screens/RegisterIdPwdScreen';
+import RegisterIdPwdScreen from '@screens/RegisterIdPwdScreen';
+>>>>>>> 844552f1ee8e7a650bf53bfda72105a88d89d190
 
 const Stack = createNativeStackNavigator<RootStackParams>();
 
@@ -44,9 +49,21 @@ const UnauthorizedGroup = (
     />
     <Stack.Screen name={'RegisterTerms'} component={RegisterTermsScreen} />
     <Stack.Screen name={'RegisterInfo'} component={RegisterInfoScreen} />
-    <Stack.Screen name={'RegisterPhone'} component={RegisterPhoneScreen} />
-    <Stack.Screen name={'RegisterEmail'} component={RegisterEmailScreen} />
-    <Stack.Screen name={'RegisterNick'} component={RegisterNickScreen} />
+    <Stack.Screen
+      name={'RegisterPhone'}
+      component={RegisterPhoneScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RegisterEmail'}
+      component={RegisterEmailScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RegisterNick'}
+      component={RegisterNickScreen}
+      options={{headerTitle: ''}}
+    />
     <Stack.Screen name={'RegisterMbti'} component={RegisterMbtiScreen} />
     <Stack.Screen
       name={'RegisterInterest'}
@@ -63,6 +80,11 @@ const UnauthorizedGroup = (
       name={'FindAccount'}
       component={FindAccountScreen}
       options={{headerTitle: '아이디 / 비밀번호 찾기'}}
+    />
+    <Stack.Screen
+      name={'RegisterIdPwd'}
+      component={RegisterIdPwdScreen}
+      options={{headerTitle: ''}}
     />
   </Stack.Group>
 );

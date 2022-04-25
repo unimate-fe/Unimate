@@ -106,11 +106,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: colors.DARK_GREY3,
     height: 56,
-<<<<<<< HEAD
-  justifyContent: 'center',
-=======
-    justifyContent: 'center',
->>>>>>> 844552f1ee8e7a650bf53bfda72105a88d89d190
     paddingHorizontal: 24,
     paddingRight: 52,
     flex: 1,

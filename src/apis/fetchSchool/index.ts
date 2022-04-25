@@ -1,6 +1,6 @@
 import {request} from '@src/apis/client';
-import {UniversityType} from '@screens/RegisterSchoolScreen/api/types';
 import {HttpMethod} from '@src/apis/client/types';
+import {MajorType, UniversityType} from '@src/apis/fetchSchool/types';
 
 export const fetchUniversity = async () => {
   try {
@@ -8,15 +8,24 @@ export const fetchUniversity = async () => {
       method: HttpMethod.GET,
       url: '/accounts/university',
     });
+
     return res.data;
   } catch (e) {
+    // @ts-ignore
     throw new Error(e);
   }
 };
 
-export const fetchMajor = () => {
+export const fetchMajor = async (id?: number) => {
   try {
+    const res = await request<MajorType[]>({
+      method: HttpMethod.GET,
+      url: `/accounts/major_univ/${id}`,
+    });
+
+    return res.data;
   } catch (e) {
+    // @ts-ignore
     throw new Error(e);
   }
 };

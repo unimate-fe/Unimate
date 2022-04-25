@@ -1,7 +1,6 @@
 import React, {FunctionComponent, useState, useCallback} from 'react';
 import {View, StyleSheet, Image , Text,   ScrollView,  Pressable,  Alert} from 'react-native';
 import Button from '@components/Button';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import CheckBox from '@react-native-community/checkbox';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import useScreenNavigation from '@hooks/useScreenNavigation';
@@ -265,7 +264,7 @@ const RegisterTosScreen: FunctionComponent<Props> = function RegisterTosScreen()
       </ScrollView>
       </View>
       <View style={styles.inputContainer}>
-      <Button type={'Solid-Long'} label={strings.NEXT} onPress={() => navigation.navigate('RegisterTerms')} />
+      <Button type={'Solid-Long'} label={strings.NEXT} onPress={() => navigation.navigate('RegisterMbti')} />
       </View>
     </SafeAreaView>
   );

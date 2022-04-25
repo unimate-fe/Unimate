@@ -15,6 +15,8 @@ export type RootStackParams = {
   RegisterEmail: undefined;
   // 회원정보 - 닉네임
   RegisterNick: undefined;
+  // 회원정보 - 아이디 비밀번호
+  RegisterIdPwd: undefined;
   // 회원정보 - Mbti
   RegisterMbti: undefined;
   // 회원정보 - 관심사

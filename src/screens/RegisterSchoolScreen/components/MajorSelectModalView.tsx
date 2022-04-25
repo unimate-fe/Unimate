@@ -1,30 +1,89 @@
-import React, {FunctionComponent} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {FunctionComponent, useEffect, useState} from 'react';
+import {View, Text, StyleSheet, FlatList} from 'react-native';
 import Input from '@components/Input';
 import {strings} from '@screens/RegisterSchoolScreen/string';
 import Button from '@components/Button';
+import {MajorType} from '@src/apis/fetchSchool/types';
+import Pressable from '@components/Pressable';
+import Typo from '@components/Typo';
+import {colors} from '@components/Styles/colors';
 
 interface Props {
-  onClose?: () => void;
+  data?: MajorType[];
+  onClose: () => void;
+  majorHandler: (atr: string) => void;
 }
 const MajorSelectModalView: FunctionComponent<Props> =
-  function MajorSelectModalView({onClose}) {
+  function MajorSelectModalView({data, onClose, majorHandler}) {
+    const [text, setText] = useState<string>();
+    const [filterList, setFilterList] = useState<MajorType[]>();
+    const [listShow, setListShow] = useState(true);
+
+    const selectItemHandler = (item: string) => {
+      setText(item);
+      setListShow(false);
+    };
+
+    const selectConfirmHandler = () => {
+      if (text && !listShow) {
+        majorHandler(text);
+        onClose();
+      }
+    };
+
+    useEffect(() => {
+      setFilterList(
+        data?.filter(item => {
+          if (text) return item.major.includes(text);
+          return false;
+        }),
+      );
+    }, [text]);
+
+    const renderMajor: FunctionComponent<{item: MajorType}> = ({item}) => {
+      return (
+        <Pressable
+          style={styles.itemWrapper}
+          onPress={() => selectItemHandler(item.major)}>
+          <Typo type={'Body1'} style={styles.item}>
+            {item.major}
+          </Typo>
+        </Pressable>
+      );
+    };
+
     return (
       <View style={styles.base}>
-        <Input placeholder={strings.PLACEHOLDER_DEPART} />
+        <Input
+          value={text}
+          defaultValue={text}
+          placeholder={strings.PLACEHOLDER_DEPART}
+          onChangeText={value => {
+            setText(value);
+            setListShow(true);
+          }}
+        />
+        {filterList && listShow && (
+          <FlatList<MajorType>
+            data={filterList}
+            renderItem={renderMajor}
+            style={styles.contentContainer}
+            keyExtractor={item => `${item.id}`}
+          />
+        )}
         <View style={styles.btnContainer}>
-          {onClose && (
-            <Button
-              type={'Solid-Short-Cancel'}
-              label={strings.CANCEL}
-              onPress={onClose}
-              style={styles.cancelBtn}
-            />
-          )}
+          <Button
+            type={'Solid-Short-Cancel'}
+            label={strings.CANCEL}
+            onPress={onClose}
+            style={styles.cancelBtn}
+          />
+
           <Button
             type={'Solid-Short-Confirm'}
             label={strings.CONFIRM}
-            onPress={() => {}}
+            onPress={selectConfirmHandler}
+            disabled={listShow}
             style={styles.confirmBtn}
           />
         </View>
@@ -39,6 +98,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 35,
     justifyContent: 'space-between',
+  },
+  contentContainer: {
+    flex: 1,
+    padding: 24,
+  },
+  itemWrapper: {
+    paddingBottom: 18,
+  },
+  item: {
+    color: colors.DARK_GREY3,
   },
   btnContainer: {
     width: '100%',
