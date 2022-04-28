@@ -1,7 +1,7 @@
 import axios, {AxiosResponse} from 'axios';
 import qs from 'qs';
 import Config from 'react-native-config';
-import {HttpMethod, RequestParams} from '@src/apis/client/types';
+import {HttpMethod, RequestParams} from '@src/apis/types';
 
 const instance = axios.create({
   // 3초뒤 요청 타임아웃
@@ -11,7 +11,8 @@ const instance = axios.create({
     qs.stringify(params, {arrayFormat: 'brackets'}),
   // cors error handling
   withCredentials: true,
-  baseURL: 'https://virtserver.swaggerhub.com/Unimate/Unimate_API/1.0.0',
+  // baseURL: 'https://virtserver.swaggerhub.com/Unimate/Unimate_API/1.0.0',
+  baseURL: 'https://f78f-49-165-186-117.ngrok.io',
 });
 
 instance.interceptors.request.use(

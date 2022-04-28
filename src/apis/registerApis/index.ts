@@ -1,16 +1,16 @@
-import {request} from '@src/apis/client';
-import {HttpMethod} from '@src/apis/client/types';
 import {
-  CollegeUtilType,
   MajorType,
+  RegisterType,
   UniversityType,
-} from '@src/apis/fetchSchool/types';
+} from '@src/apis/registerApis/types';
+import {request} from '@src/apis';
+import {HttpMethod} from '@src/apis/types';
 
 export const fetchUniversity = async () => {
   try {
     const res = await request<UniversityType[]>({
       method: HttpMethod.GET,
-      url: '/accounts/university',
+      url: '/accounts/university/',
     });
 
     return res.data;
@@ -24,7 +24,7 @@ export const fetchMajor = async (id?: number) => {
   try {
     const res = await request<MajorType[]>({
       method: HttpMethod.GET,
-      url: `/accounts/major_univ/${id}`,
+      url: `/accounts/major_univ/${id}/`,
     });
 
     return res.data;
@@ -34,16 +34,11 @@ export const fetchMajor = async (id?: number) => {
   }
 };
 
-export const fetchCollege = async (body?: {
-  id: number;
-  major: string;
-  college: number;
-  university: number;
-}) => {
+export const registerRequest = async (body?: RegisterType) => {
   try {
-    const res = await request<CollegeUtilType>({
+    const res = await request<RegisterType>({
       method: HttpMethod.POST,
-      url: `/accounts/major_detail`,
+      url: `/accounts/register/`,
       body,
     });
 

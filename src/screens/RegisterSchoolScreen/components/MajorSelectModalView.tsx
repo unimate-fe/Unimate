@@ -3,11 +3,10 @@ import {View, Text, StyleSheet, FlatList} from 'react-native';
 import Input from '@components/Input';
 import {strings} from '@screens/RegisterSchoolScreen/string';
 import Button from '@components/Button';
-import {CollegeUtilType, MajorType} from '@src/apis/fetchSchool/types';
+import {MajorType} from '@src/apis/registerApis/types';
 import Pressable from '@components/Pressable';
 import Typo from '@components/Typo';
 import {colors} from '@components/Styles/colors';
-import {useFetchCollege} from '@hooks/api/useRegisterApi';
 
 interface Props {
   data?: MajorType[];
@@ -34,8 +33,6 @@ const MajorSelectModalView: FunctionComponent<Props> =
         onClose();
       }
     };
-
-    useEffect(() => {}, []);
 
     useEffect(() => {
       setFilterList(
