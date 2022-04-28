@@ -9,3 +9,10 @@ export interface MajorType {
   college: number;
   university: number;
 }
+
+export interface CollegeUtilType {
+  id: number;
+  major: string;
+  college: string;
+  university: string;
+}

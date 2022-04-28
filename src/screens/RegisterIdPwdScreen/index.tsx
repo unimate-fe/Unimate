@@ -8,13 +8,14 @@ import {colors} from '@components/Styles/colors';
 import {FeedbackType} from '@components/Input/types';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import {testPwd} from '@src/utils';
+import useRegisterStore from '@hooks/useRegisterStore';
 
 interface Props {}
 const RegisterIdPwdScreen: FunctionComponent<Props> =
   function RegisterIdPwdScreen() {
     const navigation = useScreenNavigation();
     // id
-    const [id, setId] = useState<string>('');
+    const [id, setId] = useState<string>();
     const [idValidation, setIdValidation] = useState(false);
     const [idValidationStart, setIdValidationStart] = useState(false);
     const [idFeedbackType, setIdFeedbackType] = useState<FeedbackType>();
@@ -32,6 +33,8 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
     const [confirmPwdFeedbackText, setConfirmPwdFeedbackText] =
       useState<string>();
 
+    const {saveAccount} = useRegisterStore();
+
     const checkHandler = () => {
       setIdValidationStart(true);
       if (id === 'ADMIN') {
@@ -42,8 +45,13 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
     const submitHandler = () => {
       setPwdValidationStart(true);
       setPwdValidation(testPwd(pwd));
-      if (idValidation && pwdValidation && pwd === confirmPwd)
+      if (idValidation && pwdValidation && pwd === confirmPwd) {
+        saveAccount({
+          username: id,
+          password: pwd,
+        });
         navigation.navigate('RegisterEmail');
+      }
     };
 
     // id validation
@@ -52,7 +60,7 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
         if (idValidation) {
           setIdFeedbackText('사용 가능해요 :)');
           setIdFeedbackType('verified');
-        } else if (id.length === 0) {
+        } else if (id && id?.length === 0) {
           setIdFeedbackText('유효한 아이디를 입력해주세요.');
           setIdFeedbackType('error');
         } else {

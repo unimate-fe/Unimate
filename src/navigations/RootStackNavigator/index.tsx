@@ -22,7 +22,8 @@ import LoginScreen from '@screens/LoginScreen';
 import FindAccountScreen from '@screens/FindAccountScreen';
 import RegisterIdPwd from '@screens/RegisterIdPwdScreen';
 import RegisterIdPwdScreen from '@screens/RegisterIdPwdScreen';
-import RegisterTosScreen from '@screens/RegisterTosScreen';
+import RegisterTosScreen from '@src/screens/RegisterTosScreen';
+
 const Stack = createNativeStackNavigator<RootStackParams>();
 
 // 유저 인증 전
@@ -38,7 +39,7 @@ const UnauthorizedGroup = (
       component={RegisterSchoolScreen}
       options={{headerTitle: ''}}
     />
-        <Stack.Screen
+    <Stack.Screen
       name={'RegisterTos'}
       component={RegisterTosScreen}
       options={{headerTitle: ''}}

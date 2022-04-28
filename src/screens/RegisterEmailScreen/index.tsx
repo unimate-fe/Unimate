@@ -8,6 +8,7 @@ import Button from '@components/Button';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import {FeedbackType} from '@components/Input/types';
 import {testEmail} from '@src/utils';
+import useRegisterStore from '@hooks/useRegisterStore';
 
 interface Props {}
 
@@ -19,11 +20,14 @@ const RegisterEmailScreen: FunctionComponent<Props> =
     const [emailFeedbackText, setEmailFeedbackText] = useState<string>();
     const [emailFeedbackType, setEmailFeedbackType] = useState<FeedbackType>();
 
+    const {saveEmail} = useRegisterStore();
+
     const submitHandler = () => {
       if (!testEmail(email) || email?.length === 0) {
         setEmailFeedbackText('유효한 이메일 형식을 입력해주세요.');
         setEmailFeedbackType('error');
       } else if (email === 'ADMIN@naver.com') {
+        saveEmail(email);
         setEmailFeedbackText(undefined);
         setEmailFeedbackType(undefined);
         navigation.navigate('RegisterPhone');

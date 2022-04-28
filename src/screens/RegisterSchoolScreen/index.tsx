@@ -10,10 +10,16 @@ import CustomModal from '@components/Modal';
 import SchoolSelectModalView from '@screens/RegisterSchoolScreen/components/SchoolSelectModalView';
 import MajorSelectModalView from '@screens/RegisterSchoolScreen/components/MajorSelectModalView';
 import InputView from '@components/Input';
-import {useFetchMajor, useFetchUniversity} from '@hooks/api/useRegisterApi';
+import {
+  useFetchCollege,
+  useFetchMajor,
+  useFetchUniversity,
+} from '@hooks/api/useRegisterApi';
 import {Icons} from '@assets/icons';
 import Toast from 'react-native-easy-toast';
 import useScreenNavigation from '@hooks/useScreenNavigation';
+import {MajorType} from '@src/apis/fetchSchool/types';
+import useRegisterStore from '@hooks/useRegisterStore';
 
 const gradeLIst = [
   {label: '1학년', value: 1},
@@ -26,31 +32,59 @@ const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
   const navigation = useScreenNavigation();
   const toastRef = useRef<Toast>(null);
 
+  const {saveSchool} = useRegisterStore();
+
   const [isSchoolModalOpen, setIsSchoolModalOpen] = useState(false);
   const [isMajorModalOpen, setIsMajorModalOpen] = useState(false);
 
-  const [school, setSchool] = useState<string>();
+  const [schoolLabel, setSchoolLabel] = useState<string>();
   const [schoolIdx, setSchoolIdx] = useState<number>();
-  const [major, setMajor] = useState<string>();
-  const [grade, setGrade] = useState<number>();
+  const [majorLabel, setMajorLabel] = useState<string>();
+  const [majorState, setMajorState] = useState<MajorType>();
+  const [college, setCollege] = useState<string>();
+
   const [validation, setValidation] = useState(false);
 
   const {data: universityList} = useFetchUniversity();
   const {data: majorList} = useFetchMajor(schoolIdx);
+  const {data: collegeInfo, mutate: fetchCollege} = useFetchCollege(majorState);
 
   const showToast = () => toastRef?.current?.show('학교를 먼저 선택해주세요.');
-  const schoolHandler = (atr: string) => {
-    setSchool(atr);
-    setSchoolIdx(universityList?.find(univ => univ.university === atr)?.id);
+
+  const schoolHandler = (label: string) => {
+    setSchoolLabel(label);
+    setSchoolIdx(universityList?.find(univ => univ.university === label)?.id);
   };
-  const majorHandler = (atr: string) => {
-    setMajor(atr);
+  const majorHandler = (data: MajorType, label: string) => {
+    setMajorLabel(label);
+    setMajorState(data);
   };
 
+  const submitHandler = () => {
+    if (schoolLabel && majorLabel && college) {
+      saveSchool({
+        university: schoolLabel,
+        college: college,
+        major: majorLabel,
+      });
+      navigation.navigate('RegisterTos');
+    }
+  };
+
+  // save major state
   useEffect(() => {
-    if (school && major && grade) setValidation(true);
+    if (majorState) fetchCollege();
+  }, [majorState]);
+  // save college state
+  useEffect(() => {
+    if (collegeInfo) setCollege(collegeInfo.college);
+  }, [collegeInfo]);
+
+  // validation check
+  useEffect(() => {
+    if (schoolLabel && majorLabel && college) setValidation(true);
     else setValidation(false);
-  }, [school, major, grade]);
+  }, [schoolLabel, majorLabel, college]);
 
   return (
     <SafeContainer isKeyboard>
@@ -64,8 +98,8 @@ const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
         </View>
         <View style={styles.inputContainer}>
           <InputView
-            value={school}
-            defaultValue={school}
+            value={schoolLabel}
+            defaultValue={schoolLabel}
             onPress={() => setIsSchoolModalOpen(true)}
             boxPlaceHolder={strings.PLACEHOLDER_SCHOOL}
             style={styles.input}
@@ -73,29 +107,29 @@ const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
             disabled
           />
           <InputView
-            value={major}
-            defaultValue={major}
-            onPress={school ? () => setIsMajorModalOpen(true) : showToast}
+            value={majorLabel}
+            defaultValue={majorLabel}
+            onPress={schoolLabel ? () => setIsMajorModalOpen(true) : showToast}
             boxPlaceHolder={strings.PLACEHOLDER_DEPART}
             style={styles.input}
             placeholder={strings.PLACEHOLDER_DEPART}
             disabled
           />
-          <View style={styles.pickerContainer}>
-            <RNPickerSelect
-              placeholder={{label: '학년'}}
-              style={pickerSelectStyles}
-              onValueChange={value => setGrade(value)}
-              items={gradeLIst}
-              doneText={'선택'}
-            />
-            <Image source={Icons.ARROW_DROP_DOWN} style={styles.downIcon} />
-          </View>
+          {/*<View style={styles.pickerContainer}>*/}
+          {/*  <RNPickerSelect*/}
+          {/*    placeholder={{label: '학년'}}*/}
+          {/*    style={pickerSelectStyles}*/}
+          {/*    onValueChange={value => setGrade(value)}*/}
+          {/*    items={gradeLIst}*/}
+          {/*    doneText={'선택'}*/}
+          {/*  />*/}
+          {/*  <Image source={Icons.ARROW_DROP_DOWN} style={styles.downIcon} />*/}
+          {/*</View>*/}
         </View>
         <Button
           type={'Solid-Long'}
           label={strings.BTN}
-          onPress={() => navigation.navigate('RegisterIdPwd')}
+          onPress={submitHandler}
           // TODO : 유효성 검사할 경우 추가
           // disabled={!validation}
         />
@@ -111,6 +145,7 @@ const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
       </CustomModal>
       <CustomModal visible={isMajorModalOpen}>
         <MajorSelectModalView
+          majorState={majorState}
           majorHandler={majorHandler}
           data={majorList}
           onClose={() => {
