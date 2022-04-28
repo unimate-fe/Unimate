@@ -5,7 +5,7 @@ import Button from '@components/Button';
 import Typo from '@components/Typo';
 import {colors} from '@components/Styles/colors';
 import Pressable from '@components/Pressable';
-import {UniversityType} from '@src/apis/fetchSchool/types';
+import {UniversityType} from '@src/apis/registerApis/types';
 import {strings} from '@screens/RegisterSchoolScreen/string';
 
 interface Props {

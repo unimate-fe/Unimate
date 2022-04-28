@@ -8,6 +8,7 @@ import Button from '@components/Button';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import {FeedbackType} from '@components/Input/types';
 import {testEmail} from '@src/utils';
+import {useRegister} from '@hooks/api/useRegisterApi';
 import useRegisterStore from '@hooks/useRegisterStore';
 
 interface Props {}
@@ -20,16 +21,29 @@ const RegisterEmailScreen: FunctionComponent<Props> =
     const [emailFeedbackText, setEmailFeedbackText] = useState<string>();
     const [emailFeedbackType, setEmailFeedbackType] = useState<FeedbackType>();
 
-    const {saveEmail} = useRegisterStore();
+    const {username, password, universit, major, agree} = useRegisterStore(
+      state => state,
+    );
+
+    const {mutate: register} = useRegister({
+      username: 'gon2',
+      email: 'gon2@test.com',
+      password: '1234567890',
+      university: 1,
+      college: 1,
+      major: 1,
+      use_agree: true,
+      information_agree: true,
+    });
 
     const submitHandler = () => {
       if (!testEmail(email) || email?.length === 0) {
         setEmailFeedbackText('유효한 이메일 형식을 입력해주세요.');
         setEmailFeedbackType('error');
       } else if (email === 'ADMIN@naver.com') {
-        saveEmail(email);
         setEmailFeedbackText(undefined);
         setEmailFeedbackType(undefined);
+        register();
         navigation.navigate('RegisterPhone');
       } else {
         setEmailFeedbackText('이미 사용 중인 이메일이에요.');
@@ -61,7 +75,7 @@ const RegisterEmailScreen: FunctionComponent<Props> =
             label={'확인'}
             // TODO 테스트용 스킵
             // onPress={submitHandler}
-            onPress={() => navigation.navigate('RegisterPhone')}
+            onPress={submitHandler}
           />
         </View>
       </SafeContainer>

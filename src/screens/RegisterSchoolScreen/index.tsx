@@ -1,6 +1,5 @@
 import React, {FunctionComponent, useEffect, useRef, useState} from 'react';
 import {View, StyleSheet, Image} from 'react-native';
-import RNPickerSelect from 'react-native-picker-select';
 import {colors} from '@components/Styles/colors';
 import SafeContainer from '@components/SafeContainer';
 import Typo from '@components/Typo';
@@ -10,15 +9,10 @@ import CustomModal from '@components/Modal';
 import SchoolSelectModalView from '@screens/RegisterSchoolScreen/components/SchoolSelectModalView';
 import MajorSelectModalView from '@screens/RegisterSchoolScreen/components/MajorSelectModalView';
 import InputView from '@components/Input';
-import {
-  useFetchCollege,
-  useFetchMajor,
-  useFetchUniversity,
-} from '@hooks/api/useRegisterApi';
-import {Icons} from '@assets/icons';
+import {useFetchMajor, useFetchUniversity} from '@hooks/api/useRegisterApi';
 import Toast from 'react-native-easy-toast';
 import useScreenNavigation from '@hooks/useScreenNavigation';
-import {MajorType} from '@src/apis/fetchSchool/types';
+import {MajorType} from '@src/apis/registerApis/types';
 import useRegisterStore from '@hooks/useRegisterStore';
 
 const gradeLIst = [
@@ -41,13 +35,11 @@ const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
   const [schoolIdx, setSchoolIdx] = useState<number>();
   const [majorLabel, setMajorLabel] = useState<string>();
   const [majorState, setMajorState] = useState<MajorType>();
-  const [college, setCollege] = useState<string>();
 
   const [validation, setValidation] = useState(false);
 
   const {data: universityList} = useFetchUniversity();
   const {data: majorList} = useFetchMajor(schoolIdx);
-  const {data: collegeInfo, mutate: fetchCollege} = useFetchCollege(majorState);
 
   const showToast = () => toastRef?.current?.show('학교를 먼저 선택해주세요.');
 
@@ -61,30 +53,20 @@ const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
   };
 
   const submitHandler = () => {
-    if (schoolLabel && majorLabel && college) {
+    if (schoolLabel && majorLabel) {
       saveSchool({
         university: schoolLabel,
-        college: college,
         major: majorLabel,
       });
       navigation.navigate('RegisterTos');
     }
   };
 
-  // save major state
-  useEffect(() => {
-    if (majorState) fetchCollege();
-  }, [majorState]);
-  // save college state
-  useEffect(() => {
-    if (collegeInfo) setCollege(collegeInfo.college);
-  }, [collegeInfo]);
-
   // validation check
   useEffect(() => {
-    if (schoolLabel && majorLabel && college) setValidation(true);
+    if (schoolLabel && majorLabel) setValidation(true);
     else setValidation(false);
-  }, [schoolLabel, majorLabel, college]);
+  }, [schoolLabel, majorLabel]);
 
   return (
     <SafeContainer isKeyboard>

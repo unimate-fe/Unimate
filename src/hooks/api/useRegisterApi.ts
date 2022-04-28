@@ -1,6 +1,10 @@
 import {useMutation, useQuery} from 'react-query';
-import {fetchCollege, fetchMajor, fetchUniversity} from '@src/apis/fetchSchool';
-import {MajorType} from '@src/apis/fetchSchool/types';
+import {
+  fetchMajor,
+  fetchUniversity,
+  registerRequest,
+} from '@src/apis/registerApis';
+import {MajorType, RegisterType} from '@src/apis/registerApis/types';
 
 export const useFetchUniversity = () => {
   return useQuery('university', fetchUniversity, {retry: false});
@@ -13,8 +17,8 @@ export const useFetchMajor = (id?: number) => {
   });
 };
 
-export const useFetchCollege = (body?: MajorType) => {
-  return useMutation('college', () => fetchCollege(body), {
+export const useRegister = (body?: RegisterType) => {
+  return useMutation('register', () => registerRequest(body), {
     retry: false,
   });
 };
