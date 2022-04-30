@@ -29,10 +29,6 @@ const RegisterTosScreen: FunctionComponent<Props> =
     const [selectFirst, setSelectFirst] = useState(false);
     const [selectSecond, setSelectSecond] = useState(false);
 
-    const toSignUpData = useCallback(() => {
-      navigation.navigate('RegisterSchool');
-    }, [navigation]);
-
     const {saveTos} = useRegisterStore();
     
   const submitHandler = () => {
