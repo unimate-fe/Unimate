@@ -24,19 +24,30 @@ interface Props {}
 const RegisterTosScreen: FunctionComponent<Props> =
   function RegisterTosScreen() {
     const navigation = useScreenNavigation();
+// <<<<<<< HEAD
+
+//     const [allSelect, setAllSelect] = useState(false);
+//     const [selectFirst, setSelectFirst] = useState(false);
+//     const [selectSecond, setSelectSecond] = useState(false);
+
+//     const {saveTos} = useRegisterStore();
+    
+//   const submitHandler = () => {
+//     if (allSelect||(selectFirst&&selectSecond)) {
+//       saveTos(true);
+//       navigation.navigate('RegisterTos');
+//     }
+//   };
+// =======
 
     const [allSelect, setAllSelect] = useState(false);
     const [selectFirst, setSelectFirst] = useState(false);
     const [selectSecond, setSelectSecond] = useState(false);
 
-    const {saveTos} = useRegisterStore();
-    
-  const submitHandler = () => {
-    if (allSelect||(selectFirst&&selectSecond)) {
-      saveTos(true);
-      navigation.navigate('RegisterTos');
-    }
-  };
+    const toSignUpData = useCallback(() => {
+      navigation.navigate('RegisterSchool');
+    }, [navigation]);
+
     const toAllSelect = useCallback(() => {
       if (allSelect) {
         setAllSelect(false);
@@ -571,8 +582,7 @@ const RegisterTosScreen: FunctionComponent<Props> =
           <Button
             type={'Solid-Long'}
             label={strings.NEXT}
-            onPress={submitHandler}
-            // onPress={() => navigation.navigate('RegisterIdPwd')}
+            onPress={() => navigation.navigate('RegisterIdPwd')}
           />
         </View>
       </SafeAreaView>
