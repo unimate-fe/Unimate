@@ -1,6 +1,6 @@
 import {request} from '@src/apis';
 import {HttpMethod} from '@src/apis/types';
-import {MajorType, UniversityType} from '@src/apis/fetchSchool/types';
+import {MajorType, UniversityType} from '@src/apis/fetchSchoolApis/types';
 
 export const fetchUniversity = async () => {
   try {

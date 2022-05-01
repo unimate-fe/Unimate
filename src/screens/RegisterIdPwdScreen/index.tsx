@@ -7,21 +7,22 @@ import Button from '@components/Button';
 import {colors} from '@components/Styles/colors';
 import {FeedbackType} from '@components/Input/types';
 import useScreenNavigation from '@hooks/useScreenNavigation';
-import {testPwd} from '@src/utils';
 import useRegisterStore from '@hooks/useRegisterStore';
+import {testPwd} from '@src/utils';
+import {useCheckDuplicateId} from '@hooks/api/useRegisterApi';
 
 interface Props {}
 const RegisterIdPwdScreen: FunctionComponent<Props> =
   function RegisterIdPwdScreen() {
     const navigation = useScreenNavigation();
     // id
-    const [id, setId] = useState<string>();
+    const [id, setId] = useState<string>('');
     const [idValidation, setIdValidation] = useState(false);
     const [idValidationStart, setIdValidationStart] = useState(false);
     const [idFeedbackType, setIdFeedbackType] = useState<FeedbackType>();
     const [idFeedbackText, setIdFeedbackText] = useState<string>();
     // password
-    const [pwd, setPwd] = useState<string>();
+    const [pwd, setPwd] = useState<string>('');
     const [pwdValidationStart, setPwdValidationStart] = useState(false);
     const [pwdValidation, setPwdValidation] = useState(false);
     const [pwdFeedbackType, setPwdFeedbackType] = useState<FeedbackType>();
@@ -33,13 +34,15 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
     const [confirmPwdFeedbackText, setConfirmPwdFeedbackText] =
       useState<string>();
 
+    const {
+      mutate: checkId,
+      isSuccess: checkSuccess,
+      isError: checkError,
+    } = useCheckDuplicateId();
     const {saveAccount} = useRegisterStore();
 
     const checkHandler = () => {
       setIdValidationStart(true);
-      if (id === 'ADMIN') {
-        setIdValidation(true);
-      } else setIdValidation(false);
     };
 
     const submitHandler = () => {
@@ -57,9 +60,16 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
     // id validation
     useEffect(() => {
       if (idValidationStart) {
-        if (idValidation) {
+        if (checkSuccess) {
           setIdFeedbackText('사용 가능해요 :)');
           setIdFeedbackType('verified');
+        }
+        // if (checkError) {
+        //   // TODO : 워딩 지정
+        //   setIdFeedbackText('유효한 아이디를 입력해주세요.');
+        //   setIdFeedbackType('error');
+        // }
+        if (idValidation) {
         } else if (id && id?.length === 0) {
           setIdFeedbackText('유효한 아이디를 입력해주세요.');
           setIdFeedbackType('error');
@@ -141,9 +151,10 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
             style={styles.lastBtn}
             type={'Solid-Long'}
             label={'다음'}
-            // TODO : 유효성 검사 스킵
+            // TODO : 유효성
             // disabled={id && pwd && confirmPwd ? false : true}
             // onPress={submitHandler}
+            // TODO : 유효성 검사 스킵
             onPress={() => navigation.navigate('RegisterEmail')}
           />
         </View>

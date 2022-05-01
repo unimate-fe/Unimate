@@ -8,3 +8,7 @@ export interface RegisterType {
   use_agree: boolean;
   information_agree: boolean;
 }
+
+export interface CheckDuplicateType {
+  message: string;
+}

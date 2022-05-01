@@ -12,7 +12,7 @@ import MajorSelectModalView from '@screens/RegisterSchoolScreen/components/Major
 import InputView from '@components/Input';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import {useFetchMajor, useFetchUniversity} from '@hooks/api/useRegisterApi';
-import {MajorType} from '@src/apis/fetchSchool/types';
+import {MajorType} from '@src/apis/fetchSchoolApis/types';
 import useRegisterStore from '@hooks/useRegisterStore';
 
 const gradeLIst = [
@@ -112,8 +112,8 @@ const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
           type={'Solid-Long'}
           label={strings.BTN}
           onPress={submitHandler}
-          // TODO : 유효성 검사할 경우 추가
-          // disabled={!validation}
+          // TODO : 유효성 검사
+          disabled={!validation}
         />
       </View>
       <CustomModal visible={isSchoolModalOpen}>
