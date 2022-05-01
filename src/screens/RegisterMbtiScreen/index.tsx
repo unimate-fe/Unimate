@@ -26,18 +26,126 @@ const RegisterMbtiScreen: FunctionComponent<Props> =
     const [selectJ, setSelectJ] = useState('');
     const [selectP, setSelectP] = useState('');
   
-      // const toInterest = useCallback(() => {
-      //   navigation.navigate('RegisterInterest');
-      // }, [navigation]);
-
     return (
       <SafeContainer>
         <View style={style.base}>
           <Text style={style.pageTitle1}>MBTI를 선택해주세요.</Text>
           <Text style={style.pageTitle2}>나와 잘 맞는 친구를 찾기 위한 정보예요.</Text>
           <Text style={style.pageTitle2}>정확하게 입력해 주세요!</Text>
-          
-          
+          <View style={style.inputWrapper}>
+            <Text style={{fontSize: 16, color: '#A4ACB3'}}>
+              E
+            </Text>
+            <View style={{padding: 15}}>
+            </View>
+            <CheckBox
+              // value={selectI}
+              disabled={false}
+              style={style.checkBox}
+              onCheckColor={'#FFB6C7'}
+              onTintColor={'#FFB6C7'}
+            />
+            <View style={{padding: 15}}>
+            </View>
+            <Text style={{fontSize: 16, color: '#A4ACB3'}}>
+              I
+            </Text>
+            <View style={{padding: 15}}>
+            </View>
+            <CheckBox
+              // value={selectI}
+              disabled={false}
+              style={style.checkBox}
+              onCheckColor={'#FFB6C7'}
+              onTintColor={'#FFB6C7'}
+            />
+          </View>
+          <View style={style.inputWrapper}>
+            <Text style={{fontSize: 16, color: '#A4ACB3'}}>
+              S
+            </Text>
+            <View style={{padding: 15}}>
+            </View>
+            <CheckBox
+              // value={selectI}
+              disabled={false}
+              style={style.checkBox}
+              onCheckColor={'#FFB6C7'}
+              onTintColor={'#FFB6C7'}
+            />
+            <View style={{padding: 15}}>
+            </View>
+            <Text style={{fontSize: 16, color: '#A4ACB3'}}>
+              N
+            </Text>
+            <View style={{padding: 15}}>
+            </View>
+            <CheckBox
+              // value={selectI}
+              disabled={false}
+              style={style.checkBox}
+              onCheckColor={'#FFB6C7'}
+              onTintColor={'#FFB6C7'}
+            />
+          </View>
+          <View style={style.inputWrapper}>
+            <Text style={{fontSize: 16, color: '#A4ACB3'}}>
+              T
+            </Text>
+            <View style={{padding: 15}}>
+            </View>
+            <CheckBox
+              // value={selectI}
+              disabled={false}
+              style={style.checkBox}
+              onCheckColor={'#FFB6C7'}
+              onTintColor={'#FFB6C7'}
+            />
+            <View style={{padding: 15}}>
+            </View>
+            <Text style={{fontSize: 16, color: '#A4ACB3'}}>
+              F
+            </Text>
+            <View style={{padding: 15}}>
+            </View>
+            <CheckBox
+              // value={selectI}
+              disabled={false}
+              style={style.checkBox}
+              onCheckColor={'#FFB6C7'}
+              onTintColor={'#FFB6C7'}
+            />
+          </View>
+          <View style={style.inputWrapper}>
+            <Text style={{fontSize: 16, color: '#A4ACB3'}}>
+              P
+            </Text>
+            <View style={{padding: 15}}>
+            </View>
+            <CheckBox
+              // value={selectI}
+              disabled={false}
+              style={style.checkBox}
+              onCheckColor={'#FFB6C7'}
+              onTintColor={'#FFB6C7'}
+            />
+            <View style={{padding: 15}}>
+            </View>
+            <Text style={{fontSize: 16, color: '#A4ACB3'}}>
+              J
+            </Text>
+            <View style={{padding: 15}}>
+            </View>
+            <CheckBox
+              // value={selectI}
+              disabled={false}
+              style={style.checkBox}
+              onCheckColor={'#FFB6C7'}
+              onTintColor={'#FFB6C7'}
+            />
+          </View>
+
+
           <Button
           type={'Solid-Long'}
           label={strings.NEXT}
@@ -74,6 +182,7 @@ const RegisterMbtiScreen: FunctionComponent<Props> =
       padding: 17
     },
     checkBox: {
+      transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }]
     },
     inputTopWrapper: {
       padding: 7,
@@ -83,11 +192,8 @@ const RegisterMbtiScreen: FunctionComponent<Props> =
       justifyContent: 'center',
     },
     inputWrapper: {
-      padding: 7,
-      paddingTop: 20,
       alignItems: 'center',
       flexDirection: 'row',
-      justifyContent: 'center',
     },
     buttonZone: {
       padding: 37,
