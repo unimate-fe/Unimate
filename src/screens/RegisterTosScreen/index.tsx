@@ -18,7 +18,7 @@ import CheckBox from '@react-native-community/checkbox';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import {strings} from '@screens/RegisterTosScreen/strings';
-
+import useRegisterStore from '@hooks/useRegisterStore';
 interface Props {}
 
 const RegisterTosScreen: FunctionComponent<Props> =
@@ -32,6 +32,15 @@ const RegisterTosScreen: FunctionComponent<Props> =
     const toSignUpData = useCallback(() => {
       navigation.navigate('RegisterSchool');
     }, [navigation]);
+
+    const {saveTos} = useRegisterStore();
+
+    const submitHandler = () => {
+      if (allSelect || (selectFirst && selectSecond)) {
+        saveTos(true);
+        navigation.navigate('RegisterTos');
+      }
+    };
 
     const toAllSelect = useCallback(() => {
       if (allSelect) {
@@ -567,7 +576,7 @@ const RegisterTosScreen: FunctionComponent<Props> =
           <Button
             type={'Solid-Long'}
             label={strings.NEXT}
-            onPress={() => navigation.navigate('RegisterIdPwd')}
+            onPress={submitHandler}
           />
         </View>
       </SafeAreaView>
