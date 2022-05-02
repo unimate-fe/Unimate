@@ -48,6 +48,14 @@ const RegisterTosScreen: FunctionComponent<Props> =
       navigation.navigate('RegisterSchool');
     }, [navigation]);
 
+    const {saveTos} = useRegisterStore();
+
+    const submitHandler = () => {
+      // if (allSelect || (selectFirst && selectSecond)) {
+      //   saveTos();
+      navigation.navigate('RegisterTos');
+      // }
+    };
     const toAllSelect = useCallback(() => {
       if (allSelect) {
         setAllSelect(false);

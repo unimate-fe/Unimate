@@ -1,5 +1,6 @@
 import React, {FunctionComponent, useEffect, useRef, useState} from 'react';
 import {View, StyleSheet, Image} from 'react-native';
+import Toast from 'react-native-easy-toast';
 import {colors} from '@components/Styles/colors';
 import SafeContainer from '@components/SafeContainer';
 import Typo from '@components/Typo';
@@ -9,10 +10,9 @@ import CustomModal from '@components/Modal';
 import SchoolSelectModalView from '@screens/RegisterSchoolScreen/components/SchoolSelectModalView';
 import MajorSelectModalView from '@screens/RegisterSchoolScreen/components/MajorSelectModalView';
 import InputView from '@components/Input';
-import {useFetchMajor, useFetchUniversity} from '@hooks/api/useRegisterApi';
-import Toast from 'react-native-easy-toast';
 import useScreenNavigation from '@hooks/useScreenNavigation';
-import {MajorType} from '@src/apis/registerApis/types';
+import {useFetchMajor, useFetchUniversity} from '@hooks/api/useRegisterApi';
+import {MajorType} from '@src/apis/fetchSchoolApis/types';
 import useRegisterStore from '@hooks/useRegisterStore';
 
 const gradeLIst = [
@@ -112,8 +112,8 @@ const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
           type={'Solid-Long'}
           label={strings.BTN}
           onPress={submitHandler}
-          // TODO : 유효성 검사할 경우 추가
-          // disabled={!validation}
+          // TODO : 유효성 검사
+          disabled={!validation}
         />
       </View>
       <CustomModal visible={isSchoolModalOpen}>

@@ -21,7 +21,7 @@ const RegisterEmailScreen: FunctionComponent<Props> =
     const [emailFeedbackText, setEmailFeedbackText] = useState<string>();
     const [emailFeedbackType, setEmailFeedbackType] = useState<FeedbackType>();
 
-    const {username, password, universit, major, agree} = useRegisterStore(
+    const {username, password, university, major, agree} = useRegisterStore(
       state => state,
     );
 
