@@ -87,6 +87,7 @@ const RootStackNavigator = function RootStackNavigator() {
 
   return (
     <Stack.Navigator
+      initialRouteName={'RegisterTos'}
       screenOptions={{
         headerShadowVisible: false,
         headerBackTitleVisible: false,
