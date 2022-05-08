@@ -15,13 +15,6 @@ import {useFetchMajor, useFetchUniversity} from '@hooks/api/useRegisterApi';
 import {MajorType} from '@src/apis/fetchSchoolApis/types';
 import useRegisterStore from '@hooks/useRegisterStore';
 
-const gradeLIst = [
-  {label: '1학년', value: 1},
-  {label: '2학년', value: 2},
-  {label: '3학년', value: 3},
-  {label: '4학년', value: 4},
-];
-
 const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
   const navigation = useScreenNavigation();
   const toastRef = useRef<Toast>(null);
@@ -97,22 +90,11 @@ const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
             placeholder={strings.PLACEHOLDER_DEPART}
             disabled
           />
-          {/*<View style={styles.pickerContainer}>*/}
-          {/*  <RNPickerSelect*/}
-          {/*    placeholder={{label: '학년'}}*/}
-          {/*    style={pickerSelectStyles}*/}
-          {/*    onValueChange={value => setGrade(value)}*/}
-          {/*    items={gradeLIst}*/}
-          {/*    doneText={'선택'}*/}
-          {/*  />*/}
-          {/*  <Image source={Icons.ARROW_DROP_DOWN} style={styles.downIcon} />*/}
-          {/*</View>*/}
         </View>
         <Button
           type={'Solid-Long'}
           label={strings.BTN}
           onPress={submitHandler}
-          // TODO : 유효성 검사
           disabled={!validation}
         />
       </View>
@@ -163,35 +145,5 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 14,
-  },
-  icon: {
-    position: 'absolute',
-    width: 24,
-    height: 24,
-  },
-  pickerContainer: {},
-  downIcon: {
-    position: 'absolute',
-    right: 16,
-    bottom: 16,
-    width: 24,
-    height: 24,
-  },
-});
-
-const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    fontSize: 16,
-    fontWeight: '400',
-    color: colors.DARK_GREY3,
-    height: 56,
-    width: '100%',
-    backgroundColor: colors.LIGHT_GREY1,
-    borderRadius: 12,
-    paddingVertical: 20,
-    paddingHorizontal: 24,
-  },
-  placeholder: {
-    color: colors.GREY2,
   },
 });
