@@ -38,7 +38,7 @@ const RegisterTosScreen: FunctionComponent<Props> =
     const submitHandler = () => {
       // if (allSelect || (selectFirst && selectSecond)) {
       //   saveTos();
-      navigation.navigate('RegisterTos');
+      navigation.navigate('RegisterMbti');
       // }
     };
     const toAllSelect = () => {
@@ -111,7 +111,8 @@ const RegisterTosScreen: FunctionComponent<Props> =
             <Button
               type={'Solid-Long'}
               label={strings.NEXT}
-              onPress={() => navigation.navigate('RegisterIdPwd')}
+              // onPress={() => navigation.navigate('RegisterIdPwd')}
+              onPress={submitHandler}
             />
           </View>
         </View>
