@@ -16,6 +16,13 @@ const RegisterMbtiScreen: FunctionComponent<Props> =
   function RegisterMbtiScreen() {
     const navigation = useScreenNavigation();
 
+    const submitHandler = () => {
+      // if (allSelect || (selectFirst && selectSecond)) {
+      //   saveTos();
+      navigation.navigate('RegisterInterest');
+      // }
+    };
+
     const [selectE, setSelectE] = useState(false);
     const [selectI, setSelectI] = useState(false);
     const [selectS, setSelectS] = useState(false);
@@ -196,7 +203,8 @@ const RegisterMbtiScreen: FunctionComponent<Props> =
           <Button
             type={'Solid-Long'}
             label={strings.NEXT}
-            onPress={() => navigation.navigate('RegisterInterest')}
+            // onPress={() => navigation.navigate('RegisterInterest')}
+            onPress={submitHandler}
           />
           <Pressable
             style={style.PassButton}
