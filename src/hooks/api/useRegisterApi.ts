@@ -27,8 +27,8 @@ export const useCheckDuplicateNickName = () => {
   return useMutation('nicknameDuplicate', checkDuplicateNickname);
 };
 
-export const useRegister = (body?: RegisterType) => {
-  return useMutation('register', () => registerRequest(body), {
+export const useRegister = (apiStart: boolean) => {
+  return useMutation(['register', apiStart], registerRequest, {
     retry: false,
   });
 };

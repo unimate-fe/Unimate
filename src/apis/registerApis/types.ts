@@ -1,3 +1,18 @@
+export interface UniversityType {
+  id: number;
+  university: string;
+}
+
+export interface MajorType {
+  id: number;
+  major: string;
+  college: number;
+  university: number;
+}
+export interface CheckDuplicateType {
+  message: string;
+}
+
 export interface RegisterType {
   username: string;
   email: string;
@@ -9,6 +24,6 @@ export interface RegisterType {
   information_agree: boolean;
 }
 
-export interface CheckDuplicateType {
-  message: string;
+export interface RegisterErrorType {
+  email: string[];
 }

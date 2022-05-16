@@ -12,8 +12,8 @@ import MajorSelectModalView from '@screens/RegisterSchoolScreen/components/Major
 import InputView from '@components/Input';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import {useFetchMajor, useFetchUniversity} from '@hooks/api/useRegisterApi';
-import {MajorType} from '@src/apis/fetchSchoolApis/types';
 import useRegisterStore from '@hooks/useRegisterStore';
+import {MajorType} from '@src/apis/registerApis/types';
 
 const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
   const navigation = useScreenNavigation();
@@ -48,8 +48,9 @@ const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
   const submitHandler = () => {
     if (schoolLabel && majorLabel) {
       saveSchool({
-        university: schoolLabel,
-        major: majorLabel,
+        university: schoolIdx,
+        college: majorState?.college,
+        major: majorState?.id,
       });
       navigation.navigate('RegisterTos');
     }

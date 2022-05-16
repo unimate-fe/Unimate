@@ -1,7 +1,13 @@
 import {request} from '@src/apis';
 import {HttpMethod} from '@src/apis/types';
-import {MajorType, UniversityType} from '@src/apis/fetchSchoolApis/types';
-import {CheckDuplicateType, RegisterType} from '@src/apis/registerApis/types';
+import {
+  CheckDuplicateType,
+  MajorType,
+  RegisterErrorType,
+  RegisterType,
+  UniversityType,
+} from '@src/apis/registerApis/types';
+import {AxiosError} from 'axios';
 
 export const fetchUniversity = async () => {
   try {
@@ -39,12 +45,15 @@ export const checkDuplicateId = async (username: string) => {
       body: {username},
     });
 
-    return res.data;
-  } catch (e) {
-    // @ts-ignore
-    throw new Error(e);
+    return res.data.message;
+  } catch (error) {
+    const err = error as AxiosError<{message: string}>;
+
+    return err.response?.data?.message;
   }
 };
+
+// TODO : email 중복확인
 
 export const checkDuplicateNickname = async (nickname?: string) => {
   try {
@@ -63,15 +72,19 @@ export const checkDuplicateNickname = async (nickname?: string) => {
 
 export const registerRequest = async (body?: RegisterType) => {
   try {
-    const res = await request<RegisterType>({
+    const res = await request<RegisterType | string>({
       method: HttpMethod.POST,
       url: `/accounts/register/`,
       body,
     });
+    console.log('회원가입 완료:', res.data);
 
     return res.data;
   } catch (e) {
     // @ts-ignore
-    throw new Error(e);
+    const err = error as AxiosError<{message: RegisterErrorType}>;
+    console.log(err.response?.data.message);
+
+    return err.response?.data?.message.email[0];
   }
 };

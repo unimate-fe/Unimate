@@ -95,7 +95,7 @@ const RootStackNavigator = function RootStackNavigator() {
 
   return (
     <Stack.Navigator
-      initialRouteName={'RegisterInfo'}
+      // initialRouteName={'RegisterInfo'}
       screenOptions={{
         headerShadowVisible: false,
         headerBackTitleVisible: false,
