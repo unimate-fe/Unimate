@@ -15,6 +15,7 @@ export const fetchUniversity = async () => {
       method: HttpMethod.GET,
       url: '/accounts/university/',
     });
+    console.log(res.data);
 
     return res.data;
   } catch (e) {
@@ -47,13 +48,28 @@ export const checkDuplicateId = async (username: string) => {
 
     return res.data.message;
   } catch (error) {
-    const err = error as AxiosError<{message: string}>;
+    const err = error as AxiosError<CheckDuplicateType>;
 
-    return err.response?.data?.message;
+    console.log('error: ', err.response?.data);
+    return err.response?.data.message;
   }
 };
 
-// TODO : email 중복확인
+export const checkDuplicatePwd = async (params: {pw1: string; pw2: string}) => {
+  try {
+    const res = await request<CheckDuplicateType>({
+      method: HttpMethod.POST,
+      url: `/accounts/pw_validate/`,
+      body: params,
+    });
+
+    return res.data.message;
+  } catch (error) {
+    const err = error as AxiosError<CheckDuplicateType>;
+
+    return err.response?.data.message;
+  }
+};
 
 export const checkDuplicateNickname = async (nickname?: string) => {
   try {
@@ -63,10 +79,11 @@ export const checkDuplicateNickname = async (nickname?: string) => {
       body: {nickname},
     });
 
-    return res.data;
-  } catch (e) {
-    // @ts-ignore
-    throw new Error(e);
+    return res.data.message;
+  } catch (error) {
+    const err = error as AxiosError<CheckDuplicateType>;
+
+    return err.response?.data.message;
   }
 };
 
@@ -77,14 +94,11 @@ export const registerRequest = async (body?: RegisterType) => {
       url: `/accounts/register/`,
       body,
     });
-    console.log('회원가입 완료:', res.data);
 
     return res.data;
-  } catch (e) {
-    // @ts-ignore
-    const err = error as AxiosError<{message: RegisterErrorType}>;
-    console.log(err.response?.data.message);
+  } catch (error) {
+    const err = error as AxiosError<{email: string[]}>;
 
-    return err.response?.data?.message.email[0];
+    return err.response?.data?.email[0];
   }
 };

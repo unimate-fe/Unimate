@@ -14,7 +14,10 @@ import {FeedbackType} from '@components/Input/types';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import useRegisterStore from '@hooks/useRegisterStore';
 import {testPwd} from '@src/utils';
-import {useCheckDuplicateId} from '@hooks/api/useRegisterApi';
+import {
+  useCheckDuplicateId,
+  useCheckDuplicatePwd,
+} from '@hooks/api/useRegisterApi';
 
 interface Props {}
 const RegisterIdPwdScreen: FunctionComponent<Props> =
@@ -46,9 +49,13 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
       isSuccess: checkIdSuccess,
       data: checkIdResponse,
     } = useCheckDuplicateId();
+    const {
+      mutate: checkPwd,
+      isSuccess: checkPwdSuccess,
+      data: checkPwdResponse,
+    } = useCheckDuplicatePwd();
 
     const checkHandler = () => {
-      // 아이디 중복 체크
       setIdValidationStart(true);
       checkId(id);
     };
@@ -58,24 +65,14 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
       setPwdValidation(testPwd(pwd));
     };
 
-    useLayoutEffect(() => {
-      setId('');
-      setPwd('');
-      setConfirmPwd('');
-    }, []);
-
     // id validation
     useEffect(() => {
       if (checkIdSuccess && idValidationStart) {
-        // console.log('checkIdResponse: ', checkIdResponse);
-
-        // if (checkIdResponse === 'Duplicated ID') {
-        if (false) {
+        if (checkIdResponse === 'Duplicated ID') {
           setIdFeedbackText('이미 사용중인 아이디에요.');
           setIdFeedbackType('error');
           setIdValidation(false);
-        } else if (true) {
-          // } else if (checkIdResponse === 'Available ID') {
+        } else if (checkIdResponse === 'Available ID') {
           setIdFeedbackText('사용 가능해요 :)');
           setIdFeedbackType('verified');
           setIdValidation(true);
@@ -93,6 +90,11 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
     }, [checkIdSuccess, checkIdResponse, idValidationStart]);
 
     useEffect(() => {
+      console.log('test: ', testPwd(pwd));
+    }, [pwd]);
+
+    // pw validation fe
+    useEffect(() => {
       if (pwdValidationStart) {
         if (!testPwd(pwd)) {
           setPwdFeedbackText('영문 대소문자, 숫자 포함 8자 이상 입력해주세요.');
@@ -108,20 +110,39 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
           } else if (pwd === confirmPwd) {
             setConfirmPwdFeedbackText(undefined);
             setConfirmPwdFeedbackType(undefined);
+            checkPwd({pw1: pwd, pw2: confirmPwd});
           }
         }
+      } else {
+        setPwdValidationStart(false);
+        setConfirmPwdFeedbackText(undefined);
+        setConfirmPwdFeedbackType(undefined);
       }
     }, [pwdValidationStart, pwdValidation, pwd, confirmPwd]);
 
     useEffect(() => {
-      if (idValidation && pwdValidation && pwd === confirmPwd) {
-        saveAccount({
-          username: id,
-          password: pwd,
-        });
-        navigation.navigate('RegisterEmail');
+      if (!!checkPwdResponse) {
+        console.log('checkPwdResponse: ', checkPwdResponse);
+
+        if (checkPwdResponse === 'INVALID_PASSWORD') {
+          setPwdFeedbackText('영문 대소문자, 숫자 포함 8자 이상 입력해주세요.');
+          setPwdFeedbackType('error');
+          setPwdValidation(false);
+        } else if (checkIdResponse === 'INCORRECT_PASSWORD') {
+          setPwdFeedbackText('비밀번호가 일치하지 않아요.');
+          setPwdFeedbackType('error');
+          setPwdValidation(false);
+        } else {
+          setPwdFeedbackText(undefined);
+          setPwdFeedbackType(undefined);
+          saveAccount({
+            username: id,
+            password: pwd,
+          });
+          navigation.navigate('RegisterEmail');
+        }
       }
-    }, [idValidation, pwdValidation, pwd]);
+    }, [checkPwdResponse]);
 
     return (
       <SafeContainer>

@@ -11,10 +11,10 @@ const instance = axios.create({
     qs.stringify(params, {arrayFormat: 'brackets'}),
   // cors error handling
   withCredentials: true,
-  baseURL: 'https://virtserver.swaggerhub.com/Unimate/Unimate_API/1.0.0',
+  // baseURL: 'https://virtserver.swaggerhub.com/Unimate/Unimate_API/1.0.0',
+  // baseURL: 'http://13.125.90.202:8000',
   // baseURL: 'https://5bd3-220-117-137-15.ngrok.io',
-
-  // baseURL: 'https://f78f-49-165-186-117.ngrok.io',
+  baseURL: 'https://9d6d-49-165-186-117.ngrok.io',
 });
 
 instance.interceptors.request.use(

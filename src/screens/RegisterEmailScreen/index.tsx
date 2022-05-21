@@ -58,6 +58,7 @@ const RegisterEmailScreen: FunctionComponent<Props> =
 
     useEffect(() => {
       if (isSuccess) {
+        setEmailValidStart(true);
         if (response === '사용자의 email은/는 이미 존재합니다.') {
           setEmailFeedbackText('이미 사용 중인 이메일이에요.');
           setEmailFeedbackType('error');
@@ -66,10 +67,6 @@ const RegisterEmailScreen: FunctionComponent<Props> =
           setEmailFeedbackType(undefined);
           navigation.navigate('RegisterPhone');
         }
-      }
-      if (!emailValidStart) {
-        setEmailFeedbackText(undefined);
-        setEmailFeedbackType(undefined);
       }
     }, [isSuccess, response, emailValidStart, navigation]);
 

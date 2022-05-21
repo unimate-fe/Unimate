@@ -2,6 +2,7 @@ import {useMutation, useQuery} from 'react-query';
 import {
   checkDuplicateId,
   checkDuplicateNickname,
+  checkDuplicatePwd,
   fetchMajor,
   fetchUniversity,
   registerRequest,
@@ -25,6 +26,10 @@ export const useCheckDuplicateId = () => {
 
 export const useCheckDuplicateNickName = () => {
   return useMutation('nicknameDuplicate', checkDuplicateNickname);
+};
+
+export const useCheckDuplicatePwd = () => {
+  return useMutation('pwdDuplicate', checkDuplicatePwd);
 };
 
 export const useRegister = (apiStart: boolean) => {
