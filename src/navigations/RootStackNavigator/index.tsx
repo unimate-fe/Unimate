@@ -17,6 +17,10 @@ import FindAccountScreen from '@screens/FindAccountScreen';
 import RegisterIdPwd from '@screens/RegisterIdPwdScreen';
 import RegisterIdPwdScreen from '@screens/RegisterIdPwdScreen';
 import RegisterTosScreen from '@src/screens/RegisterTosScreen';
+import RoomStartScreen from '@src/screens/RoomStartScreen';
+import RoomSelectScreen from '@src/screens/RoomSelectScreen';
+import RoomSelectGradeScreen from '@src/screens/RoomSelectGradeScreen';
+import RoomSelectCntScreen from '@src/screens/RoomSelectCntScreen';
 
 const Stack = createNativeStackNavigator<RootStackParams>();
 
@@ -75,6 +79,26 @@ const UnauthorizedGroup = (
       component={RegisterIdPwdScreen}
       options={{headerTitle: ''}}
     />
+    <Stack.Screen
+      name={'RoomStart'}
+      component={RoomStartScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RoomSelect'}
+      component={RoomSelectScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RoomSelectGrade'}
+      component={RoomSelectGradeScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RoomSelectCnt'}
+      component={RoomSelectCntScreen}
+      options={{headerTitle: ''}}
+    />
   </Stack.Group>
 );
 
@@ -87,7 +111,7 @@ const RootStackNavigator = function RootStackNavigator() {
 
   return (
     <Stack.Navigator
-      initialRouteName={'RegisterTos'}
+      initialRouteName={'Home'}
       screenOptions={{
         headerShadowVisible: false,
         headerBackTitleVisible: false,

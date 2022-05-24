@@ -38,7 +38,7 @@ const RegisterTosScreen: FunctionComponent<Props> =
     const submitHandler = () => {
       // if (allSelect || (selectFirst && selectSecond)) {
       //   saveTos();
-      navigation.navigate('RegisterMbti');
+      navigation.navigate('RegisterIdPwd');
       // }
     };
     const toAllSelect = () => {
