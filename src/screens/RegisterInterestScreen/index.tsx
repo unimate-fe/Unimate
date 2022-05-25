@@ -1,30 +1,42 @@
 import React, {FunctionComponent,useState} from 'react';
-import {View, Text,StyleSheet} from 'react-native';
-
-
-//add
+import {View, Text,StyleSheet,Pressable} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
-import DismissKeyboardView from '@src/components/DismissKeyboardView';
+import SafeContainer from '@components/SafeContainer';
+import useScreenNavigation from '@hooks/useScreenNavigation';
 
 interface Props {}
 
 const RegisterInterestScreen: FunctionComponent<Props> =
   function RegisterInterestScreen() {
 
+    const navigation = useScreenNavigation();
+    const submitHandler = () => {
+      // if (allSelect || (selectFirst && selectSecond)) {
+      //   saveTos();
+      navigation.navigate('RegisterIdPwd');
+      // }
+    };
     return (
-      <DismissKeyboardView style={{backgroundColor: 'white'}}>
+      <SafeContainer>
       <View style={{paddingLeft: 30}}>
-            <Text style={styles.pageTitle1}>관심사를 선택해주세요.<Text style={styles.pageTitle3}>*최대 7개 선택</Text></Text>
+            <Text style={style.pageTitle1}>관심사를 선택해주세요.<Text style={style.pageTitle3}>*최대 7개 선택</Text></Text>
       </View>
       <View style={{paddingLeft: 30}}>
-            <Text style={styles.pageTitle2}>나와 잘 맞는 친구를 찾기 위한 정보예요.</Text>
-            <Text style={styles.pageTitle2}>정확하게 입력해 주세요!</Text>
+            <Text style={style.pageTitle2}>나와 잘 맞는 친구를 찾기 위한 정보예요.</Text>
+            <Text style={style.pageTitle2}>정확하게 입력해 주세요!</Text>
       </View>
 
-      </DismissKeyboardView>
+{/* interest component */}
+
+      <View style={style.buttonZone}>
+        <Pressable style={style.NextButton} onPress={submitHandler}>
+          <Text style={style.NextButtonText}>다음</Text>
+        </Pressable>
+      </View>
+      </SafeContainer>
     );
   };
-  const styles = StyleSheet.create({
+  const style = StyleSheet.create({
     pageTitle1: {
       fontWeight: 'bold',
       fontSize: 24,

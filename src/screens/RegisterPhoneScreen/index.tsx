@@ -42,7 +42,7 @@ const RegisterPhoneScreen: FunctionComponent<Props> =
         // TODO 테스트용 스킵
         setTimeout(() => {
           Alert.alert('인증되었습니다.');
-          // navigation.navigate('RegisterNick');
+          navigation.navigate('RegisterNick');
         }, 1000);
       } else {
         setCNumFeedbackText('인증번호가 올바르지 않습니다.');

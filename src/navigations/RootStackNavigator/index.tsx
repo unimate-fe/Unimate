@@ -2,7 +2,6 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {RootStackParams} from '@src/navigations/RootStackNavigator/types';
 import HomeScreen from '@screens/HomeScreen';
-import RegisterTermsScreen from '@screens/RegisterTermsScreen';
 import RegisterPhoneScreen from '@screens/RegisterPhoneScreen';
 import RegisterEmailScreen from '@screens/RegisterEmailScreen';
 import RegisterMbtiScreen from '@screens/RegisterMbtiScreen';
@@ -13,10 +12,13 @@ import HeaderPrev from '@components/HeaderPrev';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import LoginScreen from '@screens/LoginScreen';
 import FindAccountScreen from '@screens/FindAccountScreen';
-import RegisterIdPwd from '@screens/RegisterIdPwdScreen';
 import RegisterIdPwdScreen from '@screens/RegisterIdPwdScreen';
 import RegisterTosScreen from '@src/screens/RegisterTosScreen';
 import RegisterInfoScreen from '@screens/RegisterInfoScreen';
+import RoomStartScreen from '@src/screens/RoomStartScreen';
+import RoomSelectScreen from '@src/screens/RoomSelectScreen';
+import RoomSelectGradeScreen from '@src/screens/RoomSelectGradeScreen';
+import RoomSelectCntScreen from '@src/screens/RoomSelectCntScreen';
 import useRegisterStore from '@src/hooks/useRegisterStore';
 
 const Stack = createNativeStackNavigator<RootStackParams>();
@@ -90,6 +92,26 @@ const AuthorizedGroup = (
       component={RegisterInfoScreen}
       options={{headerTitle: ''}}
     />
+    <Stack.Screen
+      name={'RoomStart'}
+      component={RoomStartScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RoomSelect'}
+      component={RoomSelectScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RoomSelectGrade'}
+      component={RoomSelectGradeScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RoomSelectCnt'}
+      component={RoomSelectCntScreen}
+      options={{headerTitle: ''}}
+    />
   </Stack.Group>
 );
 
@@ -101,7 +123,6 @@ const RootStackNavigator = function RootStackNavigator() {
 
   return (
     <Stack.Navigator
-      // initialRouteName={'RegisterInfo'}
       screenOptions={{
         headerShadowVisible: false,
         headerBackTitleVisible: false,

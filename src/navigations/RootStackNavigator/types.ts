@@ -25,6 +25,14 @@ export type RootStackParams = {
   Login: undefined;
   // 아이디 비밀번호 찾기
   FindAccount: undefined;
+  // 방 만들기 페이지1
+  RoomStart: undefined;
+  // 방만들기 페이지 2
+  RoomSelect: undefined;
+  // 방만들기 페이지 3
+  RoomSelectGrade: undefined;
+  // 방만들기 페이지 4
+  RoomSelectCnt: undefined;
 };
 
 export type RootStackNavigationProps =

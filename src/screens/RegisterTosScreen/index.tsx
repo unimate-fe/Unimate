@@ -11,11 +11,8 @@ import {
   Text,
   ScrollView,
   Pressable,
-  Alert,
 } from 'react-native';
 import Button from '@components/Button';
-import CheckBox from '@react-native-community/checkbox';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import {strings, termList, TermType} from '@screens/RegisterTosScreen/strings';
 import useRegisterStore from '@hooks/useRegisterStore';
@@ -32,6 +29,7 @@ const RegisterTosScreen: FunctionComponent<Props> =
     const [allSelect, setAllSelect] = useState(false);
     const [selectFirst, setSelectFirst] = useState(false);
     const [selectSecond, setSelectSecond] = useState(false);
+
     const [validation, setValidation] = useState(false);
 
     const {saveTos} = useRegisterStore();
@@ -42,7 +40,6 @@ const RegisterTosScreen: FunctionComponent<Props> =
         navigation.navigate('RegisterIdPwd');
       }
     };
-
     const toAllSelect = () => {
       setSelectFirst(!allSelect);
       setSelectSecond(!allSelect);
@@ -113,6 +110,7 @@ const RegisterTosScreen: FunctionComponent<Props> =
               {'모두 동의합니다'}
             </Typo>
           </Pressable>
+
           {termList.map((term, index) => renderContent(term, index))}
           <View style={styles.inputContainer}>
             <Button

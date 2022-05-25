@@ -1,5 +1,5 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import SafeContainer from '@components/SafeContainer';
 import Typo from '@components/Typo';
 import {colors} from '@components/Styles/colors';

@@ -33,6 +33,7 @@ const RegisterNickScreen: FunctionComponent<Props> =
         } else if (nick === 'ADMIN') {
           setNickFeedbackText(undefined);
           setNickFeedbackType(undefined);
+          navigation.navigate('RegisterMbti');
         } else {
           setNickFeedbackText('이미 사용 중인 닉네임입니다.');
           setNickFeedbackType('error');
