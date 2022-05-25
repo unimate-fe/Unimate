@@ -17,39 +17,58 @@ const RegisterEmailScreen: FunctionComponent<Props> =
   function RegisterEmailScreen() {
     const navigation = useScreenNavigation();
     const [email, setEmail] = useState<string>();
-
+    const [emailValidStart, setEmailValidStart] = useState<boolean>(false);
     const [emailFeedbackText, setEmailFeedbackText] = useState<string>();
     const [emailFeedbackType, setEmailFeedbackType] = useState<FeedbackType>();
 
-    const {username, password, university, major, agree} = useRegisterStore(
-      state => state,
-    );
+    const [apiStart, setApiStart] = useState(false);
 
-    const {mutate: register} = useRegister({
-      username: 'gon2',
-      email: 'gon2@test.com',
-      password: '1234567890',
-      university: 1,
-      college: 1,
-      major: 1,
-      use_agree: true,
-      information_agree: true,
-    });
+    const {
+      username,
+      password,
+      university,
+      college,
+      major,
+      use_agree,
+      information_agree,
+    } = useRegisterStore();
+
+    const {mutate: register, data: response, isSuccess} = useRegister(apiStart);
 
     const submitHandler = () => {
       if (!testEmail(email) || email?.length === 0) {
-        setEmailFeedbackText('유효한 이메일 형식을 입력해주세요.');
+        setEmailFeedbackText('이메일 형식이 올바르지 않아요.');
         setEmailFeedbackType('error');
-      } else if (email === 'ADMIN@naver.com') {
-        setEmailFeedbackText(undefined);
-        setEmailFeedbackType(undefined);
-        register();
-        navigation.navigate('RegisterPhone');
       } else {
-        setEmailFeedbackText('이미 사용 중인 이메일이에요.');
-        setEmailFeedbackType('error');
+        if (username && email && password && university && college && major) {
+          setApiStart(true);
+          register({
+            username,
+            email,
+            password,
+            university,
+            college,
+            major,
+            use_agree,
+            information_agree,
+          });
+        }
       }
     };
+
+    useEffect(() => {
+      if (isSuccess) {
+        setEmailValidStart(true);
+        if (response === '사용자의 email은/는 이미 존재합니다.') {
+          setEmailFeedbackText('이미 사용 중인 이메일이에요.');
+          setEmailFeedbackType('error');
+        } else {
+          setEmailFeedbackText(undefined);
+          setEmailFeedbackType(undefined);
+          navigation.navigate('RegisterPhone');
+        }
+      }
+    }, [isSuccess, response, emailValidStart, navigation]);
 
     return (
       <SafeContainer>
@@ -64,19 +83,16 @@ const RegisterEmailScreen: FunctionComponent<Props> =
           </Typo>
           <InputView
             value={email}
-            onChangeText={value => setEmail(value)}
+            onChangeText={value => {
+              setEmail(value);
+              setEmailValidStart(false);
+            }}
             style={styles.input}
             placeholder={'이메일'}
             feedbackText={emailFeedbackText}
             feedbackType={emailFeedbackType}
           />
-          <Button
-            type={'Solid-Long'}
-            label={'확인'}
-            // TODO 테스트용 스킵
-            // onPress={submitHandler}
-            onPress={submitHandler}
-          />
+          <Button type={'Solid-Long'} label={'확인'} onPress={submitHandler} />
         </View>
       </SafeContainer>
     );

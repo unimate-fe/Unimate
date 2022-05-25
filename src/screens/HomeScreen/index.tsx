@@ -1,5 +1,5 @@
 import React, {FunctionComponent, useEffect} from 'react';
-import {Alert, StyleSheet, Text, View} from 'react-native';
+import {Alert, StyleSheet, Text, View, Pressable} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import Button from '@components/Button';
 import {colors} from '@components/Styles/colors';
@@ -29,8 +29,9 @@ const HomeScreen: FunctionComponent<Props> = function HomeScreen() {
         <Button
           type={'Solid-Long-White'}
           label={strings.LOGIN}
-          onPress={() => navigation.navigate('Login')}
+          onPress={() => navigation.navigate('RoomStart')}
         />
+
       </View>
     </SafeContainer>
   );
@@ -57,6 +58,19 @@ const styles = StyleSheet.create({
     bottom: '10%',
     width: '100%',
     paddingHorizontal: 30,
+  },
+  NextButton: {
+    width: 315,
+    height: 56,
+    borderRadius: 12,
+    backgroundColor: '#F2F4F8',
+    padding: 20,
+    alignItems: 'center',
+  },
+  NextButtonText: {
+    fontWeight: "700",
+    fontSize: 16,
+    color: '#7E51FF',
   },
   button: {
     marginBottom: 16,

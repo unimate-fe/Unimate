@@ -1,7 +1,13 @@
 import {request} from '@src/apis';
 import {HttpMethod} from '@src/apis/types';
-import {MajorType, UniversityType} from '@src/apis/fetchSchoolApis/types';
-import {CheckDuplicateType, RegisterType} from '@src/apis/registerApis/types';
+import {
+  CheckDuplicateType,
+  MajorType,
+  RegisterErrorType,
+  RegisterType,
+  UniversityType,
+} from '@src/apis/registerApis/types';
+import {AxiosError} from 'axios';
 
 export const fetchUniversity = async () => {
   try {
@@ -9,6 +15,7 @@ export const fetchUniversity = async () => {
       method: HttpMethod.GET,
       url: '/accounts/university/',
     });
+    console.log(res.data);
 
     return res.data;
   } catch (e) {
@@ -39,10 +46,28 @@ export const checkDuplicateId = async (username: string) => {
       body: {username},
     });
 
-    return res.data;
-  } catch (e) {
-    // @ts-ignore
-    throw new Error(e);
+    return res.data.message;
+  } catch (error) {
+    const err = error as AxiosError<CheckDuplicateType>;
+
+    console.log('error: ', err.response?.data);
+    return err.response?.data.message;
+  }
+};
+
+export const checkDuplicatePwd = async (params: {pw1: string; pw2: string}) => {
+  try {
+    const res = await request<CheckDuplicateType>({
+      method: HttpMethod.POST,
+      url: `/accounts/pw_validate/`,
+      body: params,
+    });
+
+    return res.data.message;
+  } catch (error) {
+    const err = error as AxiosError<CheckDuplicateType>;
+
+    return err.response?.data.message;
   }
 };
 
@@ -54,24 +79,26 @@ export const checkDuplicateNickname = async (nickname?: string) => {
       body: {nickname},
     });
 
-    return res.data;
-  } catch (e) {
-    // @ts-ignore
-    throw new Error(e);
+    return res.data.message;
+  } catch (error) {
+    const err = error as AxiosError<CheckDuplicateType>;
+
+    return err.response?.data.message;
   }
 };
 
 export const registerRequest = async (body?: RegisterType) => {
   try {
-    const res = await request<RegisterType>({
+    const res = await request<RegisterType | string>({
       method: HttpMethod.POST,
       url: `/accounts/register/`,
       body,
     });
 
     return res.data;
-  } catch (e) {
-    // @ts-ignore
-    throw new Error(e);
+  } catch (error) {
+    const err = error as AxiosError<{email: string[]}>;
+
+    return err.response?.data?.email[0];
   }
 };

@@ -19,7 +19,7 @@ const RegisterMbtiScreen: FunctionComponent<Props> =
     const submitHandler = () => {
       // if (allSelect || (selectFirst && selectSecond)) {
       //   saveTos();
-      navigation.navigate('RegisterInterest');
+      // navigation.navigate('RegisterInterest');
       // }
     };
 

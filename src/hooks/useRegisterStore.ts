@@ -1,8 +1,9 @@
 import create from 'zustand';
 
 interface Schools {
-  university?: string;
-  major?: string;
+  university?: number;
+  college?: number;
+  major?: number;
 }
 
 interface Accounts {
@@ -15,8 +16,9 @@ interface RegisterState {
   username?: string;
   email?: string;
   password?: string;
-  university?: string;
-  major?: string;
+  university?: number;
+  college?: number;
+  major?: number;
   use_agree: boolean;
   information_agree: boolean;
 
@@ -32,8 +34,8 @@ const initialState = {
   password: undefined,
   university: undefined,
   major: undefined,
-  use_agree: true,
-  information_agree: true,
+  use_agree: false,
+  information_agree: false,
 };
 
 const useRegisterStore = create<RegisterState>(set => ({

@@ -1,4 +1,9 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
+import React, {
+  FunctionComponent,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import SafeContainer from '@components/SafeContainer';
 import Typo from '@components/Typo';
@@ -9,7 +14,10 @@ import {FeedbackType} from '@components/Input/types';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import useRegisterStore from '@hooks/useRegisterStore';
 import {testPwd} from '@src/utils';
-import {useCheckDuplicateId} from '@hooks/api/useRegisterApi';
+import {
+  useCheckDuplicateId,
+  useCheckDuplicatePwd,
+} from '@hooks/api/useRegisterApi';
 
 interface Props {}
 const RegisterIdPwdScreen: FunctionComponent<Props> =
@@ -34,75 +42,107 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
     const [confirmPwdFeedbackText, setConfirmPwdFeedbackText] =
       useState<string>();
 
+    const {saveAccount} = useRegisterStore();
+
     const {
       mutate: checkId,
-      isSuccess: checkSuccess,
-      isError: checkError,
+      isSuccess: checkIdSuccess,
+      data: checkIdResponse,
     } = useCheckDuplicateId();
-    const {saveAccount} = useRegisterStore();
+    const {
+      mutate: checkPwd,
+      isSuccess: checkPwdSuccess,
+      data: checkPwdResponse,
+    } = useCheckDuplicatePwd();
 
     const checkHandler = () => {
       setIdValidationStart(true);
+      checkId(id);
     };
 
     const submitHandler = () => {
       setPwdValidationStart(true);
       setPwdValidation(testPwd(pwd));
-      if (idValidation && pwdValidation && pwd === confirmPwd) {
-        saveAccount({
-          username: id,
-          password: pwd,
-        });
-        navigation.navigate('RegisterEmail');
-      }
     };
 
     // id validation
     useEffect(() => {
-      if (idValidationStart) {
-        if (checkSuccess) {
+      if (checkIdSuccess && idValidationStart) {
+        if (checkIdResponse === 'Duplicated ID') {
+          setIdFeedbackText('이미 사용중인 아이디에요.');
+          setIdFeedbackType('error');
+          setIdValidation(false);
+        } else if (checkIdResponse === 'Available ID') {
           setIdFeedbackText('사용 가능해요 :)');
           setIdFeedbackType('verified');
-        }
-        // if (checkError) {
-        //   // TODO : 워딩 지정
-        //   setIdFeedbackText('유효한 아이디를 입력해주세요.');
-        //   setIdFeedbackType('error');
-        // }
-        if (idValidation) {
-        } else if (id && id?.length === 0) {
-          setIdFeedbackText('유효한 아이디를 입력해주세요.');
-          setIdFeedbackType('error');
+          setIdValidation(true);
         } else {
-          setIdFeedbackText('이미 사용 중인 아이디에요.');
+          setIdFeedbackText('4~14자의 영문 대소문자, 숫자만 사용 가능해요.');
           setIdFeedbackType('error');
+          setIdValidation(false);
         }
-      } else {
+      }
+      if (!idValidationStart) {
+        setIdValidation(false);
         setIdFeedbackText(undefined);
         setIdFeedbackType(undefined);
       }
-    }, [idValidationStart, idValidation, id]);
+    }, [checkIdSuccess, checkIdResponse, idValidationStart]);
 
     useEffect(() => {
+      console.log('test: ', testPwd(pwd));
+    }, [pwd]);
+
+    // pw validation fe
+    useEffect(() => {
       if (pwdValidationStart) {
-        setPwdValidation(testPwd(pwd));
-        if (!pwdValidation) {
+        if (!testPwd(pwd)) {
           setPwdFeedbackText('영문 대소문자, 숫자 포함 8자 이상 입력해주세요.');
           setPwdFeedbackType('error');
+          setPwdValidation(false);
         } else {
           setPwdFeedbackText(undefined);
           setPwdFeedbackType(undefined);
+          setPwdValidation(true);
           if (pwd !== confirmPwd) {
             setConfirmPwdFeedbackText('비밀번호가 일치하지 않아요ㅜㅜ');
             setConfirmPwdFeedbackType('error');
-          }
-          if (pwd === confirmPwd) {
+          } else if (pwd === confirmPwd) {
             setConfirmPwdFeedbackText(undefined);
             setConfirmPwdFeedbackType(undefined);
+            checkPwd({pw1: pwd, pw2: confirmPwd});
           }
         }
+      } else {
+        setPwdValidationStart(false);
+        setConfirmPwdFeedbackText(undefined);
+        setConfirmPwdFeedbackType(undefined);
       }
     }, [pwdValidationStart, pwdValidation, pwd, confirmPwd]);
+
+    useEffect(() => {
+      if (!!checkPwdResponse) {
+        console.log('checkPwdResponse: ', checkPwdResponse);
+
+        if (checkPwdResponse === 'INVALID_PASSWORD') {
+          setPwdFeedbackText('영문 대소문자, 숫자 포함 8자 이상 입력해주세요.');
+          setPwdFeedbackType('error');
+          setPwdValidation(false);
+        } else if (checkIdResponse === 'INCORRECT_PASSWORD') {
+          setPwdFeedbackText('비밀번호가 일치하지 않아요.');
+          setPwdFeedbackType('error');
+          setPwdValidation(false);
+        } else {
+          setPwdFeedbackText(undefined);
+          setPwdFeedbackType(undefined);
+          saveAccount({
+            username: id,
+            password: pwd,
+          });
+          navigation.navigate('RegisterEmail');
+        }
+      }
+    }, [checkPwdResponse]);
 
     return (
       <SafeContainer>
@@ -115,9 +155,7 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
               value={id}
               onChangeText={value => {
                 setId(value);
-                if (!idValidation) {
-                  setIdValidationStart(false);
-                }
+                setIdValidationStart(false);
               }}
               feedbackText={idFeedbackText}
               feedbackType={idFeedbackType}
@@ -151,11 +189,10 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
             style={styles.lastBtn}
             type={'Solid-Long'}
             label={'다음'}
-            // TODO : 유효성
-            // disabled={id && pwd && confirmPwd ? false : true}
-            // onPress={submitHandler}
+            disabled={!idValidation}
+            onPress={submitHandler}
             // TODO : 유효성 검사 스킵
-            onPress={() => navigation.navigate('RegisterEmail')}
+            // onPress={() => navigation.navigate('RegisterEmail')}
           />
         </View>
       </SafeContainer>
