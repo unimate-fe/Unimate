@@ -3,8 +3,7 @@ import {HttpMethod} from '@src/apis/types';
 import {
   CheckDuplicateType,
   MajorType,
-  RegisterErrorType,
-  RegisterType,
+  UserRegisterType,
   UniversityType,
 } from '@src/apis/registerApis/types';
 import {AxiosError} from 'axios';
@@ -87,9 +86,9 @@ export const checkDuplicateNickname = async (nickname?: string) => {
   }
 };
 
-export const registerRequest = async (body?: RegisterType) => {
+export const registerRequest = async (body?: UserRegisterType) => {
   try {
-    const res = await request<RegisterType | string>({
+    const res = await request<UserRegisterType | string>({
       method: HttpMethod.POST,
       url: `/accounts/register/`,
       body,

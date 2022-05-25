@@ -7,7 +7,6 @@ import {
   fetchUniversity,
   registerRequest,
 } from '@src/apis/registerApis';
-import {RegisterType} from '@src/apis/registerApis/types';
 
 export const useFetchUniversity = () => {
   return useQuery('university', fetchUniversity, {retry: false});

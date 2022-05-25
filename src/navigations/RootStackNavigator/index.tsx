@@ -17,6 +17,7 @@ import RegisterIdPwd from '@screens/RegisterIdPwdScreen';
 import RegisterIdPwdScreen from '@screens/RegisterIdPwdScreen';
 import RegisterTosScreen from '@src/screens/RegisterTosScreen';
 import RegisterInfoScreen from '@screens/RegisterInfoScreen';
+import useRegisterStore from '@src/hooks/useRegisterStore';
 
 const Stack = createNativeStackNavigator<RootStackParams>();
 
@@ -54,6 +55,22 @@ const UnauthorizedGroup = (
       options={{headerTitle: ''}}
     />
     <Stack.Screen
+      name={'Login'}
+      component={LoginScreen}
+      options={{headerTitle: '로그인'}}
+    />
+    <Stack.Screen
+      name={'FindAccount'}
+      component={FindAccountScreen}
+      options={{headerTitle: '아이디 / 비밀번호 찾기'}}
+    />
+  </Stack.Group>
+);
+
+// 유저 인증 이후
+const AuthorizedGroup = (
+  <Stack.Group>
+    <Stack.Screen
       name={'RegisterNick'}
       component={RegisterNickScreen}
       options={{headerTitle: ''}}
@@ -73,25 +90,14 @@ const UnauthorizedGroup = (
       component={RegisterInfoScreen}
       options={{headerTitle: ''}}
     />
-    <Stack.Screen
-      name={'Login'}
-      component={LoginScreen}
-      options={{headerTitle: '로그인'}}
-    />
-    <Stack.Screen
-      name={'FindAccount'}
-      component={FindAccountScreen}
-      options={{headerTitle: '아이디 / 비밀번호 찾기'}}
-    />
   </Stack.Group>
 );
-
-// 유저 인증 이후
-// const AuthorizedGroup;
 
 const RootStackNavigator = function RootStackNavigator() {
   const navigation = useScreenNavigation();
   const headerLeft = () => <HeaderPrev onPress={() => navigation.goBack()} />;
+
+  const {user} = useRegisterStore();
 
   return (
     <Stack.Navigator
@@ -101,7 +107,7 @@ const RootStackNavigator = function RootStackNavigator() {
         headerBackTitleVisible: false,
         headerLeft,
       }}>
-      {UnauthorizedGroup}
+      {!!user ? AuthorizedGroup : UnauthorizedGroup}
     </Stack.Navigator>
   );
 };

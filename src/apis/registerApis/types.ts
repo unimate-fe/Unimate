@@ -13,7 +13,7 @@ export interface CheckDuplicateType {
   message: string;
 }
 
-export interface RegisterType {
+export interface UserRegisterType {
   username: string;
   email: string;
   password: string;

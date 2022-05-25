@@ -31,6 +31,7 @@ const RegisterEmailScreen: FunctionComponent<Props> =
       major,
       use_agree,
       information_agree,
+      saveUser,
     } = useRegisterStore();
 
     const {mutate: register, data: response, isSuccess} = useRegister(apiStart);
@@ -65,7 +66,19 @@ const RegisterEmailScreen: FunctionComponent<Props> =
         } else {
           setEmailFeedbackText(undefined);
           setEmailFeedbackType(undefined);
-          navigation.navigate('RegisterPhone');
+          if (username && email && password && university && college && major) {
+            saveUser({
+              username,
+              email,
+              password,
+              university,
+              college,
+              major,
+              use_agree,
+              information_agree,
+            });
+            navigation.navigate('RegisterPhone');
+          }
         }
       }
     }, [isSuccess, response, emailValidStart, navigation]);
