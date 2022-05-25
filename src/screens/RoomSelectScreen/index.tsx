@@ -14,7 +14,7 @@ const RoomSelectScreen: FunctionComponent<Props> = function RoomSelectScreen() {
 
   const onPress = () => 
   {
-    if (chatRoom || offRoom)
+    if (chatRoom || offRoom) 
     {
       navigation.navigate('RoomSelectGrade');
     }
@@ -33,11 +33,11 @@ const RoomSelectScreen: FunctionComponent<Props> = function RoomSelectScreen() {
         <Pressable
           style={[
             styles.NextButton,
-            offRoom
+            chatRoom
               ? {backgroundColor: colors.PRIMARY.ULTRA_LIGHT}
               : {backgroundColor: colors.LIGHT_GREY1},
           ]}
-          onPress={() => setchatRoom(!chatRoom)}>
+          onPress={() => {setchatRoom(!chatRoom); onPress();}}>
           <Text style={styles.NextButtonText}>채팅방</Text>
         </Pressable>
       </View>
@@ -51,7 +51,7 @@ const RoomSelectScreen: FunctionComponent<Props> = function RoomSelectScreen() {
               ? {backgroundColor: colors.PRIMARY.ULTRA_LIGHT}
               : {backgroundColor: colors.LIGHT_GREY1},
           ]}
-          onPress={() => setoffRoom(!offRoom)}>
+          onPress={() =>{ setoffRoom(!offRoom);onPress();}}>
           <Text style={styles.NextButtonText}>약속방</Text>
         </Pressable>
       </View>
