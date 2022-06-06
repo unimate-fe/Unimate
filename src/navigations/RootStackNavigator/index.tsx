@@ -19,7 +19,9 @@ import RoomStartScreen from '@src/screens/RoomStartScreen';
 import RoomSelectScreen from '@src/screens/RoomSelectScreen';
 import RoomSelectGradeScreen from '@src/screens/RoomSelectGradeScreen';
 import RoomSelectCntScreen from '@src/screens/RoomSelectCntScreen';
+import RoomSelectGenderScreen from '@src/screens/RoomSelectGender';
 import useRegisterStore from '@src/hooks/useRegisterStore';
+
 
 const Stack = createNativeStackNavigator<RootStackParams>();
 
@@ -65,6 +67,31 @@ const UnauthorizedGroup = (
       name={'FindAccount'}
       component={FindAccountScreen}
       options={{headerTitle: '아이디 / 비밀번호 찾기'}}
+    />
+    <Stack.Screen
+      name={'RoomStart'}
+      component={RoomStartScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RoomSelect'}
+      component={RoomSelectScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RoomSelectGrade'}
+      component={RoomSelectGradeScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RoomSelectCnt'}
+      component={RoomSelectCntScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RoomSelectGender'}
+      component={RoomSelectGenderScreen}
+      options={{headerTitle: ''}}
     />
   </Stack.Group>
 );

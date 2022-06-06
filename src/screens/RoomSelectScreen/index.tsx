@@ -5,6 +5,8 @@ import SafeContainer from '@components/SafeContainer';
 import Button from '@components/Button';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 
+import * as Progress from "react-native-progress";
+
 interface Props {}
 
 const RoomSelectScreen: FunctionComponent<Props> = function RoomSelectScreen() {
@@ -38,7 +40,12 @@ const RoomSelectScreen: FunctionComponent<Props> = function RoomSelectScreen() {
               : {backgroundColor: colors.LIGHT_GREY1},
           ]}
           onPress={() => {setchatRoom(!chatRoom); onPress();}}>
-          <Text style={styles.NextButtonText}>채팅방</Text>
+          <Text  style={[
+            styles.NextButtonText,
+            chatRoom
+              ? {color: colors.PRIMARY.DARK}
+              : {color: colors.GREY2},
+          ]}>채팅방</Text>
         </Pressable>
       </View>
 
@@ -52,7 +59,12 @@ const RoomSelectScreen: FunctionComponent<Props> = function RoomSelectScreen() {
               : {backgroundColor: colors.LIGHT_GREY1},
           ]}
           onPress={() =>{ setoffRoom(!offRoom);onPress();}}>
-          <Text style={styles.NextButtonText}>약속방</Text>
+          <Text  style={[
+            styles.NextButtonText,
+            offRoom
+              ? {color: colors.PRIMARY.DARK}
+              : {color: colors.GREY2},
+          ]}>약속방</Text>
         </Pressable>
       </View>
     </SafeContainer>
@@ -74,7 +86,6 @@ const styles = StyleSheet.create({
     color: '#656E75',
     fontSize: 16,
     fontWeight: '400',
-    paddingBottom: 16,
   },
   strong: {
     color: colors.PRIMARY.NORMAL,
@@ -94,7 +105,7 @@ const styles = StyleSheet.create({
     height: 56,
     borderRadius: 12,
     backgroundColor: '#F2F4F8',
-    padding: 20,
+    padding: 18,
     alignItems: 'center',
   },
   NextButtonText: {

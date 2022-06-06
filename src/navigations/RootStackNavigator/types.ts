@@ -33,6 +33,8 @@ export type RootStackParams = {
   RoomSelectGrade: undefined;
   // 방만들기 페이지 4
   RoomSelectCnt: undefined;
+  // 방만들기 페이지 5 (성별 선택)
+  RoomSelectGender:undefined;
 };
 
 export type RootStackNavigationProps =
