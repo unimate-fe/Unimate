@@ -35,6 +35,10 @@ export type RootStackParams = {
   RoomSelectCnt: undefined;
   // 방만들기 페이지 5 (성별 선택)
   RoomSelectGender:undefined;
+  RoomSelectSame:undefined;
+  RoomSelectName:undefined;
+  RoomSelectDetail:undefined;
+
 };
 
 export type RootStackNavigationProps =

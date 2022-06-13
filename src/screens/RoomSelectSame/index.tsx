@@ -7,23 +7,25 @@ import useScreenNavigation from '@hooks/useScreenNavigation';
 import {ProgressBar} from 'react-native-paper';
 import * as Progress from 'react-native-progress';
 
+
 interface Props {}
 
-const RoomSelectScreen: FunctionComponent<Props> = function RoomSelectScreen() {
+const RoomSelectSame: FunctionComponent<Props> = function RoomSelectSame() {
   const navigation = useScreenNavigation();
-  const [chatRoom, setchatRoom] = useState(false);
-  const [offRoom, setoffRoom] = useState(false);
+  const [MBTI, setMBTI] = useState(false);
+  const [INTEREST, setINTEREST] = useState(false);
+  const [COLLEGE, setCOLLEGE] = useState(false);
+  const [NONE, setNONE] = useState(false);
 
   const onPress = () => {
-    if (chatRoom || offRoom) {
-      navigation.navigate('RoomSelectGrade');
+    if (MBTI || INTEREST || COLLEGE || NONE) {
+      navigation.navigate('RoomSelectName');
     }
   };
-
   return (
     <SafeContainer style={[{backgroundColor: colors.WHITE}]}>
       <View style={styles.textContainer}>
-        <Text style={styles.title}>어떤 방을 만들고 싶으세요?</Text>
+        <Text style={styles.title}>방의 공통점을 골라주세요.</Text>
       </View>
 
       {/* progress bar */}
@@ -31,65 +33,121 @@ const RoomSelectScreen: FunctionComponent<Props> = function RoomSelectScreen() {
         <Progress.Bar
           width={315}
           style={styles.progressBar}
-          progress={0.1}
+          progress={0.5}
           unfilledColor={colors.LIGHT_GREY2}
           color={colors.PRIMARY.NORMAL}
         />
       </View>
 
+      {/* MBTI */}
       <View style={styles.buttonContainer}>
-        <Text style={styles.subText}>채팅으로 친해지고 싶다면</Text>
         <Pressable
           style={[
             styles.NextButton,
-            chatRoom
+            MBTI
               ? {backgroundColor: colors.PRIMARY.ULTRA_LIGHT}
               : {backgroundColor: colors.LIGHT_GREY1},
           ]}
           onPress={() => {
-            setchatRoom(!chatRoom);
+            setMBTI(!MBTI);
             onPress();
           }}>
           <Text
             style={[
               styles.NextButtonText,
-              chatRoom ? {color: colors.PRIMARY.DARK} : {color: colors.GREY2},
+              MBTI ? {color: colors.PRIMARY.DARK} : {color: colors.GREY2},
             ]}>
-            채팅방
+            MBTI
           </Text>
         </Pressable>
       </View>
 
+      {/* INTEREST */}
       <View style={styles.buttonContainer}>
-        <Text style={styles.subText}>오프라인 약속을 잡고 싶다면</Text>
         <Pressable
           style={[
             styles.NextButton,
-            offRoom
+            INTEREST
               ? {backgroundColor: colors.PRIMARY.ULTRA_LIGHT}
               : {backgroundColor: colors.LIGHT_GREY1},
           ]}
           onPress={() => {
-            setoffRoom(!offRoom);
+            setINTEREST(!INTEREST);
             onPress();
           }}>
           <Text
             style={[
               styles.NextButtonText,
-              offRoom ? {color: colors.PRIMARY.DARK} : {color: colors.GREY2},
+              INTEREST ? {color: colors.PRIMARY.DARK} : {color: colors.GREY2},
             ]}>
-            약속방
+            관심사
           </Text>
         </Pressable>
       </View>
+
+      {/* 단과대 */}
+      <View style={styles.buttonContainer}>
+        <Pressable
+          style={[
+            styles.NextButton,
+            COLLEGE
+              ? {backgroundColor: colors.PRIMARY.ULTRA_LIGHT}
+              : {backgroundColor: colors.LIGHT_GREY1},
+          ]}
+          onPress={() => {
+            setCOLLEGE(!COLLEGE);
+            onPress();
+          }}>
+          <Text
+            style={[
+              styles.NextButtonText,
+              COLLEGE ? {color: colors.PRIMARY.DARK} : {color: colors.GREY2},
+            ]}>
+            단과대
+          </Text>
+        </Pressable>
+      </View>
+
+      {/* 없음 */}
+      <View style={styles.buttonContainer}>
+        <Pressable
+          style={[
+            styles.NextButton,
+            NONE
+              ? {backgroundColor: colors.PRIMARY.ULTRA_LIGHT}
+              : {backgroundColor: colors.LIGHT_GREY1},
+          ]}
+          onPress={() => {
+            setNONE(!NONE);
+            onPress();
+          }}>
+          <Text
+            style={[
+              styles.NextButtonText,
+              NONE ? {color: colors.PRIMARY.DARK} : {color: colors.GREY2},
+            ]}>
+            없음
+          </Text>
+        </Pressable>
+      </View>
+      <Text style={styles.subText2}>나와 MBTI가 비슷한 메이트를 만날 수 있어요.</Text>
     </SafeContainer>
   );
 };
-export default RoomSelectScreen;
+export default RoomSelectSame;
 
 const styles = StyleSheet.create({
   textContainer: {
     // paddingHorizontal: 28,
+  },
+  //   top: {
+  //     marginTop: 28,
+  //   },
+  title: {
+    color: '#212529',
+    fontSize: 24,
+    fontWeight: '700',
+    paddingLeft: 30,
   },
   textContainer2: {
     paddingLeft : 30,
@@ -101,16 +159,19 @@ const styles = StyleSheet.create({
     // height : 4
     borderColor: colors.LIGHT_GREY2
   },
-  title: {
-    color: '#212529',
-    fontSize: 24,
-    fontWeight: '700',
-    paddingLeft: 30,
-  },
   subText: {
     color: '#656E75',
     fontSize: 16,
     fontWeight: '400',
+    paddingBottom: 16,
+  }, 
+  subText2: {
+    color: '#9678FE',
+    fontSize: 16,
+    fontWeight: '400',
+    paddingBottom: 16,
+    paddingLeft : 30,
+    paddingTop:16
   },
   strong: {
     color: colors.PRIMARY.NORMAL,

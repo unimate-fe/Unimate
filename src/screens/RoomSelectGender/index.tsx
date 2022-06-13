@@ -4,7 +4,8 @@ import {colors} from '@components/Styles/colors';
 import SafeContainer from '@components/SafeContainer';
 import Button from '@components/Button';
 import useScreenNavigation from '@hooks/useScreenNavigation';
-
+import {ProgressBar} from 'react-native-paper';
+import * as Progress from 'react-native-progress';
 interface Props {}
 
 const RoomSelectGender: FunctionComponent<Props> = function RoomSelectGender() {
@@ -16,7 +17,7 @@ const RoomSelectGender: FunctionComponent<Props> = function RoomSelectGender() {
     {
       if (Gender || sameGender) 
       {
-        navigation.navigate('RoomSelectGrade');
+        navigation.navigate('RoomSelectSame');
       }
     };
   return (
@@ -25,8 +26,15 @@ const RoomSelectGender: FunctionComponent<Props> = function RoomSelectGender() {
         <Text style={styles.title}>메이트들의 성별을 선택해 주세요.</Text>
       </View>
 
-{/* progress bar */}
-
+        <View style={styles.textContainer2}>
+          <Progress.Bar
+            width={315}
+            style={styles.progressBar}
+            progress={0.4}
+            unfilledColor={colors.LIGHT_GREY2}
+            color={colors.PRIMARY.NORMAL}
+          />
+        </View>
 <View style={styles.buttonContainer}>
         <Pressable
           style={[
@@ -79,6 +87,16 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '700',
     paddingLeft: 30,
+  },
+  textContainer2: {
+    paddingLeft : 30,
+    paddingTop : 20 ,
+    borderColor : "#EAEBEF", 
+  },
+  progressBar: {
+    // width:315,
+    // height : 4
+    borderColor: colors.LIGHT_GREY2
   },
   subText: {
     color: '#656E75',

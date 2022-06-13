@@ -1,10 +1,12 @@
 import React, {FunctionComponent} from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet, Pressable,Image} from 'react-native';
 import {colors} from '@components/Styles/colors';
 import SafeContainer from '@components/SafeContainer';
 import Button from '@components/Button';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import {strings} from '@screens/RoomStartScreen/string';
+import RoomStartPng from 'assets/roomstart_logo.png';
+import * as Progress from "react-native-progress";
 
 interface Props {}
 
@@ -19,6 +21,11 @@ const RoomStartScreen: FunctionComponent<Props> = function RoomStartScreen() {
           <Text style={styles.title}>{strings.END}</Text>
         </Text>
       </View>
+
+      {/* <View style={styles.imageWrapper}>
+        <Image source={RoomStartPng}/>
+      </View> */}
+
       <View style={styles.buttonContainer}>
         <Button
           type={'Solid-Long'}
@@ -33,6 +40,11 @@ const RoomStartScreen: FunctionComponent<Props> = function RoomStartScreen() {
 export default RoomStartScreen;
 
 const styles = StyleSheet.create({
+  imageWrapper: {
+    paddingLeft:41,
+    paddingRight:45,
+    width :242,
+  },
   textContainer: {
     paddingHorizontal: 30,
   },

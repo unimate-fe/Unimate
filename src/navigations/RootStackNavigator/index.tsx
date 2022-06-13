@@ -20,9 +20,10 @@ import RoomSelectScreen from '@src/screens/RoomSelectScreen';
 import RoomSelectGradeScreen from '@src/screens/RoomSelectGradeScreen';
 import RoomSelectCntScreen from '@src/screens/RoomSelectCntScreen';
 import RoomSelectGenderScreen from '@src/screens/RoomSelectGender';
+import RoomSelectSameScreen from '@src/screens/RoomSelectSame';
 import useRegisterStore from '@src/hooks/useRegisterStore';
-
-
+import RoomSelectNameScreen from '@src/screens/RoomSelectName';
+import RoomSelectDetailScreen from '@src/screens/RoomSelectDetail';
 const Stack = createNativeStackNavigator<RootStackParams>();
 
 // 유저 인증 전
@@ -91,6 +92,21 @@ const UnauthorizedGroup = (
     <Stack.Screen
       name={'RoomSelectGender'}
       component={RoomSelectGenderScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RoomSelectSame'}
+      component={RoomSelectSameScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RoomSelectName'}
+      component={RoomSelectNameScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RoomSelectDetail'}
+      component={RoomSelectDetailScreen}
       options={{headerTitle: ''}}
     />
   </Stack.Group>
