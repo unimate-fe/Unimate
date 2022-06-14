@@ -1,7 +1,9 @@
 import axios, {AxiosResponse} from 'axios';
 import qs from 'qs';
+import {get, set} from 'lodash';
 import Config from 'react-native-config';
 import {HttpMethod, RequestParams} from '@src/apis/types';
+import useRegisterStore from '@src/hooks/useRegisterStore';
 
 const instance = axios.create({
   // 3초뒤 요청 타임아웃
@@ -22,9 +24,18 @@ instance.interceptors.request.use(
     const url = `${request.baseURL}${request.url}`;
     console.log(`>> REQUEST [${request.method}]: ${url}`);
 
+    const queryStrings = request.params;
+    if (queryStrings) {
+      console.log('>> queryStrings: ', JSON.stringify(queryStrings));
+    }
     const requestBody = request.data;
     if (requestBody) {
       console.log('>> requestBody: ', JSON.stringify(requestBody));
+    }
+    const {authorization} = useRegisterStore.getState();
+    if (authorization) {
+      console.log('>> authorization: ', authorization);
+      set(config, 'headers.authorization', authorization);
     }
     return request;
   },

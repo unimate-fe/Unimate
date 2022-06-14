@@ -10,6 +10,7 @@ import {FeedbackType} from '@components/Input/types';
 import {testEmail} from '@src/utils';
 import {useRegister} from '@hooks/api/useRegisterApi';
 import useRegisterStore from '@hooks/useRegisterStore';
+import {UserResponse} from '@src/apis/registerApis/types';
 
 interface Props {}
 
@@ -32,6 +33,7 @@ const RegisterEmailScreen: FunctionComponent<Props> =
       use_agree,
       information_agree,
       saveUser,
+      setToken,
     } = useRegisterStore();
 
     const {mutate: register, data: response, isSuccess} = useRegister(apiStart);
@@ -77,6 +79,8 @@ const RegisterEmailScreen: FunctionComponent<Props> =
               use_agree,
               information_agree,
             });
+            const successResponse = response as UserResponse;
+            setToken(successResponse.token);
             navigation.navigate('RegisterPhone');
           }
         }

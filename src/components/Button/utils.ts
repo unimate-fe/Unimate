@@ -35,6 +35,14 @@ export const getStyle = (type: ButtonType) => {
     style.borderRadius = 28;
     style.paddingHorizontal = 8;
     style.backgroundColor = colors.LIGHT_GREY1;
+  } else if (type === 'Solid-Short-Primary') {
+    style.borderRadius = 12;
+    style.paddingHorizontal = 8;
+    style.backgroundColor = colors.PRIMARY.NORMAL;
+  } else if (type === 'Solid-Short-Secondary') {
+    style.borderRadius = 12;
+    style.paddingHorizontal = 8;
+    style.backgroundColor = colors.SECONDARY.NORMAL;
   }
   return style;
 };

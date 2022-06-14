@@ -1,4 +1,9 @@
-import React, {useCallback, useState, FunctionComponent} from 'react';
+import React, {
+  useCallback,
+  useState,
+  FunctionComponent,
+  useEffect,
+} from 'react';
 import {View, Text, StyleSheet, Pressable, Image} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import useScreenNavigation from '@hooks/useScreenNavigation';
@@ -9,6 +14,8 @@ import SafeContainer from '@components/SafeContainer';
 import {Icons} from '@assets/icons';
 import Typo from '@components/Typo';
 import {colors} from '@components/Styles/colors';
+import {FIRST_MBTI, FOURTH_MBTI, SECOND_MBTI, THIRD_MBTI} from './types';
+import useRegisterStore from '@src/hooks/useRegisterStore';
 
 interface Props {}
 
@@ -16,202 +23,132 @@ const RegisterMbtiScreen: FunctionComponent<Props> =
   function RegisterMbtiScreen() {
     const navigation = useScreenNavigation();
 
+    const [submitValid, setSubmitValid] = useState(false);
+
+    const {saveMBTI} = useRegisterStore();
+
     const submitHandler = () => {
-      // if (allSelect || (selectFirst && selectSecond)) {
-      //   saveTos();
-      // navigation.navigate('RegisterInterest');
-      // }
+      saveMBTI([
+        JSON.stringify(firstMbti),
+        JSON.stringify(secondMbti),
+        JSON.stringify(thirdMbti),
+        JSON.stringify(fourthMbti),
+      ]);
+      navigation.navigate('RegisterInterest');
     };
 
-    const [selectE, setSelectE] = useState(false);
-    const [selectI, setSelectI] = useState(false);
-    const [selectS, setSelectS] = useState(false);
-    const [selectN, setSelectN] = useState(false);
-    const [selectT, setSelectT] = useState(false);
-    const [selectF, setSelectF] = useState(false);
-    const [selectJ, setSelectJ] = useState(false);
-    const [selectP, setSelectP] = useState(false);
+    const [firstMbti, setFirstNbti] = useState<FIRST_MBTI>();
+    const [secondMbti, setSecondNbti] = useState<SECOND_MBTI>();
+    const [thirdMbti, setThirdNbti] = useState<THIRD_MBTI>();
+    const [fourthMbti, setFourthNbti] = useState<FOURTH_MBTI>();
 
-    const toSelectE = () => {
-      setSelectE(!selectE);
+    const selectFirstMbtiHandler = (item: FIRST_MBTI) => setFirstNbti(item);
+    const selectSecondMbtiHandler = (item: SECOND_MBTI) => setSecondNbti(item);
+    const selectThirdMbtiHandler = (item: THIRD_MBTI) => setThirdNbti(item);
+    const selectFourthMbtiHandler = (item: FOURTH_MBTI) => setFourthNbti(item);
+
+    const renderCheckItem = (
+      index: number,
+      onPressFirst: () => void,
+      onPressSecond: () => void,
+      firstText: string,
+      secondText: string,
+      leftActive?: boolean,
+      rightActive?: boolean,
+    ) => {
+      return (
+        <View style={style.checkBase} key={index}>
+          <Pressable
+            style={[style.pressView, {marginRight: 40}]}
+            onPress={onPressFirst}>
+            <Typo type={'Body1'} style={style.itemText}>
+              {firstText}
+            </Typo>
+            <Image
+              source={leftActive ? Icons.CHECK_ON : Icons.CHECK_OFF}
+              style={style.buttonCheck}
+            />
+          </Pressable>
+          <Pressable style={style.pressView} onPress={onPressSecond}>
+            <Typo type={'Body1'} style={style.itemText}>
+              {secondText}
+            </Typo>
+            <Image
+              source={rightActive ? Icons.CHECK_ON : Icons.CHECK_OFF}
+              style={style.buttonCheck}
+            />
+          </Pressable>
+        </View>
+      );
     };
-    const toSelectI = () => {
-      setSelectI(!selectI);
-    };
-    const toSelectS = () => {
-      setSelectS(!selectS);
-    };
-    const toSelectN = () => {
-      setSelectN(!selectN);
-    };
-    const toSelectT = () => {
-      setSelectT(!selectT);
-    };
-    const toSelectF = () => {
-      setSelectF(!selectF);
-    };
-    const toSelectP = () => {
-      setSelectP(!selectP);
-    };
-    const toSelectJ = () => {
-      setSelectJ(!selectJ);
-    };
+
+    useEffect(() => {
+      if (firstMbti && secondMbti && thirdMbti && fourthMbti) {
+        setSubmitValid(true);
+      } else {
+        setSubmitValid(false);
+      }
+    }, [firstMbti, secondMbti, thirdMbti, fourthMbti]);
 
     return (
-      <SafeContainer style={style.safeView}>
+      <SafeContainer>
         <View style={style.base}>
-          <Text style={style.pageTitle1}>MBTI를 선택해주세요.</Text>
-          <Text style={style.pageTitle2}>
-            나와 잘 맞는 친구를 찾기 위한 정보예요.
-          </Text>
-          <Text style={style.pageTitle2}>정확하게 입력해 주세요!</Text>
-          
+          <Typo type={'H2'}>{'MBTI를 선택해주세요.'}</Typo>
+          <Typo type={'Body2'} style={style.pageTitle2}>
+            {'나와 잘 맞는 친구를 찾기 위한 정보예요.\n정확하게 입력해 주세요!'}
+          </Typo>
+          {renderCheckItem(
+            1,
+            () => selectFirstMbtiHandler(FIRST_MBTI.E),
+            () => selectFirstMbtiHandler(FIRST_MBTI.I),
+            FIRST_MBTI.E,
+            FIRST_MBTI.I,
+            firstMbti === FIRST_MBTI.E,
+            firstMbti === FIRST_MBTI.I,
+          )}
+          {renderCheckItem(
+            2,
+            () => selectSecondMbtiHandler(SECOND_MBTI.S),
+            () => selectSecondMbtiHandler(SECOND_MBTI.N),
+            SECOND_MBTI.S,
+            SECOND_MBTI.N,
+            secondMbti === SECOND_MBTI.S,
+            secondMbti === SECOND_MBTI.N,
+          )}
+          {renderCheckItem(
+            3,
+            () => selectThirdMbtiHandler(THIRD_MBTI.T),
+            () => selectThirdMbtiHandler(THIRD_MBTI.F),
+            THIRD_MBTI.T,
+            THIRD_MBTI.F,
+            thirdMbti === THIRD_MBTI.T,
+            thirdMbti === THIRD_MBTI.F,
+          )}
+          {renderCheckItem(
+            4,
+            () => selectFourthMbtiHandler(FOURTH_MBTI.J),
+            () => selectFourthMbtiHandler(FOURTH_MBTI.P),
+            FOURTH_MBTI.J,
+            FOURTH_MBTI.P,
+            fourthMbti === FOURTH_MBTI.J,
+            fourthMbti === FOURTH_MBTI.P,
+          )}
 
-{/* E or I */}
-          <View style={style.inputWrapper}>
-            <Typo type={'Body1'}>E</Typo>
-            <Pressable
-              onPress={toSelectE}
-              style={[
-                style.button,
-                selectE
-                  ? {backgroundColor: colors.PRIMARY.ULTRA_LIGHT}
-                  : {backgroundColor: colors.LIGHT_GREY1},
-              ]}>
-              <Image
-                source={selectE ? Icons.CHECK_ON : Icons.CHECK_OFF}
-                style={style.buttonCheck}
-              />
-            </Pressable>
-            <View style={{padding: 51}}></View>
-            <Typo type={'Body1'}>I</Typo>
-            <Pressable
-              onPress={toSelectI}
-              style={[
-                style.button,
-                selectI
-                  ? {backgroundColor: colors.PRIMARY.ULTRA_LIGHT}
-                  : {backgroundColor: colors.LIGHT_GREY1},
-              ]}>
-              <Image
-                source={selectI ? Icons.CHECK_ON : Icons.CHECK_OFF}
-                style={style.buttonCheck}
-              />
-            </Pressable>
-          </View>
-
-{/* S or N */}
-          <View style={style.inputWrapper}>
-            <Typo type={'Body1'}>S</Typo>
-            <Pressable
-              onPress={toSelectS}
-              style={[
-                style.button,
-                selectS
-                  ? {backgroundColor: colors.PRIMARY.ULTRA_LIGHT}
-                  : {backgroundColor: colors.LIGHT_GREY1},
-              ]}>
-              <Image
-                source={selectS ? Icons.CHECK_ON : Icons.CHECK_OFF}
-                style={style.buttonCheck}
-              />
-            </Pressable>
-            <View style={{padding: 51}}></View>
-            <Typo type={'Body1'}>N</Typo>
-            <Pressable
-              onPress={toSelectN}
-              style={[
-                style.button,
-                selectN
-                  ? {backgroundColor: colors.PRIMARY.ULTRA_LIGHT}
-                  : {backgroundColor: colors.LIGHT_GREY1},
-              ]}>
-              <Image
-                source={selectN ? Icons.CHECK_ON : Icons.CHECK_OFF}
-                style={style.buttonCheck}
-              />
-            </Pressable>
-          </View>
-
-{/* T or F */}
-          <View style={style.inputWrapper}>
-            <Typo type={'Body1'}>T</Typo>
-            <Pressable
-              onPress={toSelectT}
-              style={[
-                style.button,
-                selectS
-                  ? {backgroundColor: colors.PRIMARY.ULTRA_LIGHT}
-                  : {backgroundColor: colors.LIGHT_GREY1},
-              ]}>
-              <Image
-                source={selectT ? Icons.CHECK_ON : Icons.CHECK_OFF}
-                style={style.buttonCheck}
-              />
-            </Pressable>
-            <View style={{padding: 51}}></View>
-            <Typo type={'Body1'}>F</Typo>
-            <Pressable
-              onPress={toSelectF}
-              style={[
-                style.button,
-                selectF
-                  ? {backgroundColor: colors.PRIMARY.ULTRA_LIGHT}
-                  : {backgroundColor: colors.LIGHT_GREY1},
-              ]}>
-              <Image
-                source={selectF ? Icons.CHECK_ON : Icons.CHECK_OFF}
-                style={style.buttonCheck}
-              />
-            </Pressable>
-          </View>
-
-{/* P or J */}
-          <View style={style.inputWrapper}>
-            <Typo type={'Body1'}>J</Typo>
-            <Pressable
-              onPress={toSelectJ}
-              style={[
-                style.button,
-                selectS
-                  ? {backgroundColor: colors.PRIMARY.ULTRA_LIGHT}
-                  : {backgroundColor: colors.LIGHT_GREY1},
-              ]}>
-              <Image
-                source={selectJ ? Icons.CHECK_ON : Icons.CHECK_OFF}
-                style={style.buttonCheck}
-              />
-            </Pressable>
-            <View style={{padding: 51}}></View>
-            <Typo type={'Body1'}>P</Typo>
-            <Pressable
-              onPress={toSelectP}
-              style={[
-                style.button,
-                selectP
-                  ? {backgroundColor: colors.PRIMARY.ULTRA_LIGHT}
-                  : {backgroundColor: colors.LIGHT_GREY1},
-              ]}>
-              <Image
-                source={selectP ? Icons.CHECK_ON : Icons.CHECK_OFF}
-                style={style.buttonCheck}
-              />
-            </Pressable>
-          </View>
-
-{/*buttonZone*/}
+          {/*buttonZone*/}
           <Button
+            disabled={!submitValid}
             type={'Solid-Long'}
             label={strings.NEXT}
-            // onPress={() => navigation.navigate('RegisterInterest')}
             onPress={submitHandler}
+            style={{marginTop: 24}}
           />
           <Pressable
             style={style.PassButton}
             onPress={() => navigation.navigate('RegisterInterest')}>
-            <Text style={style.PassButtonText}>잘 모르겠어요 Skip </Text>
+            <Typo type={'Body1'} style={style.PassButtonText}>
+              {'잘 모르겠어요 Skip'}
+            </Typo>
           </Pressable>
-
         </View>
       </SafeContainer>
     );
@@ -222,66 +159,38 @@ const style = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.WHITE,
   },
-  pageTitle1: {
-    fontWeight: 'bold',
-    fontSize: 24,
-    color: '#212529',
-    padding: 5,
-  },
   base: {
     paddingTop: 28,
     paddingHorizontal: 30,
   },
-  buttonCheck: {
-    width: 24,
-    height: 24,
-    position: 'absolute',
-    left: 12,
+  pageTitle1: {
+    marginBottom: 10,
   },
   pageTitle2: {
-    fontSize: 14,
-    color: '#828C94',
-    padding: 5,
+    marginBottom: 48,
   },
-  checkBox: {
-    transform: [{scaleX: 0.8}, {scaleY: 0.8}],
-  },
-  button: {
-    height: 56,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  inputWrapper: {
-    padding: 7,
-    alignItems: 'center',
+  checkBase: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
-  buttonZone: {
-    padding: 37,
     alignItems: 'center',
+    marginBottom: 20,
   },
-  NextButton: {
-    width: 315,
-    height: 56,
-    borderRadius: 12,
-    backgroundColor: '#9678FE',
-    padding: 20,
+  pressView: {
+    width: 60,
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
-  checkbox: {
-    transform: [{scaleX: 0.8}, {scaleY: 0.8}],
+  itemText: {},
+  buttonCheck: {
+    width: 32,
+    height: 32,
   },
   PassButton: {
-    width: 315,
-    height: 56,
-    padding: 10,
+    marginTop: 12,
     alignItems: 'center',
   },
   PassButtonText: {
-    fontSize: 13,
-    color: '#9678FE',
+    color: colors.PRIMARY.DARK,
   },
 });
 

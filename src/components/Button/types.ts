@@ -5,4 +5,6 @@ export type ButtonType =
   | 'Solid-Short-Confirm'
   | 'Solid-Short-Cancel'
   | 'Solid-ShortRound-Confirm'
-  | 'Solid-ShortRound-Cancel';
+  | 'Solid-ShortRound-Cancel'
+  | 'Solid-Short-Secondary'
+  | 'Solid-Short-Primary';

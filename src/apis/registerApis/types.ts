@@ -13,6 +13,9 @@ export interface CheckDuplicateType {
   message: string;
 }
 
+export interface CheckDuplicateAuthType {
+  auth_status: string;
+}
 export interface UserRegisterType {
   username: string;
   email: string;
@@ -24,6 +27,24 @@ export interface UserRegisterType {
   information_agree: boolean;
 }
 
+export interface UserResponse {
+  user: UserRegisterType;
+  token: string;
+}
+
+export interface ProfileRegisterType {
+  birth_of_date: string;
+  gender: string;
+  entrance_year: number;
+  grade: number;
+  nickname: string;
+  introducing: string;
+  mbti: "['I', 'S', 'F', 'J']";
+  interest_list: '[1, 4, 7, 10]';
+}
+
 export interface RegisterErrorType {
   email: string[];
 }
+
+export type Gender = 'M' | 'F';

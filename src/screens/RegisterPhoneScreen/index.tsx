@@ -1,5 +1,12 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Alert} from 'react-native';
+import React, {
+  FunctionComponent,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
+import {View, StyleSheet, Alert, Keyboard} from 'react-native';
+import Toast from 'react-native-easy-toast';
 import SafeContainer from '@components/SafeContainer';
 import Typo from '@components/Typo';
 import InputView from '@components/Input';
@@ -7,48 +14,66 @@ import Button from '@components/Button';
 import {colors} from '@components/Styles/colors';
 import {FeedbackType} from '@components/Input/types';
 import useScreenNavigation from '@hooks/useScreenNavigation';
+import {
+  useCheckAuthNumber,
+  useGetAuthNumber,
+} from '@src/hooks/api/useRegisterApi';
 
 interface Props {}
 
 const RegisterPhoneScreen: FunctionComponent<Props> =
   function RegisterPhoneScreen() {
     const navigation = useScreenNavigation();
-    // request phone
+    const toastRef = useRef<Toast>(null);
+
     const [phone, setPhone] = useState<string>('');
     const [phoneValidation, setPhoneValidation] = useState(false);
     const [phoneFeedbackText, setPhoneFeedbackText] = useState<string>();
     const [phoneFeedbackType, setPhoneFeedbackType] = useState<FeedbackType>();
-
     const [cNum, setCNum] = useState<string>();
-    const [cNumFeedbackText, setCNumFeedbackText] = useState<string>();
-    const [cNumFeedbackType, setCNumFeedbackType] = useState<FeedbackType>();
+    const [submitValid, setSubmitValid] = useState(false);
 
-    const checkHandler = () => {
-      if (phone.replace(/-/gi, '') === '01012345678') {
-        setPhoneValidation(true);
-        setPhoneFeedbackText('인증번호가 전송되었습니다.');
-        setPhoneFeedbackType('verified');
-      } else {
-        setPhoneValidation(false);
-        setPhoneFeedbackText('올바른 휴대폰 번호가 아닙니다.');
-        setPhoneFeedbackType('error');
-      }
-    };
+    const {
+      mutate: getAuth,
+      data: getAuthReponse,
+      isSuccess: getAuthSuccess,
+      isError: getAuthFaild,
+    } = useGetAuthNumber(phoneValidation);
+    const {
+      mutate: checkAuth,
+      data: checkAuthResponse,
+      isSuccess: checkAuthSuccess,
+      isError: checkAuthError,
+    } = useCheckAuthNumber(phoneValidation);
 
-    const submitHandler = () => {
-      if (cNum === '1234') {
-        setCNumFeedbackText('인증되었습니다.');
-        setCNumFeedbackType('verified');
-        // TODO 테스트용 스킵
-        setTimeout(() => {
-          Alert.alert('인증되었습니다.');
-          navigation.navigate('RegisterNick');
-        }, 1000);
-      } else {
-        setCNumFeedbackText('인증번호가 올바르지 않습니다.');
-        setCNumFeedbackType('error');
+    const submitHandler = () => checkAuth(cNum);
+
+    useEffect(() => {
+      if (getAuthSuccess && getAuthReponse) {
+        if (getAuthReponse === 'INVALID_NUMBER') {
+          setPhoneFeedbackText('이미 존재하는 번호에요.');
+          setPhoneFeedbackType('error');
+          setPhoneValidation(false);
+        } else {
+          setPhoneFeedbackText('인증번호가 전송되었어요.');
+          setPhoneFeedbackType('verified');
+          setPhoneValidation(true);
+        }
       }
-    };
+    }, [getAuthSuccess, getAuthReponse]);
+
+    useEffect(() => {
+      if (checkAuthSuccess && checkAuthResponse) {
+        if (checkAuthResponse === 'INVALID_NUMBER') {
+          toastRef?.current?.show('휴대폰 인증에 실패했어요.');
+        } else {
+          setTimeout(() => {
+            Alert.alert('인증되었어요.');
+            navigation.navigate('RegisterNick');
+          }, 1000);
+        }
+      }
+    }, [checkAuthSuccess, checkAuthResponse]);
 
     useEffect(() => {
       if (phone.length === 10)
@@ -61,6 +86,23 @@ const RegisterPhoneScreen: FunctionComponent<Props> =
       }
     }, [phone]);
 
+    useEffect(() => {
+      if (cNum?.length === 6) {
+        Keyboard.dismiss();
+      }
+      if (cNum?.length === 6 && phoneValidation) {
+        setSubmitValid(true);
+      } else {
+        setSubmitValid(false);
+      }
+    }, [cNum, phoneValidation]);
+
+    useLayoutEffect(() => {
+      navigation.setOptions({
+        headerLeft: undefined,
+      });
+    }, [navigation]);
+
     return (
       <SafeContainer>
         <View style={styles.base}>
@@ -71,7 +113,10 @@ const RegisterPhoneScreen: FunctionComponent<Props> =
             <InputView
               value={phone}
               defaultValue={phone}
-              onChangeText={setPhone}
+              onChangeText={value => {
+                setPhoneValidation(false);
+                setPhone(value);
+              }}
               style={styles.input}
               placeholder={'휴대폰 번호'}
               feedbackText={phoneFeedbackText}
@@ -80,24 +125,31 @@ const RegisterPhoneScreen: FunctionComponent<Props> =
             <Button
               type={'Solid-Short-Confirm'}
               label={'인증 받기'}
-              onPress={checkHandler}
+              onPress={() => getAuth(phone)}
             />
           </View>
           <InputView
+            disabled={!phoneValidation}
             style={styles.lastInput}
             value={cNum}
             onChangeText={setCNum}
-            placeholder={'인증번호 4자리'}
-            feedbackText={cNumFeedbackText}
-            feedbackType={cNumFeedbackType}
+            placeholder={'인증번호 6자리'}
+            maxLength={6}
+            keyboardType={'numeric'}
           />
           <Button
             type={'Solid-Long'}
             label={'확인'}
             onPress={submitHandler}
-            disabled={!phoneValidation}
+            disabled={!submitValid}
           />
         </View>
+        <Toast
+          ref={toastRef}
+          positionValue={200}
+          fadeInDuration={400}
+          fadeOutDuration={400}
+        />
       </SafeContainer>
     );
   };

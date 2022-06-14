@@ -10,7 +10,7 @@ interface ButtonProps {
   type: ButtonType;
   label: string;
   onPress: () => void;
-  left?: Element;
+  // left?: Element;
   disabled?: boolean;
   // Pressable style
   style?: StyleProp<ViewStyle>;
@@ -24,7 +24,7 @@ const Button: FunctionComponent<ButtonProps> = function Button({
   type,
   label,
   onPress,
-  left,
+  // left,
   disabled,
   style,
   contentStyle,
@@ -33,7 +33,7 @@ const Button: FunctionComponent<ButtonProps> = function Button({
   return (
     <Pressable style={style} onPress={onPress} disabled={disabled}>
       <View style={[styles.contents, getStyle(type), contentStyle]}>
-        {left && left}
+        {/* {left && left} */}
         <Typo
           type={'Button1'}
           style={[getLabelStyle(type, disabled), typoStyle]}>
