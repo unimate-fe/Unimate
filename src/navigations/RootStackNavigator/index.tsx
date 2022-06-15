@@ -27,7 +27,7 @@ import RoomSelectDetailScreen from '@src/screens/RoomSelectDetail';
 const Stack = createNativeStackNavigator<RootStackParams>();
 
 // 유저 인증 전
-const UnauthorizedGroup = (
+const UnauthorizedGroup = () => (
   <Stack.Group>
     <Stack.Screen
       name={'Home'}
@@ -47,11 +47,6 @@ const UnauthorizedGroup = (
     <Stack.Screen
       name={'RegisterIdPwd'}
       component={RegisterIdPwdScreen}
-      options={{headerTitle: ''}}
-    />
-    <Stack.Screen
-      name={'RegisterPhone'}
-      component={RegisterPhoneScreen}
       options={{headerTitle: ''}}
     />
     <Stack.Screen
@@ -116,6 +111,11 @@ const UnauthorizedGroup = (
 const AuthorizedGroup = (
   <Stack.Group>
     <Stack.Screen
+      name={'RegisterPhone'}
+      component={RegisterPhoneScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
       name={'RegisterNick'}
       component={RegisterNickScreen}
       options={{headerTitle: ''}}
@@ -162,16 +162,18 @@ const RootStackNavigator = function RootStackNavigator() {
   const navigation = useScreenNavigation();
   const headerLeft = () => <HeaderPrev onPress={() => navigation.goBack()} />;
 
-  const {user} = useRegisterStore();
+  const {token} = useRegisterStore();
 
   return (
     <Stack.Navigator
+      initialRouteName="RegisterInfo"
       screenOptions={{
         headerShadowVisible: false,
         headerBackTitleVisible: false,
         headerLeft,
       }}>
-      {!!user ? AuthorizedGroup : UnauthorizedGroup}
+      {AuthorizedGroup}
+      {/* {token ? AuthorizedGroup : UnauthorizedGroup} */}
     </Stack.Navigator>
   );
 };

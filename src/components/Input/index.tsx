@@ -14,7 +14,7 @@ interface InputViewProps extends TextInputProps {
   boxPlaceHolder?: string;
   feedbackType?: FeedbackType;
   feedbackText?: string;
-  icon?: Element;
+  icon?: string;
   search?: boolean;
 }
 
@@ -33,7 +33,7 @@ const InputView: FunctionComponent<InputViewProps> = function InputView({
   // input 랜더링
   const renderInput = () => {
     return (
-      <View style={styles.inputContainer}>
+      <View style={[styles.inputContainer, style]}>
         <TextInput
           style={styles.input}
           editable={!disabled}
@@ -94,7 +94,9 @@ const InputView: FunctionComponent<InputViewProps> = function InputView({
 };
 
 const styles = StyleSheet.create({
-  base: {},
+  base: {
+    height: 56,
+  },
   inputContainer: {
     backgroundColor: colors.LIGHT_GREY1,
     flexDirection: 'row',

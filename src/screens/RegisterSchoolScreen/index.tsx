@@ -1,5 +1,5 @@
 import React, {FunctionComponent, useEffect, useRef, useState} from 'react';
-import {View, StyleSheet, Image} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import Toast from 'react-native-easy-toast';
 import {colors} from '@components/Styles/colors';
 import SafeContainer from '@components/SafeContainer';
