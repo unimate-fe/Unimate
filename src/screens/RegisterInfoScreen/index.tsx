@@ -45,8 +45,8 @@ const RegisterInfoScreen: FunctionComponent<RegisterInfoScreenProps> =
           grade,
           nickname: '닉네임',
           introducing: body,
-          mbti: ['i', 's'],
-          interest_list: '[1, 4, 7, 10]',
+          mbti: ['i', 's'].toString(),
+          interest_list: [1, 4, 7, 10].toString(),
         });
       }
     };

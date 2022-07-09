@@ -28,25 +28,29 @@ const InputView: FunctionComponent<InputViewProps> = function InputView({
   icon,
   search = false,
   style,
+  children,
   ...rest
 }) {
   // input 랜더링
   const renderInput = () => {
     return (
-      <View style={[styles.inputContainer, style]}>
-        <TextInput
-          style={styles.input}
-          editable={!disabled}
-          selectTextOnFocus={!disabled}
-          {...rest}
-          placeholderTextColor={colors.GREY2}
-        />
-        {icon && <View style={styles.iconWrapper}>{icon}</View>}
-        {search && (
-          <View style={styles.iconWrapper}>
-            <Image style={styles.searchIcon} source={Icons.SEARCH} />
-          </View>
-        )}
+      <View style={styles.feedBackView}>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            editable={!disabled}
+            selectTextOnFocus={!disabled}
+            {...rest}
+            placeholderTextColor={colors.GREY2}
+          />
+          {icon && <View style={styles.iconWrapper}>{icon}</View>}
+          {search && (
+            <View style={styles.iconWrapper}>
+              <Image style={styles.searchIcon} source={Icons.SEARCH} />
+            </View>
+          )}
+        </View>
+        {children}
       </View>
     );
   };
@@ -94,14 +98,17 @@ const InputView: FunctionComponent<InputViewProps> = function InputView({
 };
 
 const styles = StyleSheet.create({
-  base: {
-    height: 56,
+  base: {},
+  feedBackView: {
+    flexDirection: 'row',
   },
   inputContainer: {
     backgroundColor: colors.LIGHT_GREY1,
     flexDirection: 'row',
     alignItems: 'center',
+    flex: 1,
     borderRadius: 12,
+    height: 56,
   },
   input: {
     fontSize: 16,

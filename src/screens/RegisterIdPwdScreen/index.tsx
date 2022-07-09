@@ -41,6 +41,8 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
       useState<FeedbackType>();
     const [confirmPwdFeedbackText, setConfirmPwdFeedbackText] =
       useState<string>();
+    const [confirmPwdValidation, setConfirmPwdValidation] =
+      useState<boolean>(false);
 
     const {saveAccount} = useRegisterStore();
 
@@ -49,11 +51,7 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
       isSuccess: checkIdSuccess,
       data: checkIdResponse,
     } = useCheckDuplicateId();
-    const {
-      mutate: checkPwd,
-      isSuccess: checkPwdSuccess,
-      data: checkPwdResponse,
-    } = useCheckDuplicatePwd();
+    const {mutate: checkPwd, data: checkPwdResponse} = useCheckDuplicatePwd();
 
     const checkHandler = () => {
       setIdValidationStart(true);
@@ -61,13 +59,21 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
     };
 
     const submitHandler = () => {
-      setPwdValidationStart(true);
-      setPwdValidation(testPwd(pwd));
+      if (confirmPwdValidation && pwdValidation) {
+        saveAccount({
+          username: id,
+          password: pwd,
+        });
+        navigation.navigate('RegisterEmail');
+      } else {
+        setPwdValidationStart(true);
+        setPwdValidation(testPwd(pwd));
+      }
     };
 
     // id validation
     useEffect(() => {
-      if (checkIdSuccess && idValidationStart) {
+      if (checkIdResponse && idValidationStart) {
         if (checkIdResponse === 'Duplicated ID') {
           setIdFeedbackText('이미 사용중인 아이디에요.');
           setIdFeedbackType('error');
@@ -89,11 +95,7 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
       }
     }, [checkIdSuccess, checkIdResponse, idValidationStart]);
 
-    useEffect(() => {
-      console.log('test: ', testPwd(pwd));
-    }, [pwd]);
-
-    // pw validation fe
+    // pw validation
     useEffect(() => {
       if (pwdValidationStart) {
         if (!testPwd(pwd)) {
@@ -107,6 +109,7 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
           if (pwd !== confirmPwd) {
             setConfirmPwdFeedbackText('비밀번호가 일치하지 않아요ㅜㅜ');
             setConfirmPwdFeedbackType('error');
+            setConfirmPwdValidation(false);
           } else if (pwd === confirmPwd) {
             setConfirmPwdFeedbackText(undefined);
             setConfirmPwdFeedbackType(undefined);
@@ -118,28 +121,24 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
         setConfirmPwdFeedbackText(undefined);
         setConfirmPwdFeedbackType(undefined);
       }
-    }, [pwdValidationStart, pwdValidation, pwd, confirmPwd]);
+    }, [pwdValidationStart, pwd, confirmPwd]);
 
+    // pw confirm validation
     useEffect(() => {
       if (!!checkPwdResponse) {
-        console.log('checkPwdResponse: ', checkPwdResponse);
-
         if (checkPwdResponse === 'INVALID_PASSWORD') {
           setPwdFeedbackText('영문 대소문자, 숫자 포함 8자 이상 입력해주세요.');
           setPwdFeedbackType('error');
-          setPwdValidation(false);
+          setConfirmPwdValidation(false);
         } else if (checkIdResponse === 'INCORRECT_PASSWORD') {
           setPwdFeedbackText('비밀번호가 일치하지 않아요.');
           setPwdFeedbackType('error');
-          setPwdValidation(false);
+          setConfirmPwdValidation(false);
         } else {
           setPwdFeedbackText(undefined);
           setPwdFeedbackType(undefined);
-          saveAccount({
-            username: id,
-            password: pwd,
-          });
-          navigation.navigate('RegisterEmail');
+          setPwdValidation(true);
+          setConfirmPwdValidation(true);
         }
       }
     }, [checkPwdResponse]);
@@ -150,24 +149,22 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
           <Typo
             style={styles.mainText}
             type={'H2'}>{`회원정보를\n입력해 주세요.`}</Typo>
-          <View style={styles.inputContainer}>
-            <InputView
-              value={id}
-              onChangeText={value => {
-                setId(value);
-                setIdValidationStart(false);
-              }}
-              feedbackText={idFeedbackText}
-              feedbackType={idFeedbackType}
-              style={styles.input}
-              placeholder={'아이디'}
-            />
+          <InputView
+            value={id}
+            onChangeText={value => {
+              setId(value);
+              setIdValidationStart(false);
+            }}
+            feedbackText={idFeedbackText}
+            feedbackType={idFeedbackType}
+            style={{marginBottom: 14}}
+            placeholder={'아이디'}>
             <Button
               type={'Solid-Short-Confirm'}
               label={'중복 확인'}
               onPress={checkHandler}
             />
-          </View>
+          </InputView>
           <InputView
             value={pwd}
             onChangeText={setPwd}
@@ -191,8 +188,6 @@ const RegisterIdPwdScreen: FunctionComponent<Props> =
             label={'다음'}
             disabled={!idValidation}
             onPress={submitHandler}
-            // TODO : 유효성 검사 스킵
-            // onPress={() => navigation.navigate('RegisterEmail')}
           />
         </View>
       </SafeContainer>
@@ -208,14 +203,6 @@ const styles = StyleSheet.create({
   mainText: {
     color: colors.DARK_GREY4,
     marginBottom: 44,
-  },
-  input: {
-    flex: 1,
-    marginRight: 10,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    marginBottom: 22,
   },
   lastBtn: {
     marginTop: 44,

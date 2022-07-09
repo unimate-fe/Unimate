@@ -10,9 +10,8 @@ import Pressable from '@components/Pressable';
 import {strings} from '@screens/LoginScreen/strings';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import {useLogin} from '@hooks/api/useAccountApis';
-interface Props {}
 
-const LoginScreen: FunctionComponent<Props> = function LoginScreen() {
+const LoginScreen: FunctionComponent = function LoginScreen() {
   const navigation = useScreenNavigation();
   const toastRef = useRef<Toast>(null);
 

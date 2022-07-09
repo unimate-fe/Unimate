@@ -17,6 +17,7 @@ interface Props {}
 const RegisterEmailScreen: FunctionComponent<Props> =
   function RegisterEmailScreen() {
     const navigation = useScreenNavigation();
+
     const [email, setEmail] = useState<string>();
     const [emailValidStart, setEmailValidStart] = useState<boolean>(false);
     const [emailFeedbackText, setEmailFeedbackText] = useState<string>();
@@ -24,7 +25,7 @@ const RegisterEmailScreen: FunctionComponent<Props> =
 
     const [apiStart, setApiStart] = useState(false);
 
-    const {
+    const [
       username,
       password,
       university,
@@ -34,7 +35,17 @@ const RegisterEmailScreen: FunctionComponent<Props> =
       information_agree,
       saveUser,
       setToken,
-    } = useRegisterStore();
+    ] = useRegisterStore(state => [
+      state.username,
+      state.password,
+      state.university,
+      state.college,
+      state.major,
+      state.use_agree,
+      state.information_agree,
+      state.saveUser,
+      state.setToken,
+    ]);
 
     const {mutate: register, data: response, isSuccess} = useRegister(apiStart);
 
@@ -68,7 +79,16 @@ const RegisterEmailScreen: FunctionComponent<Props> =
         } else {
           setEmailFeedbackText(undefined);
           setEmailFeedbackType(undefined);
-          if (username && email && password && university && college && major) {
+          if (
+            username &&
+            email &&
+            password &&
+            university &&
+            college &&
+            major &&
+            response
+          ) {
+            const res = response as UserResponse;
             saveUser({
               username,
               email,
@@ -79,9 +99,8 @@ const RegisterEmailScreen: FunctionComponent<Props> =
               use_agree,
               information_agree,
             });
-            const successResponse = response as UserResponse;
-            setToken(successResponse.token);
-            navigation.navigate('RegisterPhone');
+
+            setToken(res.token);
           }
         }
       }

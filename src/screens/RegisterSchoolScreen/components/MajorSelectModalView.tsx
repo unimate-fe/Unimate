@@ -1,5 +1,5 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, StyleSheet, FlatList} from 'react-native';
 import Input from '@components/Input';
 import {strings} from '@screens/RegisterSchoolScreen/string';
 import Button from '@components/Button';
@@ -10,12 +10,11 @@ import {colors} from '@components/Styles/colors';
 
 interface Props {
   data?: MajorType[];
-  majorState?: MajorType;
   onClose: () => void;
   majorHandler: (data: MajorType, label: string) => void;
 }
 const MajorSelectModalView: FunctionComponent<Props> =
-  function MajorSelectModalView({data, majorState, onClose, majorHandler}) {
+  function MajorSelectModalView({data, onClose, majorHandler}) {
     const [text, setText] = useState<string>();
     const [collegeRequestState, setCollegeRequestState] = useState<MajorType>();
     const [filterList, setFilterList] = useState<MajorType[]>();

@@ -16,7 +16,8 @@ const instance = axios.create({
   // baseURL: 'https://virtserver.swaggerhub.com/Unimate/Unimate_API/1.0.0',
   // baseURL: 'http://13.125.90.202:8000',
   // baseURL: 'https://5bd3-220-117-137-15.ngrok.io',
-  baseURL: 'https://9d6d-49-165-186-117.ngrok.io',
+  // baseURL: 'https://9d6d-49-165-186-117.ngrok.io',
+  baseURL: 'http://15.164.225.83:8000',
 });
 
 instance.interceptors.request.use(
@@ -32,10 +33,10 @@ instance.interceptors.request.use(
     if (requestBody) {
       console.log('>> requestBody: ', JSON.stringify(requestBody));
     }
-    const {authorization} = useRegisterStore.getState();
-    if (authorization) {
-      console.log('>> authorization: ', authorization);
-      set(config, 'headers.authorization', authorization);
+    const {token} = useRegisterStore.getState();
+    if (token) {
+      console.log('>> token: ', token);
+      set(request, 'headers.token', token);
     }
     return request;
   },

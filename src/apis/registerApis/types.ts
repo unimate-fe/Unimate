@@ -3,6 +3,11 @@ export interface UniversityType {
   university: string;
 }
 
+export interface UserResponse {
+  user: UserRegisterType;
+  token: string;
+}
+
 export interface MajorType {
   id: number;
   major: string;
@@ -27,11 +32,6 @@ export interface UserRegisterType {
   information_agree: boolean;
 }
 
-export interface UserResponse {
-  user: UserRegisterType;
-  token: string;
-}
-
 export interface ProfileRegisterType {
   birth_of_date: string;
   gender: string;
@@ -39,8 +39,8 @@ export interface ProfileRegisterType {
   grade: number;
   nickname: string;
   introducing: string;
-  mbti: "['I', 'S', 'F', 'J']";
-  interest_list: '[1, 4, 7, 10]';
+  mbti: string;
+  interest_list: string;
 }
 
 export interface RegisterErrorType {

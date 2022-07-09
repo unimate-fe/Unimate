@@ -1,15 +1,12 @@
-import React, {FunctionComponent, useEffect} from 'react';
-import {Alert, StyleSheet, Text, View, Pressable} from 'react-native';
-import RNPickerSelect from 'react-native-picker-select';
+import React, {FunctionComponent} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import Button from '@components/Button';
 import {colors} from '@components/Styles/colors';
 import SafeContainer from '@components/SafeContainer';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import {strings} from '@screens/HomeScreen/string';
 
-interface Props {}
-
-const HomeScreen: FunctionComponent<Props> = function HomeScreen() {
+const HomeScreen: FunctionComponent = function HomeScreen() {
   const navigation = useScreenNavigation();
 
   return (
@@ -31,7 +28,6 @@ const HomeScreen: FunctionComponent<Props> = function HomeScreen() {
           label={strings.LOGIN}
           onPress={() => navigation.navigate('RoomStart')}
         />
-
       </View>
     </SafeContainer>
   );
@@ -68,7 +64,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   NextButtonText: {
-    fontWeight: "700",
+    fontWeight: '700',
     fontSize: 16,
     color: '#7E51FF',
   },

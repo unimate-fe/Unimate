@@ -24,7 +24,7 @@ import useRegisterStore from '@src/hooks/useRegisterStore';
 const Stack = createNativeStackNavigator<RootStackParams>();
 
 // 유저 인증 전
-const UnauthorizedGroup = () => (
+const UnauthorizedGroup = (
   <Stack.Group>
     <Stack.Screen
       name={'Home'}
@@ -119,18 +119,19 @@ const RootStackNavigator = function RootStackNavigator() {
   const navigation = useScreenNavigation();
   const headerLeft = () => <HeaderPrev onPress={() => navigation.goBack()} />;
 
-  const {token} = useRegisterStore();
+  const [clearToken, token] = useRegisterStore(state => [
+    state.clearToken,
+    state.token,
+  ]);
 
   return (
     <Stack.Navigator
-      initialRouteName="RegisterInfo"
       screenOptions={{
         headerShadowVisible: false,
         headerBackTitleVisible: false,
         headerLeft,
       }}>
-      {AuthorizedGroup}
-      {/* {token ? AuthorizedGroup : UnauthorizedGroup} */}
+      {!!token ? AuthorizedGroup : UnauthorizedGroup}
     </Stack.Navigator>
   );
 };

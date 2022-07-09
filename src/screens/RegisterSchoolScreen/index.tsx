@@ -110,7 +110,6 @@ const RegisterSchoolScreen: FunctionComponent = function RegisterScreen() {
       </CustomModal>
       <CustomModal visible={isMajorModalOpen}>
         <MajorSelectModalView
-          majorState={majorState}
           majorHandler={majorHandler}
           data={majorList}
           onClose={() => {
