@@ -35,9 +35,10 @@ instance.interceptors.request.use(
     }
     const {token} = useRegisterStore.getState();
     if (token) {
-      console.log('>> token: ', token);
-      set(request, 'headers.token', token);
+      console.log('>> authorization: ', token);
+      set(request, 'headers.Authorization', `Token ${token}`);
     }
+
     return request;
   },
   error => {
@@ -47,10 +48,37 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   response => {
+    const {
+      headers,
+      config: {method, baseURL, url},
+      status,
+      statusText,
+    } = response;
+
+    const apiUrl = `${baseURL}${url}`;
+
+    const authorization = get(headers, 'Authorization').split('Token ')[1];
+    if (authorization) {
+      console.log('### save responsed authorization: ', authorization);
+      useRegisterStore.getState().setToken(authorization);
+    }
+
+    console.log(`<< RESPONSE [${method}]: ${apiUrl}`);
+    console.log(`<< RESPONSE [${status}]: ${statusText ?? ''}`);
+    console.log(`<< RESPONSE HEADERS: ${JSON.stringify(headers)}`);
+    console.log('<<<<<<<<<<<<<<<');
+
     return response;
   },
-  error => {
-    return Promise.reject(error);
+  err => {
+    const method = get(err, 'config.method');
+    const url = `${get(err, 'config.baseURL')}${get(err, 'config.url')}`;
+    console.log(`<< ERROR [${method}]: ${url}`);
+    console.log(`<< ERROR: `, JSON.stringify(get(err, 'response.data')));
+    // console.log(`<< ERROR: `, err.toJSON().message);
+    // console.log(`<< ERROR: `, JSON.stringify(err));
+    console.log('<<<<<<<<<<<<<<<');
+    return Promise.reject(err);
   },
 );
 

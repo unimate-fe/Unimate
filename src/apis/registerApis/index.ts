@@ -105,7 +105,7 @@ export const checkDuplicateNickname = async (nickname?: string) => {
   }
 };
 
-export const getAuthorizationNumber = async (phoneNumber?: string) => {
+export const getAuthorizationNumber = async (phoneNumber: string) => {
   try {
     const res = await request<CheckDuplicateType>({
       method: HttpMethod.POST,

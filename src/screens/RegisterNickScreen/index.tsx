@@ -1,5 +1,5 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import Typo from '@components/Typo';
 import InputView from '@components/Input';
 import Button from '@components/Button';
@@ -10,91 +10,88 @@ import {FeedbackType} from '@components/Input/types';
 import {useCheckDuplicateId} from '@src/hooks/api/useRegisterApi';
 import useRegisterStore from '@src/hooks/useRegisterStore';
 
-interface Props {}
+const RegisterNickScreen: FunctionComponent = function RegisterNickScreen() {
+  const navigation = useScreenNavigation();
 
-const RegisterNickScreen: FunctionComponent<Props> =
-  function RegisterNickScreen() {
-    const navigation = useScreenNavigation();
+  const [nick, setNick] = useState<string>('');
+  const [nickValidationStart, setNickValidationStart] = useState(false);
+  const [nickValidation, setNickValidation] = useState(false);
+  const [nickFeedbackText, setNickFeedbackText] = useState<string>();
+  const [nickFeedbackType, setNickFeedbackType] = useState<FeedbackType>();
 
-    const [nick, setNick] = useState<string>('');
-    const [nickValidationStart, setNickValidationStart] = useState(false);
-    const [nickValidation, setNickValidation] = useState(false);
-    const [nickFeedbackText, setNickFeedbackText] = useState<string>();
-    const [nickFeedbackType, setNickFeedbackType] = useState<FeedbackType>();
+  const {mutate, isSuccess, isError, data: response} = useCheckDuplicateId();
 
-    // TODO : token 넣어주기
-    const {mutate, isSuccess, data: response} = useCheckDuplicateId();
+  const {saveNickName} = useRegisterStore();
 
-    const {saveNickName} = useRegisterStore();
+  const checkHandler = () => {
+    setNickValidationStart(true);
+    mutate(nick);
+  };
 
-    const checkHandler = () => {
-      setNickValidationStart(true);
-      mutate(nick);
-    };
+  const submitHandler = () => {
+    saveNickName(nick);
+    navigation.navigate('RegisterMbti');
+  };
 
-    const submitHandler = () => {
-      saveNickName(nick);
-      navigation.navigate('RegisterMbti');
-    };
-
-    // id validation
-    useEffect(() => {
-      if (isSuccess && nickValidationStart) {
-        if (response === 'Duplicated nickname') {
-          setNickFeedbackText('이미 사용중인 닉네임이에요.');
-          setNickFeedbackType('error');
-          setNickValidation(false);
-        } else if (response === 'Available ID') {
-          setNickFeedbackText('사용 가능해요 :)');
-          setNickFeedbackType('verified');
-          setNickValidation(true);
-        } else {
-          setNickFeedbackText('4~14자의 영문 대소문자, 숫자만 사용 가능해요.');
-          setNickFeedbackType('error');
-          setNickValidation(false);
-        }
-      }
-      if (!nickValidationStart) {
+  // id validation
+  useEffect(() => {
+    if (isSuccess) {
+      setNickFeedbackText('사용 가능해요 :)');
+      setNickFeedbackType('verified');
+      setNickValidation(true);
+    }
+    if (isError) {
+      if (response === 'Duplicated nickname') {
+        setNickFeedbackText('이미 사용중인 닉네임이에요.');
+        setNickFeedbackType('error');
         setNickValidation(false);
-        setNickFeedbackText(undefined);
-        setNickFeedbackType(undefined);
+      } else {
+        setNickFeedbackText('4~14자의 영문 대소문자, 숫자만 사용 가능해요.');
+        setNickFeedbackType('error');
+        setNickValidation(false);
       }
-    }, [isSuccess, response, nickValidationStart]);
+    }
+    if (!nickValidationStart) {
+      setNickValidation(false);
+      setNickFeedbackText(undefined);
+      setNickFeedbackType(undefined);
+    }
+  }, [isSuccess, isError, response, nickValidationStart]);
 
-    return (
-      <SafeContainer>
-        <View style={styles.base}>
-          <Typo style={styles.mainText} type={'H2'}>
-            {'닉네임을 지어주세요.'}
-          </Typo>
-          <View style={styles.inputContainer}>
-            <InputView
-              value={nick}
-              onChangeText={value => {
-                setNick(value);
-                setNickValidationStart(false);
-              }}
-              style={styles.input}
-              placeholder={'닉네임'}
-              feedbackText={nickFeedbackText}
-              feedbackType={nickFeedbackType}
-            />
-            <Button
-              type={'Solid-Short-Confirm'}
-              label={'중복 확인'}
-              onPress={checkHandler}
-            />
-          </View>
+  return (
+    <SafeContainer>
+      <View style={styles.base}>
+        <Typo style={styles.mainText} type={'H2'}>
+          {'닉네임을 지어주세요.'}
+        </Typo>
+        <View style={styles.inputContainer}>
+          <InputView
+            value={nick}
+            onChangeText={value => {
+              setNick(value);
+              setNickValidationStart(false);
+            }}
+            style={styles.input}
+            placeholder={'닉네임'}
+            feedbackText={nickFeedbackText}
+            feedbackType={nickFeedbackType}
+          />
           <Button
-            type={'Solid-Long'}
-            label={'확인'}
-            disabled={!nickValidation}
-            onPress={submitHandler}
+            type={'Solid-Short-Confirm'}
+            label={'중복 확인'}
+            onPress={checkHandler}
           />
         </View>
-      </SafeContainer>
-    );
-  };
+        <Button
+          type={'Solid-Long'}
+          label={'확인'}
+          disabled={!nickValidation}
+          onPress={submitHandler}
+        />
+      </View>
+    </SafeContainer>
+  );
+};
 export default RegisterNickScreen;
 
 const styles = StyleSheet.create({

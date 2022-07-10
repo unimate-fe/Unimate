@@ -119,10 +119,7 @@ const RootStackNavigator = function RootStackNavigator() {
   const navigation = useScreenNavigation();
   const headerLeft = () => <HeaderPrev onPress={() => navigation.goBack()} />;
 
-  const [clearToken, token] = useRegisterStore(state => [
-    state.clearToken,
-    state.token,
-  ]);
+  const [token] = useRegisterStore(state => [state.token]);
 
   return (
     <Stack.Navigator

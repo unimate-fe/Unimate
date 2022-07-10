@@ -18,6 +18,7 @@ import {
   useCheckAuthNumber,
   useGetAuthNumber,
 } from '@src/hooks/api/useRegisterApi';
+import useRegisterStore from '@src/hooks/useRegisterStore';
 
 const RegisterPhoneScreen: FunctionComponent = function RegisterPhoneScreen() {
   const navigation = useScreenNavigation();
@@ -32,9 +33,8 @@ const RegisterPhoneScreen: FunctionComponent = function RegisterPhoneScreen() {
 
   const {
     mutate: getAuth,
-    data: getAuthReponse,
+    data: getAuthResponse,
     isSuccess: getAuthSuccess,
-    isError: getAuthFaild,
   } = useGetAuthNumber(phoneValidation);
   const {
     mutate: checkAuth,
@@ -46,29 +46,26 @@ const RegisterPhoneScreen: FunctionComponent = function RegisterPhoneScreen() {
   const submitHandler = () => checkAuth(cNum);
 
   useEffect(() => {
-    if (getAuthSuccess && getAuthReponse) {
-      if (getAuthReponse === 'INVALID_NUMBER') {
-        setPhoneFeedbackText('이미 존재하는 번호에요.');
-        setPhoneFeedbackType('error');
-        setPhoneValidation(false);
-      } else {
-        setPhoneFeedbackText('인증번호가 전송되었어요.');
-        setPhoneFeedbackType('verified');
-        setPhoneValidation(true);
-      }
+    if (getAuthSuccess) {
+      setPhoneFeedbackText('인증번호가 전송되었어요.');
+      setPhoneFeedbackType('verified');
+      setPhoneValidation(true);
     }
-  }, [getAuthSuccess, getAuthReponse]);
+    if (getAuthResponse === 'INVALID_NUMBER') {
+      setPhoneFeedbackText('이미 존재하는 번호에요.');
+      setPhoneFeedbackType('error');
+      setPhoneValidation(false);
+    }
+  }, [getAuthSuccess, getAuthResponse]);
 
   useEffect(() => {
-    if (checkAuthSuccess && checkAuthResponse) {
-      if (checkAuthResponse === 'INVALID_NUMBER') {
-        toastRef?.current?.show('휴대폰 인증에 실패했어요.');
-      } else {
-        setTimeout(() => {
-          Alert.alert('인증되었어요.');
-          navigation.navigate('RegisterNick');
-        }, 1000);
-      }
+    if (checkAuthSuccess) {
+      setTimeout(() => {
+        navigation.navigate('RegisterNick');
+      }, 1000);
+    }
+    if (checkAuthResponse === 'INVALID_NUMBER') {
+      toastRef?.current?.show('휴대폰 인증에 실패했어요.');
     }
   }, [checkAuthSuccess, checkAuthResponse]);
 
@@ -122,7 +119,7 @@ const RegisterPhoneScreen: FunctionComponent = function RegisterPhoneScreen() {
           <Button
             type={'Solid-Short-Confirm'}
             label={'인증 받기'}
-            onPress={() => getAuth(phone)}
+            onPress={() => getAuth(phone.replace(/-/g, ''))}
           />
         </View>
         <InputView
