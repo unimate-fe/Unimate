@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useState} from 'react';
+import React, {FunctionComponent,useState} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {colors} from '@components/Styles/colors';
 import SafeContainer from '@components/SafeContainer';
@@ -6,90 +6,87 @@ import Button from '@components/Button';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import {ProgressBar} from 'react-native-paper';
 import * as Progress from 'react-native-progress';
-
 interface Props {}
 
-const RoomSelectScreen: FunctionComponent<Props> = function RoomSelectScreen() {
-  const navigation = useScreenNavigation();
-  const [chatRoom, setchatRoom] = useState(false);
-  const [offRoom, setoffRoom] = useState(false);
-
-  const onPress = () => {
-    if (chatRoom || offRoom) {
-      navigation.navigate('RoomSelectGrade');
-    }
-  };
-
+const RoomSelectGender: FunctionComponent<Props> = function RoomSelectGender() {
+    const navigation = useScreenNavigation();
+    const [Gender, setGender] = useState(false);
+    const [sameGender, setsameGeder] = useState(false); 
+    
+    const onPress = () => 
+    {
+      if (Gender || sameGender) 
+      {
+        navigation.navigate('RoomSelectSame');
+      }
+    };
   return (
     <SafeContainer style={[{backgroundColor: colors.WHITE}]}>
       <View style={styles.textContainer}>
-        <Text style={styles.title}>어떤 방을 만들고 싶으세요?</Text>
+        <Text style={styles.title}>메이트들의 성별을 선택해 주세요.</Text>
       </View>
 
-      {/* progress bar */}
-      <View style={styles.textContainer2}>
-        <Progress.Bar
-          width={315}
-          style={styles.progressBar}
-          progress={0.1}
-          unfilledColor={colors.LIGHT_GREY2}
-          color={colors.PRIMARY.NORMAL}
-        />
-      </View>
-
-      <View style={styles.buttonContainer}>
-        <Text style={styles.subText}>채팅으로 친해지고 싶다면</Text>
+        <View style={styles.textContainer2}>
+          <Progress.Bar
+            width={315}
+            style={styles.progressBar}
+            progress={0.4}
+            unfilledColor={colors.LIGHT_GREY2}
+            color={colors.PRIMARY.NORMAL}
+          />
+        </View>
+<View style={styles.buttonContainer}>
         <Pressable
           style={[
             styles.NextButton,
-            chatRoom
+            Gender
               ? {backgroundColor: colors.PRIMARY.ULTRA_LIGHT}
               : {backgroundColor: colors.LIGHT_GREY1},
           ]}
-          onPress={() => {
-            setchatRoom(!chatRoom);
-            onPress();
-          }}>
-          <Text
-            style={[
-              styles.NextButtonText,
-              chatRoom ? {color: colors.PRIMARY.DARK} : {color: colors.GREY2},
-            ]}>
-            채팅방
-          </Text>
+          onPress={() => {setGender(!Gender); onPress();}}>
+          <Text  style={[
+            styles.NextButtonText,
+            Gender
+              ? {color: colors.PRIMARY.DARK}
+              : {color: colors.GREY2},
+          ]}>상관 없음</Text>
         </Pressable>
       </View>
 
       <View style={styles.buttonContainer}>
-        <Text style={styles.subText}>오프라인 약속을 잡고 싶다면</Text>
         <Pressable
           style={[
             styles.NextButton,
-            offRoom
+            sameGender
               ? {backgroundColor: colors.PRIMARY.ULTRA_LIGHT}
               : {backgroundColor: colors.LIGHT_GREY1},
           ]}
-          onPress={() => {
-            setoffRoom(!offRoom);
-            onPress();
-          }}>
-          <Text
-            style={[
-              styles.NextButtonText,
-              offRoom ? {color: colors.PRIMARY.DARK} : {color: colors.GREY2},
-            ]}>
-            약속방
-          </Text>
+          onPress={() =>{ setsameGeder(!sameGender);onPress();}}>
+          <Text  style={[
+            styles.NextButtonText,
+            sameGender
+              ? {color: colors.PRIMARY.DARK}
+              : {color: colors.GREY2},
+          ]}>같은 성별만</Text>
         </Pressable>
       </View>
     </SafeContainer>
   );
 };
-export default RoomSelectScreen;
+export default RoomSelectGender;
 
 const styles = StyleSheet.create({
   textContainer: {
     // paddingHorizontal: 28,
+  },
+  //   top: {
+  //     marginTop: 28,
+  //   },
+  title: {
+    color: '#212529',
+    fontSize: 24,
+    fontWeight: '700',
+    paddingLeft: 30,
   },
   textContainer2: {
     paddingLeft : 30,
@@ -101,16 +98,11 @@ const styles = StyleSheet.create({
     // height : 4
     borderColor: colors.LIGHT_GREY2
   },
-  title: {
-    color: '#212529',
-    fontSize: 24,
-    fontWeight: '700',
-    paddingLeft: 30,
-  },
   subText: {
     color: '#656E75',
     fontSize: 16,
     fontWeight: '400',
+    paddingBottom: 16,
   },
   strong: {
     color: colors.PRIMARY.NORMAL,
@@ -120,7 +112,7 @@ const styles = StyleSheet.create({
     // bottom: '10%',
     // width: '100%',
     paddingHorizontal: 30,
-    paddingTop: 34,
+    paddingTop:34,
   },
   button: {
     marginBottom: 16,

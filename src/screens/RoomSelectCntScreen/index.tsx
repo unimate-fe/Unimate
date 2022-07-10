@@ -4,7 +4,8 @@ import {colors} from '@components/Styles/colors';
 import SafeContainer from '@components/SafeContainer';
 import Button from '@components/Button';
 import useScreenNavigation from '@hooks/useScreenNavigation';
-
+import {ProgressBar} from 'react-native-paper';
+import * as Progress from 'react-native-progress';
 interface Props {}
 
 const RoomSelectCntScreen: FunctionComponent<Props> = function RoomSelectCntScreen() {
@@ -15,12 +16,21 @@ const RoomSelectCntScreen: FunctionComponent<Props> = function RoomSelectCntScre
         <Text style={styles.title}>몇 명까지 들어올 수 있나요?</Text>
       </View>
 
-{/* progress bar */}
+        {/* progress bar */}
+        <View style={styles.textContainer2}>
+          <Progress.Bar
+            width={315}
+            style={styles.progressBar}
+            progress={0.3}
+            unfilledColor={colors.LIGHT_GREY2}
+            color={colors.PRIMARY.NORMAL}
+          />
+        </View>
 
       <View style={styles.buttonContainer}>
         <Pressable
           style={styles.NextButton}
-          onPress={() =>{}}>
+          onPress={() =>navigation.navigate('RoomSelectGender')}>
           <Text style={styles.NextButtonText}>0명</Text>
         </Pressable>
       </View>
@@ -41,6 +51,16 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '700',
     paddingLeft: 30,
+  },
+  textContainer2: {
+    paddingLeft : 30,
+    paddingTop : 20 ,
+    borderColor : "#EAEBEF", 
+  },
+  progressBar: {
+    // width:315,
+    // height : 4
+    borderColor: colors.LIGHT_GREY2
   },
   subText: {
     color: '#656E75',
@@ -66,7 +86,7 @@ const styles = StyleSheet.create({
     height: 56,
     borderRadius: 12,
     backgroundColor: '#F2F4F8',
-    padding: 20,
+    padding: 18,
     alignItems: 'center',
   },
   NextButtonText: {

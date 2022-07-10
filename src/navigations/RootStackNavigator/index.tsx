@@ -19,8 +19,11 @@ import RoomStartScreen from '@src/screens/RoomStartScreen';
 import RoomSelectScreen from '@src/screens/RoomSelectScreen';
 import RoomSelectGradeScreen from '@src/screens/RoomSelectGradeScreen';
 import RoomSelectCntScreen from '@src/screens/RoomSelectCntScreen';
+import RoomSelectGenderScreen from '@src/screens/RoomSelectGender';
+import RoomSelectSameScreen from '@src/screens/RoomSelectSame';
 import useRegisterStore from '@src/hooks/useRegisterStore';
-
+import RoomSelectNameScreen from '@src/screens/RoomSelectName';
+import RoomSelectDetailScreen from '@src/screens/RoomSelectDetail';
 const Stack = createNativeStackNavigator<RootStackParams>();
 
 // 유저 인증 전
@@ -60,6 +63,46 @@ const UnauthorizedGroup = (
       name={'FindAccount'}
       component={FindAccountScreen}
       options={{headerTitle: '아이디 / 비밀번호 찾기'}}
+    />
+    <Stack.Screen
+      name={'RoomStart'}
+      component={RoomStartScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RoomSelect'}
+      component={RoomSelectScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RoomSelectGrade'}
+      component={RoomSelectGradeScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RoomSelectCnt'}
+      component={RoomSelectCntScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RoomSelectGender'}
+      component={RoomSelectGenderScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RoomSelectSame'}
+      component={RoomSelectSameScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RoomSelectName'}
+      component={RoomSelectNameScreen}
+      options={{headerTitle: ''}}
+    />
+    <Stack.Screen
+      name={'RoomSelectDetail'}
+      component={RoomSelectDetailScreen}
+      options={{headerTitle: ''}}
     />
   </Stack.Group>
 );
