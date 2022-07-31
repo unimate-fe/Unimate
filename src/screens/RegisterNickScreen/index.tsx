@@ -7,8 +7,10 @@ import SafeContainer from '@components/SafeContainer';
 import {colors} from '@components/Styles/colors';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import {FeedbackType} from '@components/Input/types';
-import {useCheckDuplicateId} from '@src/hooks/api/useRegisterApi';
 import useRegisterStore from '@src/hooks/useRegisterStore';
+import {useMutation} from 'react-query';
+import {checkDuplicateNickname} from '@src/apis/registerApis';
+import AppError from '@src/apis/error';
 
 const RegisterNickScreen: FunctionComponent = function RegisterNickScreen() {
   const navigation = useScreenNavigation();
@@ -19,44 +21,53 @@ const RegisterNickScreen: FunctionComponent = function RegisterNickScreen() {
   const [nickFeedbackText, setNickFeedbackText] = useState<string>();
   const [nickFeedbackType, setNickFeedbackType] = useState<FeedbackType>();
 
-  const {mutate, isSuccess, isError, data: response} = useCheckDuplicateId();
+  const {mutate: checkNick} = useMutation(
+    ['checkDuplicateNickName'],
+    checkDuplicateNickname,
+    {
+      onSuccess: () => {
+        setNickFeedbackText('사용 가능해요 :)');
+        setNickFeedbackType('verified');
+        setNickValidation(true);
+      },
+      onError: (e: AppError) => {
+        console.log(e.message);
+        setNickFeedbackType('error');
+        setNickValidation(false);
+        if (
+          e.message ===
+          'Nickname must be not less than 2 characters but not more than 10 characters'
+        ) {
+          setNickFeedbackText('4~14자의 영문 대소문자, 숫자만 사용 가능해요.');
+        } else if (e.message === 'Duplicated nickname') {
+          setNickFeedbackText('이미 사용중인 닉네임이에요.');
+        }
+      },
+    },
+  );
 
   const {saveNickName} = useRegisterStore();
 
   const checkHandler = () => {
     setNickValidationStart(true);
-    mutate(nick);
+    checkNick(nick);
   };
 
   const submitHandler = () => {
-    saveNickName(nick);
-    navigation.navigate('RegisterMbti');
+    if (nickValidation) {
+      saveNickName(nick);
+      navigation.navigate('RegisterMbti');
+    }
   };
 
-  // id validation
+  // nick validation
   useEffect(() => {
-    if (isSuccess) {
-      setNickFeedbackText('사용 가능해요 :)');
-      setNickFeedbackType('verified');
-      setNickValidation(true);
-    }
-    if (isError) {
-      if (response === 'Duplicated nickname') {
-        setNickFeedbackText('이미 사용중인 닉네임이에요.');
-        setNickFeedbackType('error');
-        setNickValidation(false);
-      } else {
-        setNickFeedbackText('4~14자의 영문 대소문자, 숫자만 사용 가능해요.');
-        setNickFeedbackType('error');
-        setNickValidation(false);
-      }
-    }
     if (!nickValidationStart) {
       setNickValidation(false);
       setNickFeedbackText(undefined);
       setNickFeedbackType(undefined);
     }
-  }, [isSuccess, isError, response, nickValidationStart]);
+  }, [nickValidationStart]);
 
   return (
     <SafeContainer>

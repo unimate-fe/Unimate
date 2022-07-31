@@ -166,12 +166,13 @@ const RootStackNavigator = function RootStackNavigator() {
 
   return (
     <Stack.Navigator
+      initialRouteName={'RegisterInterest'}
       screenOptions={{
         headerShadowVisible: false,
         headerBackTitleVisible: false,
         headerLeft,
       }}>
-      {!!token ? AuthorizedGroup : UnauthorizedGroup}
+      {token ? AuthorizedGroup : UnauthorizedGroup}
     </Stack.Navigator>
   );
 };

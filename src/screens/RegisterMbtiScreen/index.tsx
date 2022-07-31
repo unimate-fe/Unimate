@@ -1,13 +1,6 @@
-import React, {
-  useCallback,
-  useState,
-  FunctionComponent,
-  useEffect,
-} from 'react';
-import {View, Text, StyleSheet, Pressable, Image} from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
+import React, {useState, FunctionComponent, useEffect} from 'react';
+import {View, StyleSheet, Pressable, Image} from 'react-native';
 import useScreenNavigation from '@hooks/useScreenNavigation';
-import DismissKeyboardView from '@components/DismissKeyboardView';
 import Button from '@components/Button';
 import {strings} from '@screens/RegisterMbtiScreen/string';
 import SafeContainer from '@components/SafeContainer';
@@ -133,7 +126,6 @@ const RegisterMbtiScreen: FunctionComponent = function RegisterMbtiScreen() {
           fourthMbti === FOURTH_MBTI.P,
         )}
 
-        {/*buttonZone*/}
         <Button
           disabled={!submitValid}
           type={'Solid-Long'}
@@ -143,7 +135,10 @@ const RegisterMbtiScreen: FunctionComponent = function RegisterMbtiScreen() {
         />
         <Pressable
           style={style.PassButton}
-          onPress={() => navigation.navigate('RegisterInterest')}>
+          onPress={() => {
+            navigation.navigate('RegisterInterest');
+            saveMBTI([]);
+          }}>
           <Typo type={'Body1'} style={style.PassButtonText}>
             {'잘 모르겠어요 Skip'}
           </Typo>

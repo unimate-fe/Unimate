@@ -14,9 +14,6 @@ export interface MajorType {
   college: number;
   university: number;
 }
-export interface CheckDuplicateType {
-  message: string;
-}
 
 export interface CheckDuplicateAuthType {
   auth_status: string;

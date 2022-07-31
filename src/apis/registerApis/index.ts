@@ -1,14 +1,11 @@
-import {AxiosError} from 'axios';
 import {request} from '@src/apis';
 import {HttpMethod} from '@src/apis/types';
 import {
-  CheckDuplicateType,
-  MajorType,
   UserRegisterType,
   UniversityType,
   UserResponse,
-  CheckDuplicateAuthType,
   ProfileRegisterType,
+  MajorType,
 } from '@src/apis/registerApis/types';
 import AppError from '../error';
 
@@ -41,13 +38,13 @@ export const fetchMajor = async (id?: number) => {
 
 export const checkDuplicateId = async (username: string) => {
   try {
-    const res = await request<CheckDuplicateType>({
+    const res = await request({
       method: HttpMethod.POST,
       url: '/accounts/id_duplicate/',
       body: {username},
     });
 
-    return res.data.message;
+    return res.data;
   } catch (e) {
     throw new AppError(e);
   }
@@ -55,13 +52,13 @@ export const checkDuplicateId = async (username: string) => {
 
 export const checkDuplicatePwd = async (params: {pw1: string; pw2: string}) => {
   try {
-    const res = await request<CheckDuplicateType>({
+    const res = await request({
       method: HttpMethod.POST,
       url: '/accounts/pw_validate/',
       body: params,
     });
 
-    return res.data.message;
+    return res.data;
   } catch (e) {
     throw new AppError(e);
   }
@@ -83,63 +80,69 @@ export const registerRequest = async (body?: UserRegisterType) => {
 
 export const checkDuplicateNickname = async (nickname?: string) => {
   try {
-    const res = await request<CheckDuplicateType>({
+    const res = await request({
       method: HttpMethod.POST,
       url: '/accounts/nickname_duplicate/',
       body: {nickname},
     });
 
-    return res.data.message;
-  } catch (error) {
-    const err = error as AxiosError<CheckDuplicateType>;
-
-    return err.response?.data.message;
+    return res.data;
+  } catch (e) {
+    throw new AppError(e);
   }
 };
 
 export const getAuthorizationNumber = async (phoneNumber: string) => {
   try {
-    const res = await request<CheckDuplicateType>({
+    const res = await request({
       method: HttpMethod.POST,
       url: '/auths/sms/',
       body: {phone_number: phoneNumber},
     });
 
-    return res.data.message;
-  } catch (error) {
-    const err = error as AxiosError<CheckDuplicateType>;
-
-    return err.response?.data.message;
+    return res.data;
+  } catch (e) {
+    throw new AppError(e);
   }
 };
 
 export const checkAuthorizationNumber = async (authNumber?: string) => {
   try {
-    const res = await request<CheckDuplicateAuthType>({
+    const res = await request({
       method: HttpMethod.POST,
       url: '/auths/smsactivate/',
       body: {auth_number: authNumber},
     });
 
-    return res.data.auth_status;
-  } catch (error) {
-    const err = error as AxiosError<CheckDuplicateType>;
+    return res.data;
+  } catch (e) {
+    throw new AppError(e);
+  }
+};
 
-    return err.response?.data.message;
+export const getInterestList = async () => {
+  try {
+    const res = await request({
+      method: HttpMethod.GET,
+      url: '/accounts/interest/',
+    });
+
+    return res.data;
+  } catch (e) {
+    throw new AppError(e);
   }
 };
 
 export const registerProfile = async (params: ProfileRegisterType) => {
   try {
-    const res = await request<CheckDuplicateAuthType>({
+    const res = await request({
       method: HttpMethod.POST,
       url: '/auths/smsactivate/',
       body: params,
     });
 
-    return res.data.auth_status;
-  } catch (error) {
-    // @ts-ignore
-    throw new Error(error);
+    return res.data;
+  } catch (e) {
+    throw new AppError(e);
   }
 };

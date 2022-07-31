@@ -1,6 +1,5 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
+import {View, StyleSheet} from 'react-native';
 import SafeContainer from '@components/SafeContainer';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import Typo from '@src/components/Typo';
@@ -9,31 +8,37 @@ import Button from '@src/components/Button';
 import {INTERESTING_DATA} from './data';
 import InterestLabel from './components/InterestLabel';
 import useRegisterStore from '@src/hooks/useRegisterStore';
+import {useQuery} from 'react-query';
+import {getInterestList} from '@src/apis/registerApis';
+import AppError from '@src/apis/error';
 
-interface Props {}
-
-const RegisterInterestScreen: FunctionComponent<Props> =
+const RegisterInterestScreen: FunctionComponent =
   function RegisterInterestScreen() {
     const navigation = useScreenNavigation();
 
     const [interestList, setInterestList] = useState<number[]>([]);
     const [submitValid, setSubmitValid] = useState(false);
 
-    const [mbti, saveInterestList] = useRegisterStore(state => [
-      state.mbti,
+    const [saveInterestList] = useRegisterStore(state => [
       state.saveInterestList,
     ]);
 
-    useEffect(() => {
-      console.log(JSON.stringify(mbti));
-    }, [mbti]);
+    useQuery(['getInterestList'], getInterestList, {
+      retry: false,
+      onSuccess: data => {
+        console.log(data);
+      },
+      onError: (e: AppError) => {},
+    });
+
+    // JSON.stringify(mbti)
 
     const submitHandler = () => {
       saveInterestList(interestList);
       navigation.navigate('RegisterInfo');
     };
 
-    const setIntersetListHandler = (value: number) => {
+    const setInterestListHandler = (value: number) => {
       setInterestList(prev => {
         if (prev.find(item => item === value)) {
           return prev.filter(item => item !== value);
@@ -68,15 +73,13 @@ const RegisterInterestScreen: FunctionComponent<Props> =
             {'나와 잘 맞는 친구를 찾기 위한 정보예요.\n정확하게 입력해 주세요!'}
           </Typo>
 
-          {/* interest component */}
-
           <View style={style.interestView}>
             {INTERESTING_DATA.map(item => (
               <InterestLabel
                 label={item.label}
                 key={item.value}
                 onPress={() => {
-                  setIntersetListHandler(item.value);
+                  setInterestListHandler(item.value);
                 }}
                 selected={interestList.includes(item.value)}
               />
