@@ -10,6 +10,7 @@ import {
   CheckDuplicateAuthType,
   ProfileRegisterType,
 } from '@src/apis/registerApis/types';
+import AppError from '../error';
 
 export const fetchUniversity = async () => {
   try {
@@ -21,8 +22,7 @@ export const fetchUniversity = async () => {
 
     return res.data;
   } catch (e) {
-    // @ts-ignore
-    throw new Error(e);
+    throw new AppError(e);
   }
 };
 
@@ -35,8 +35,7 @@ export const fetchMajor = async (id?: number) => {
 
     return res.data;
   } catch (e) {
-    // @ts-ignore
-    throw new Error(e);
+    throw new AppError(e);
   }
 };
 
@@ -49,11 +48,8 @@ export const checkDuplicateId = async (username: string) => {
     });
 
     return res.data.message;
-  } catch (error) {
-    const err = error as AxiosError<CheckDuplicateType>;
-
-    console.log('error: ', err.response?.data);
-    return err.response?.data.message;
+  } catch (e) {
+    throw new AppError(e);
   }
 };
 
@@ -66,26 +62,22 @@ export const checkDuplicatePwd = async (params: {pw1: string; pw2: string}) => {
     });
 
     return res.data.message;
-  } catch (error) {
-    const err = error as AxiosError<CheckDuplicateType>;
-
-    return err.response?.data.message;
+  } catch (e) {
+    throw new AppError(e);
   }
 };
 
 export const registerRequest = async (body?: UserRegisterType) => {
   try {
-    const res = await request<UserResponse | string>({
+    const res = await request<UserResponse>({
       method: HttpMethod.POST,
       url: '/accounts/register/',
       body,
     });
 
     return res.data;
-  } catch (error) {
-    const err = error as AxiosError<{email: string[]}>;
-
-    return err.response?.data?.email[0];
+  } catch (e) {
+    throw new AppError(e);
   }
 };
 

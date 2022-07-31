@@ -19,7 +19,14 @@ const RegisterInterestScreen: FunctionComponent<Props> =
     const [interestList, setInterestList] = useState<number[]>([]);
     const [submitValid, setSubmitValid] = useState(false);
 
-    const {saveInterestList} = useRegisterStore();
+    const [mbti, saveInterestList] = useRegisterStore(state => [
+      state.mbti,
+      state.saveInterestList,
+    ]);
+
+    useEffect(() => {
+      console.log(JSON.stringify(mbti));
+    }, [mbti]);
 
     const submitHandler = () => {
       saveInterestList(interestList);

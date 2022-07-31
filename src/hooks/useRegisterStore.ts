@@ -28,7 +28,7 @@ export interface RegisterState {
   user?: UserRegisterType;
   token?: string;
   nickName?: string;
-  mbti: string[];
+  mbti?: string[];
   interestList: number[];
   // action
   saveSchool: (school: Schools) => void;

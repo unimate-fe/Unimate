@@ -1,7 +1,6 @@
 import axios, {AxiosResponse} from 'axios';
 import qs from 'qs';
 import {get, set} from 'lodash';
-import Config from 'react-native-config';
 import {HttpMethod, RequestParams} from '@src/apis/types';
 import useRegisterStore from '@src/hooks/useRegisterStore';
 
@@ -13,10 +12,6 @@ const instance = axios.create({
     qs.stringify(params, {arrayFormat: 'brackets'}),
   // cors error handling
   withCredentials: true,
-  // baseURL: 'https://virtserver.swaggerhub.com/Unimate/Unimate_API/1.0.0',
-  // baseURL: 'http://13.125.90.202:8000',
-  // baseURL: 'https://5bd3-220-117-137-15.ngrok.io',
-  // baseURL: 'https://9d6d-49-165-186-117.ngrok.io',
   baseURL: 'http://15.164.225.83:8000',
 });
 
@@ -34,6 +29,7 @@ instance.interceptors.request.use(
       console.log('>> requestBody: ', JSON.stringify(requestBody));
     }
     const {token} = useRegisterStore.getState();
+    console.log(token);
     if (token) {
       console.log('>> authorization: ', token);
       set(request, 'headers.Authorization', `Token ${token}`);
@@ -57,10 +53,10 @@ instance.interceptors.response.use(
 
     const apiUrl = `${baseURL}${url}`;
 
-    const authorization = get(headers, 'Authorization').split('Token ')[1];
+    const authorization = get(headers, 'Authorization');
     if (authorization) {
       console.log('### save responsed authorization: ', authorization);
-      useRegisterStore.getState().setToken(authorization);
+      useRegisterStore.getState().setToken(authorization.split('Token ')[1]);
     }
 
     console.log(`<< RESPONSE [${method}]: ${apiUrl}`);

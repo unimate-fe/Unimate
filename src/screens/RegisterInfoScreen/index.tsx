@@ -32,7 +32,9 @@ const RegisterInfoScreen: FunctionComponent<RegisterInfoScreenProps> =
 
     const [submitValid, setSubmitValid] = useState(false);
 
-    const {user} = useRegisterStore();
+    const [mbti] = useRegisterStore(state => [state.mbti]);
+
+    console.log(mbti);
 
     const {mutate: registerProfile, isSuccess} = useRegisterProfile();
 

@@ -38,9 +38,9 @@ const RegisterPhoneScreen: FunctionComponent = function RegisterPhoneScreen() {
   } = useGetAuthNumber(phoneValidation);
   const {
     mutate: checkAuth,
-    data: checkAuthResponse,
     isSuccess: checkAuthSuccess,
     isError: checkAuthError,
+    error,
   } = useCheckAuthNumber(phoneValidation);
 
   const submitHandler = () => checkAuth(cNum);
@@ -59,15 +59,19 @@ const RegisterPhoneScreen: FunctionComponent = function RegisterPhoneScreen() {
   }, [getAuthSuccess, getAuthResponse]);
 
   useEffect(() => {
+    console.log('success: ', checkAuthSuccess);
+    console.log('error: ', checkAuthError);
+    console.log(error);
     if (checkAuthSuccess) {
-      setTimeout(() => {
-        navigation.navigate('RegisterNick');
-      }, 1000);
+      console.log('인증에 성공하였습니다.');
+      // setTimeout(() => {
+      //   navigation.navigate('RegisterNick');
+      // }, 1000);
     }
-    if (checkAuthResponse === 'INVALID_NUMBER') {
+    if (!!checkAuthError) {
       toastRef?.current?.show('휴대폰 인증에 실패했어요.');
     }
-  }, [checkAuthSuccess, checkAuthResponse]);
+  }, [checkAuthSuccess, checkAuthError]);
 
   useEffect(() => {
     if (phone.length === 10)

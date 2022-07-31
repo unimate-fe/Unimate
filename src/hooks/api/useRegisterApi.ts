@@ -1,14 +1,11 @@
 import {useMutation, useQuery} from 'react-query';
 import {
   checkAuthorizationNumber,
-  checkDuplicateId,
   checkDuplicateNickname,
-  checkDuplicatePwd,
   fetchMajor,
   fetchUniversity,
   getAuthorizationNumber,
   registerProfile,
-  registerRequest,
 } from '@src/apis/registerApis';
 
 export const useFetchUniversity = () => {
@@ -18,20 +15,6 @@ export const useFetchUniversity = () => {
 export const useFetchMajor = (id?: number) => {
   return useQuery('major', () => fetchMajor(id), {
     enabled: !!id,
-    retry: false,
-  });
-};
-
-export const useCheckDuplicateId = () => {
-  return useMutation('idDuplicate', checkDuplicateId);
-};
-
-export const useCheckDuplicatePwd = () => {
-  return useMutation('pwdDuplicate', checkDuplicatePwd);
-};
-
-export const useRegister = (apiStart: boolean) => {
-  return useMutation(['register', apiStart], registerRequest, {
     retry: false,
   });
 };
