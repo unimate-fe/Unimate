@@ -1,22 +1,23 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import SafeContainer from '@components/SafeContainer';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import Typo from '@src/components/Typo';
 import {colors} from '@src/components/Styles/colors';
 import Button from '@src/components/Button';
-import {INTERESTING_DATA} from './data';
 import InterestLabel from './components/InterestLabel';
 import useRegisterStore from '@src/hooks/useRegisterStore';
 import {useQuery} from 'react-query';
 import {getInterestList} from '@src/apis/registerApis';
-import AppError from '@src/apis/error';
+import {Interest} from '@src/apis/registerApis/types';
+// import AppError from '@src/apis/error';
 
 const RegisterInterestScreen: FunctionComponent =
   function RegisterInterestScreen() {
     const navigation = useScreenNavigation();
 
-    const [interestList, setInterestList] = useState<number[]>([]);
+    const [interestList, setInterestList] = useState<Interest[]>([]);
+    const [selectedIdList, setSelectedIdList] = useState<number[]>([]);
     const [submitValid, setSubmitValid] = useState(false);
 
     const [saveInterestList] = useRegisterStore(state => [
@@ -26,27 +27,28 @@ const RegisterInterestScreen: FunctionComponent =
     useQuery(['getInterestList'], getInterestList, {
       retry: false,
       onSuccess: data => {
-        console.log(data);
+        setInterestList(data);
       },
-      onError: (e: AppError) => {},
     });
 
-    // JSON.stringify(mbti)
-
     const submitHandler = () => {
-      saveInterestList(interestList);
+      saveInterestList(interestList.map(item => item.id));
       navigation.navigate('RegisterInfo');
     };
 
-    const setInterestListHandler = (value: number) => {
-      setInterestList(prev => {
-        if (prev.find(item => item === value)) {
-          return prev.filter(item => item !== value);
+    const setInterestListHandler = (interestItem: Interest) => {
+      setSelectedIdList(prev => {
+        if (prev.find(id => id === interestItem.id)) {
+          return prev.filter(id => id !== interestItem.id);
         } else {
-          return [...prev, value];
+          return [...prev, interestItem.id];
         }
       });
     };
+
+    useEffect(() => {
+      console.log(interestList);
+    }, [interestList]);
 
     useEffect(() => {
       if (interestList.length > 0) {
@@ -58,11 +60,9 @@ const RegisterInterestScreen: FunctionComponent =
 
     return (
       <SafeContainer>
-        <View style={style.base}>
+        <ScrollView style={style.base}>
           <View style={style.headerView}>
-            <Typo
-              type={'H2'}
-              style={{marginRight: 4, color: colors.DARK_GREY4}}>
+            <Typo type={'H2'} style={style.titleStyle}>
               {'관심사를 선택해주세요.'}
             </Typo>
             <Typo type={'Body2'} style={style.errorText}>
@@ -74,14 +74,14 @@ const RegisterInterestScreen: FunctionComponent =
           </Typo>
 
           <View style={style.interestView}>
-            {INTERESTING_DATA.map(item => (
+            {interestList.map(item => (
               <InterestLabel
-                label={item.label}
-                key={item.value}
+                label={item.interest}
+                key={item.id}
                 onPress={() => {
-                  setInterestListHandler(item.value);
+                  setInterestListHandler(item);
                 }}
-                selected={interestList.includes(item.value)}
+                selected={selectedIdList.includes(item.id)}
               />
             ))}
           </View>
@@ -91,16 +91,19 @@ const RegisterInterestScreen: FunctionComponent =
             disabled={!submitValid}
             type={'Solid-Long'}
             onPress={submitHandler}
-            style={{marginTop: 44}}
+            style={style.buttonStyle}
           />
-        </View>
+        </ScrollView>
       </SafeContainer>
     );
   };
 const style = StyleSheet.create({
   base: {
-    paddingTop: 28,
     paddingHorizontal: 30,
+  },
+  titleStyle: {
+    marginRight: 4,
+    color: colors.DARK_GREY4,
   },
   errorText: {
     color: colors.ERROR,
@@ -110,6 +113,7 @@ const style = StyleSheet.create({
     marginBottom: 44,
   },
   headerView: {
+    paddingTop: 28,
     marginBottom: 10,
     flexDirection: 'row',
     alignItems: 'center',
@@ -117,6 +121,10 @@ const style = StyleSheet.create({
   interestView: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+  },
+  buttonStyle: {
+    marginTop: 44,
+    paddingBottom: 32,
   },
 });
 

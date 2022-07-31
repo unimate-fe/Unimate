@@ -4,8 +4,9 @@ import {
   UserRegisterType,
   UniversityType,
   UserResponse,
-  ProfileRegisterType,
   MajorType,
+  UserProfileType,
+  Interest,
 } from '@src/apis/registerApis/types';
 import AppError from '../error';
 
@@ -122,7 +123,7 @@ export const checkAuthorizationNumber = async (authNumber?: string) => {
 
 export const getInterestList = async () => {
   try {
-    const res = await request({
+    const res = await request<Interest[]>({
       method: HttpMethod.GET,
       url: '/accounts/interest/',
     });
@@ -133,9 +134,9 @@ export const getInterestList = async () => {
   }
 };
 
-export const registerProfile = async (params: ProfileRegisterType) => {
+export const registerProfile = async (params: UserProfileType) => {
   try {
-    const res = await request({
+    const res = await request<UserProfileType>({
       method: HttpMethod.POST,
       url: '/auths/smsactivate/',
       body: params,

@@ -15,9 +15,6 @@ export interface MajorType {
   university: number;
 }
 
-export interface CheckDuplicateAuthType {
-  auth_status: string;
-}
 export interface UserRegisterType {
   username: string;
   email: string;
@@ -29,7 +26,12 @@ export interface UserRegisterType {
   information_agree: boolean;
 }
 
-export interface ProfileRegisterType {
+export interface Interest {
+  id: number;
+  interest: string;
+}
+
+export interface UserProfileType {
   birth_of_date: string;
   gender: string;
   entrance_year: number;
@@ -38,10 +40,6 @@ export interface ProfileRegisterType {
   introducing: string;
   mbti: string;
   interest_list: string;
-}
-
-export interface RegisterErrorType {
-  email: string[];
 }
 
 export type Gender = 'M' | 'F';

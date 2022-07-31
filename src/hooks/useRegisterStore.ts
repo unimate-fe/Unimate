@@ -1,7 +1,7 @@
 import create from 'zustand';
 import {persist} from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {UserRegisterType} from '@src/apis/registerApis/types';
+import {UserProfileType, UserRegisterType} from '@src/apis/registerApis/types';
 
 interface Schools {
   university?: number;
@@ -26,15 +26,17 @@ export interface RegisterState {
   use_agree: boolean;
   information_agree: boolean;
   user?: UserRegisterType;
+  profile?: UserProfileType;
   token?: string;
   nickName?: string;
-  mbti?: string[];
+  mbti: string[];
   interestList: number[];
   // action
   saveSchool: (school: Schools) => void;
   saveTos: (term1: boolean, term2: boolean) => void;
   saveAccount: (account: Accounts) => void;
   saveUser: (user: UserRegisterType) => void;
+  saveProfile: (profileInfo: UserProfileType) => void;
   setToken: (token: string) => void;
   clearToken: () => void;
   saveNickName: (nickName: string) => void;
@@ -51,6 +53,7 @@ const initialState = {
   use_agree: false,
   information_agree: false,
   user: undefined,
+  profile: undefined,
   token: undefined,
   nickName: undefined,
   mbti: [],
@@ -70,6 +73,7 @@ const useRegisterStore = create(
         set({use_agree: term1, information_agree: term2}),
       saveAccount: account => set({...account}),
       saveUser: userInfo => set({user: userInfo}),
+      saveProfile: profileInfo => set({profile: profileInfo}),
       setToken: token => set({token}),
       clearToken: () => set({token: undefined}),
 

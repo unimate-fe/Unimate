@@ -1,5 +1,5 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
-import {View, StyleSheet, Image} from 'react-native';
+import {View, StyleSheet, Image, TextInput} from 'react-native';
 import {colors} from '@components/Styles/colors';
 import RNPickerSelect from 'react-native-picker-select';
 import {Icons} from '@assets/icons';
@@ -7,9 +7,10 @@ import SafeContainer from '@components/SafeContainer';
 import Typo from '@components/Typo';
 import InputView from '@components/Input';
 import Button from '@components/Button';
-import {useRegisterProfile} from '@src/hooks/api/useRegisterApi';
 import useScreenNavigation from '@src/hooks/useScreenNavigation';
 import useRegisterStore from '@src/hooks/useRegisterStore';
+import {useMutation} from 'react-query';
+import {registerProfile} from '@src/apis/registerApis';
 interface RegisterInfoScreenProps {}
 
 const gradeLIst = [
@@ -32,23 +33,37 @@ const RegisterInfoScreen: FunctionComponent<RegisterInfoScreenProps> =
 
     const [submitValid, setSubmitValid] = useState(false);
 
-    const [mbti] = useRegisterStore(state => [state.mbti]);
+    const [saveProfile, nickName, mbti, interestList] = useRegisterStore(
+      state => [
+        state.saveProfile,
+        state.nickName,
+        state.mbti,
+        state.interestList,
+      ],
+    );
 
-    console.log(mbti);
-
-    const {mutate: registerProfile, isSuccess} = useRegisterProfile();
+    const {mutate: register} = useMutation(
+      ['registerProfile'],
+      registerProfile,
+      {
+        onSuccess: data => {
+          saveProfile({...data});
+          navigation.replace('Login');
+        },
+      },
+    );
 
     const submitHandler = () => {
-      if (grade) {
-        registerProfile({
+      if (grade && nickName && interestList) {
+        register({
           birth_of_date: '2022-05-04',
           gender,
           entrance_year: Number(entranceYear),
           grade,
-          nickname: '닉네임',
+          nickname: nickName,
           introducing: body,
-          mbti: ['i', 's'].toString(),
-          interest_list: [1, 4, 7, 10].toString(),
+          mbti: mbti.toString(),
+          interest_list: interestList.toString(),
         });
       }
     };
@@ -60,12 +75,6 @@ const RegisterInfoScreen: FunctionComponent<RegisterInfoScreenProps> =
         setSubmitValid(false);
       }
     }, [name, entranceYear, body, grade, gender]);
-
-    useEffect(() => {
-      if (isSuccess) {
-        navigation.replace('Login');
-      }
-    });
 
     return (
       <SafeContainer isKeyboard>
@@ -82,6 +91,7 @@ const RegisterInfoScreen: FunctionComponent<RegisterInfoScreenProps> =
           <InputView placeholder={'생년월일'} style={styles.input} />
           <InputView
             placeholder={'입학년도'}
+            keyboardType={'number-pad'}
             style={styles.input}
             value={entranceYear}
             onChangeText={setEntranceYear}
@@ -96,14 +106,15 @@ const RegisterInfoScreen: FunctionComponent<RegisterInfoScreenProps> =
             />
             <Image source={Icons.ARROW_DROP_DOWN} style={styles.downIcon} />
           </View>
-          <InputView
-            style={[styles.input, {height: 80}]}
+          <TextInput
+            style={[styles.input, {borderWidth: 1}]}
             value={body}
             onChangeText={setBody}
             placeholder={'자기소개 (선택, 30자 이하)'}
             numberOfLines={2}
             maxLength={30}
             multiline
+            textAlignVertical={'center'}
           />
           <View style={styles.genderView}>
             <Button
