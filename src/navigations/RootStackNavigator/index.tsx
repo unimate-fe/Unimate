@@ -24,6 +24,16 @@ import RoomSelectSameScreen from '@src/screens/RoomSelectSame';
 import useRegisterStore from '@src/hooks/useRegisterStore';
 import RoomSelectNameScreen from '@src/screens/RoomSelectName';
 import RoomSelectDetailScreen from '@src/screens/RoomSelectDetail';
+import MyPageAuthScreen from '@src/screens/MyPage/MyPageAuthScreen';
+import MyPageProfileScreen from '@src/screens/MyPage/MyPageProfileScreen';
+import MyPageAccountScreen from '@src/screens/MyPage/MyPageAccountScreen';
+import MyPageAlarmScreen from '@src/screens/MyPage/MyPageAlarmScreen';
+import MyPageInfoScreen from '@src/screens/MyPage/MyPageInfoScreen';
+import MyPageOutScreen from '@src/screens/MyPage/MyPageOutScreen';
+import MyPageOutDetailScreen from '@src/screens/MyPage/MyPageOutDetailScreen';
+import {View} from 'react-native';
+import {Text} from 'react-native-paper';
+
 const Stack = createNativeStackNavigator<RootStackParams>();
 
 // 유저 인증 전
@@ -102,7 +112,17 @@ const UnauthorizedGroup = () => (
     <Stack.Screen
       name={'RoomSelectDetail'}
       component={RoomSelectDetailScreen}
-      options={{headerTitle: ''}}
+      options={{headerTitle: '프로필 수정'}}
+    />
+    <Stack.Screen
+      name={'MyPageProfile'}
+      component={MyPageProfileScreen}
+      options={{headerTitle: '프로필 수정', headerShown: true}}
+    />
+    <Stack.Screen
+      name={'MyPageAccount'}
+      component={MyPageAccountScreen}
+      options={{headerTitle: '계정관리', headerShown: true}}
     />
   </Stack.Group>
 );
@@ -110,6 +130,24 @@ const UnauthorizedGroup = () => (
 // 유저 인증 이후
 const AuthorizedGroup = (
   <Stack.Group>
+    <Stack.Screen
+      name={'MyPageAuth'}
+      component={MyPageAuthScreen}
+      options={{headerTitle: '내 정보'}}
+    />
+    <Stack.Screen
+      name={'MyPageProfile'}
+      component={MyPageProfileScreen}
+      options={{
+        headerTitle: '프로필 수정',
+        headerShown: true,
+        headerRight: () => (
+          <View>
+            <Text>완료</Text>
+          </View>
+        ),
+      }}
+    />
     <Stack.Screen
       name={'RegisterPhone'}
       component={RegisterPhoneScreen}
@@ -155,6 +193,31 @@ const AuthorizedGroup = (
       component={RoomSelectCntScreen}
       options={{headerTitle: ''}}
     />
+    <Stack.Screen
+      name={'MyPageAccount'}
+      component={MyPageAccountScreen}
+      options={{headerTitle: '계정관리', headerShown: true}}
+    />
+    <Stack.Screen
+      name={'MyPageAlarm'}
+      component={MyPageAlarmScreen}
+      options={{headerTitle: '알림설정', headerShown: true}}
+    />
+    <Stack.Screen
+      name={'MyPageInfo'}
+      component={MyPageInfoScreen}
+      options={{headerTitle: '알림설정', headerShown: true}}
+    />
+    <Stack.Screen
+      name={'MyPageOut'}
+      component={MyPageOutScreen}
+      options={{headerTitle: '탈퇴 안내', headerShown: true}}
+    />
+    <Stack.Screen
+      name={'MyPageOutDetail'}
+      component={MyPageOutDetailScreen}
+      options={{headerTitle: '탈퇴 안내', headerShown: true}}
+    />
   </Stack.Group>
 );
 
@@ -166,7 +229,7 @@ const RootStackNavigator = function RootStackNavigator() {
 
   return (
     <Stack.Navigator
-      initialRouteName="RegisterInfo"
+      initialRouteName="MyPageAuth"
       screenOptions={{
         headerShadowVisible: false,
         headerBackTitleVisible: false,
