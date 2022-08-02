@@ -48,6 +48,8 @@ export type RootStackParams = {
   MyPageInfo : undefined;
   MyPageOut : undefined;
   MyPageOutDetail : undefined;
+  // 내정보 - 계정관리 - 비밀번호
+  MyPagePassword : undefined;
 };
 
 export type RootStackNavigationProps =

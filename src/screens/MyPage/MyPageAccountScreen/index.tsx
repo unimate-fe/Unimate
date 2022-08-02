@@ -23,7 +23,7 @@ const MyPageAccountScreen: FunctionComponent<Props> =
           </Pressable>
           <Pressable
             style={styles.buttonwrapper}
-            onPress={() => navigation.navigate('MyPageAccount')}>
+            onPress={() => navigation.navigate('MyPagePassword')}>
             <Text style={styles.menutext}>{strings.MENU2}</Text>
             <Icon name="right" size={20} color="#212529" />
           </Pressable>

@@ -31,6 +31,7 @@ import MyPageAlarmScreen from '@src/screens/MyPage/MyPageAlarmScreen';
 import MyPageInfoScreen from '@src/screens/MyPage/MyPageInfoScreen';
 import MyPageOutScreen from '@src/screens/MyPage/MyPageOutScreen';
 import MyPageOutDetailScreen from '@src/screens/MyPage/MyPageOutDetailScreen';
+import MyPagePwScreen from '@src/screens/MyPage/MyPagePwScreen';
 import {View} from 'react-native';
 import {Text} from 'react-native-paper';
 
@@ -216,6 +217,11 @@ const AuthorizedGroup = (
     <Stack.Screen
       name={'MyPageOutDetail'}
       component={MyPageOutDetailScreen}
+      options={{headerTitle: '탈퇴 안내', headerShown: true}}
+    />
+    <Stack.Screen
+      name={'MyPagePassword'}
+      component={MyPagePwScreen}
       options={{headerTitle: '탈퇴 안내', headerShown: true}}
     />
   </Stack.Group>
