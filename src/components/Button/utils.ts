@@ -11,38 +11,76 @@ export const getStyle = (type: ButtonType) => {
     paddingVertical: 16,
     borderWidth: 0,
   };
-  if (type === 'Solid-Long') {
+  if (type === 'Solid-Long') 
+  {
     style.borderRadius = 12;
     style.paddingHorizontal = 12;
-  } else if (type === 'Solid-Long-White') {
+  } else if (type === 'Solid-Long-White') 
+  {
     style.borderRadius = 12;
     style.paddingHorizontal = 12;
     style.backgroundColor = colors.WHITE;
-  } else if (type === 'Solid-LongRound') {
+  }
+  else if (type === 'Solid-Long-Gray') 
+  {
+    style.borderRadius = 25;
+    style.paddingHorizontal = 12;
+    style.backgroundColor = colors.LIGHT_GREY1;
+  }
+  else if(type === 'Solid-Long-LightGrey')
+  {
+    style.borderRadius = 12;
+    style.paddingHorizontal = 12;
+    style.backgroundColor = colors.LIGHT_GREY1;
+  }
+   else if (type === 'Solid-LongRound')
+    {
     style.borderRadius = 28;
     style.paddingHorizontal = 12;
-  } else if (type === 'Solid-Short-Confirm') {
+  } else if (type === 'Solid-Short-Confirm')
+   {
     style.borderRadius = 12;
     style.paddingHorizontal = 8;
-  } else if (type === 'Solid-Short-Cancel') {
+  } else if (type === 'Solid-Short-Cancel') 
+  {
     style.borderRadius = 12;
     style.paddingHorizontal = 8;
     style.backgroundColor = colors.LIGHT_GREY3;
-  } else if (type === 'Solid-ShortRound-Confirm') {
+  } else if (type === 'Solid-ShortRound-Confirm')
+   {
     style.borderRadius = 28;
     style.paddingHorizontal = 8;
-  } else if (type === 'Solid-ShortRound-Cancel') {
+  } else if (type === 'Solid-ShortRound-Cancel') 
+  {
     style.borderRadius = 28;
     style.paddingHorizontal = 8;
     style.backgroundColor = colors.LIGHT_GREY1;
-  } else if (type === 'Solid-Short-Primary') {
+  } else if (type === 'Solid-Short-Primary')
+   {
     style.borderRadius = 12;
     style.paddingHorizontal = 8;
     style.backgroundColor = colors.PRIMARY.NORMAL;
-  } else if (type === 'Solid-Short-Secondary') {
+  } else if (type === 'Solid-Short-Secondary')
+   {
     style.borderRadius = 12;
     style.paddingHorizontal = 8;
     style.backgroundColor = colors.SECONDARY.NORMAL;
+  }
+  else if (type === 'Solid-Confirm-Secondary') 
+  {
+    style.borderRadius = 12;
+    style.paddingHorizontal = 8;
+    style.backgroundColor = colors.SECONDARY.NORMAL;
+    style.width = 150;
+    style.height = 56;
+  }
+  else if (type === 'Solid-Confirm-LightGrey') 
+  {
+    style.borderRadius = 12;
+    style.paddingHorizontal = 8;
+    style.backgroundColor = colors.LIGHT_GREY1;
+    style.width = 150;
+    style.height = 56;
   }
   return style;
 };
@@ -57,8 +95,17 @@ export const getLabelStyle = (type: ButtonType, disabled?: boolean) => {
   if (type === 'Solid-Long') {
   } else if (type === 'Solid-Long-White') {
     style.color = colors.DARK_GREY4;
-  } else if (type === 'Solid-ShortRound-Cancel') {
+  }
+  else if (type === 'Solid-Long-Gray') {
+    style.color = colors.DARK_GREY4;
+  }
+  else if (type === 'Solid-Long-LightGrey') {
+    style.color = colors.GREY2;
+  }
+   else if (type === 'Solid-ShortRound-Cancel') {
     style.color = colors.WHITE;
+  }else if (type === 'Solid-Confirm-LightGrey') {
+    style.color = colors.GREY2;
   }
   return style;
 };

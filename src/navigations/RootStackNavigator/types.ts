@@ -38,7 +38,20 @@ export type RootStackParams = {
   RoomSelectSame:undefined;
   RoomSelectName:undefined;
   RoomSelectDetail:undefined;
-
+  MyPageAuth:undefined;
+  // 프로필 수정
+  MyPageProfile:undefined;
+  //계정 관리
+  MyPageAccount:undefined;
+  //알림 설정
+  MyPageAlarm : undefined;
+  MyPageInfo : undefined;
+  MyPageOut : undefined;
+  MyPageOutDetail : undefined;
+  // 내정보 - 계정관리 - 비밀번호
+  MyPagePassword : undefined;
+  // 내정보 - 계정관리 - 이메일
+  MyPageEmail: undefined;
 };
 
 export type RootStackNavigationProps =
