@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {RootStackParams} from '@src/navigations/RootStackNavigator/types';
 import HomeScreen from '@screens/HomeScreen';
@@ -24,6 +24,7 @@ import RoomSelectSameScreen from '@src/screens/RoomSelectSame';
 import useRegisterStore from '@src/hooks/useRegisterStore';
 import RoomSelectNameScreen from '@src/screens/RoomSelectName';
 import RoomSelectDetailScreen from '@src/screens/RoomSelectDetail';
+
 const Stack = createNativeStackNavigator<RootStackParams>();
 
 // 유저 인증 전
@@ -166,7 +167,6 @@ const RootStackNavigator = function RootStackNavigator() {
 
   return (
     <Stack.Navigator
-      initialRouteName={'RegisterInterest'}
       screenOptions={{
         headerShadowVisible: false,
         headerBackTitleVisible: false,

@@ -138,7 +138,7 @@ export const registerProfile = async (params: UserProfileType) => {
   try {
     const res = await request<UserProfileType>({
       method: HttpMethod.POST,
-      url: '/auths/smsactivate/',
+      url: '/accounts/profile_register/',
       body: params,
     });
 

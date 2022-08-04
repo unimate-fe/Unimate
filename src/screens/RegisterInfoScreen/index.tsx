@@ -1,5 +1,5 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
-import {View, StyleSheet, Image, TextInput} from 'react-native';
+import {View, StyleSheet, Image, Keyboard} from 'react-native';
 import {colors} from '@components/Styles/colors';
 import RNPickerSelect from 'react-native-picker-select';
 import {Icons} from '@assets/icons';
@@ -62,14 +62,20 @@ const RegisterInfoScreen: FunctionComponent<RegisterInfoScreenProps> =
           grade,
           nickname: nickName,
           introducing: body,
-          mbti: mbti.toString(),
-          interest_list: interestList.toString(),
+          mbti: JSON.stringify(mbti),
+          interest_list: JSON.stringify(interestList),
         });
       }
     };
 
     useEffect(() => {
-      if (name && entranceYear && body && grade && gender) {
+      if (entranceYear?.length === 4) {
+        Keyboard.dismiss();
+      }
+    }, [entranceYear]);
+
+    useEffect(() => {
+      if (name && entranceYear && body && !!grade && !!gender) {
         setSubmitValid(true);
       } else {
         setSubmitValid(false);
@@ -91,9 +97,10 @@ const RegisterInfoScreen: FunctionComponent<RegisterInfoScreenProps> =
           <InputView placeholder={'생년월일'} style={styles.input} />
           <InputView
             placeholder={'입학년도'}
-            keyboardType={'number-pad'}
+            keyboardType={'numeric'}
             style={styles.input}
             value={entranceYear}
+            maxLength={4}
             onChangeText={setEntranceYear}
           />
           <View style={styles.pickerContainer}>
@@ -106,8 +113,8 @@ const RegisterInfoScreen: FunctionComponent<RegisterInfoScreenProps> =
             />
             <Image source={Icons.ARROW_DROP_DOWN} style={styles.downIcon} />
           </View>
-          <TextInput
-            style={[styles.input, {borderWidth: 1}]}
+          <InputView
+            style={[styles.input]}
             value={body}
             onChangeText={setBody}
             placeholder={'자기소개 (선택, 30자 이하)'}

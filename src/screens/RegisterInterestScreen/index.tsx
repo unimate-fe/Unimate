@@ -10,7 +10,6 @@ import useRegisterStore from '@src/hooks/useRegisterStore';
 import {useQuery} from 'react-query';
 import {getInterestList} from '@src/apis/registerApis';
 import {Interest} from '@src/apis/registerApis/types';
-// import AppError from '@src/apis/error';
 
 const RegisterInterestScreen: FunctionComponent =
   function RegisterInterestScreen() {
@@ -45,10 +44,6 @@ const RegisterInterestScreen: FunctionComponent =
         }
       });
     };
-
-    useEffect(() => {
-      console.log(interestList);
-    }, [interestList]);
 
     useEffect(() => {
       if (interestList.length > 0) {
