@@ -52,6 +52,10 @@ export type RootStackParams = {
   MyPagePassword : undefined;
   // 내정보 - 계정관리 - 이메일
   MyPageEmail: undefined;
+  // 내정보 - 계정관리 - 학교인증
+  MyPageSchool : undefined;
+  // 홈 (메인 스크린)
+  MainScreen : undefined;
 };
 
 export type RootStackNavigationProps =

@@ -33,6 +33,9 @@ import MyPageOutScreen from '@src/screens/MyPage/MyPageOutScreen';
 import MyPageOutDetailScreen from '@src/screens/MyPage/MyPageOutDetailScreen';
 import MyPagePwScreen from '@src/screens/MyPage/MyPagePwScreen';
 import MyPageEmailScreen from '@src/screens/MyPage/MyPageEmailScreen';
+import MyPageSchoolScreen from '@src/screens/MyPage/MyPageSchoolScreen';
+import MainScreen from '@src/screens/MainScreen';
+
 import {View} from 'react-native';
 import {Text} from 'react-native-paper';
 
@@ -41,6 +44,11 @@ const Stack = createNativeStackNavigator<RootStackParams>();
 // 유저 인증 전
 const UnauthorizedGroup = (
   <Stack.Group>
+    <Stack.Screen
+      name={'MyPageAuth'}
+      component={MyPageAuthScreen}
+      options={{headerTitle: '내 정보'}}
+    />
     <Stack.Screen
       name={'Home'}
       component={HomeScreen}
@@ -229,6 +237,16 @@ const AuthorizedGroup = (
       name={'MyPageEmail'}
       component={MyPageEmailScreen}
       options={{headerTitle: '탈퇴 안내', headerShown: true}}
+    />
+    <Stack.Screen
+      name={'MyPageSchool'}
+      component={MyPageSchoolScreen}
+      options={{headerTitle: '학교 인증', headerShown: true}}
+    />
+    <Stack.Screen
+      name={'MainScreen'}
+      component={MainScreen}
+      options={{headerTitle: '홈', headerShown: true}}
     />
   </Stack.Group>
 );

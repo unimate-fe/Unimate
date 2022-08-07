@@ -9,6 +9,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MyPageScreen from '@screens/MyPage/MyPageScreen';
 import RoomStartScreen from '@screens/RoomStartScreen';
 import HomeScreen from '@screens/HomeScreen';
+import MainScreen from '@src/screens/MainScreen';
 
 interface Props {}
 const MyPageAuthScreen: FunctionComponent<Props> = function MyPageAuthScreen() {
@@ -25,7 +26,7 @@ const MyPageAuthScreen: FunctionComponent<Props> = function MyPageAuthScreen() {
       </View> */}
 
       <BottomTab.Navigator>
-        <BottomTab.Screen name="홈" component={HomeScreen} options={{headerShown : false}} />
+        <BottomTab.Screen name="홈" component={MainScreen} options={{headerShown : false}} />
         <BottomTab.Screen name="대화중인 방" component={MyPageScreen} options={{headerShown : false}} />
         <BottomTab.Screen name="방만들기 "  component={RoomStartScreen} options={{headerShown : false}} />
         <BottomTab.Screen name="내 정보 " component={MyPageScreen} options={{headerShown : false}} />

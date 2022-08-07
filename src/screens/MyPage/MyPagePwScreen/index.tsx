@@ -76,7 +76,7 @@ const MyPagePwScreen: FunctionComponent<Props> = function MyPagePwScreen() {
           value={newpasswordConfirm}
           onChangeText={value => {
             setnewPasswordConfirm(newpasswordConfirm);
-            if (value == newpassword) {
+            if (value.toString() === newpassword) {
                 setErr2(false);
               } else {
                 setErr2(true);

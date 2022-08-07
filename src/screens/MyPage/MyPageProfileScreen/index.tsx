@@ -10,20 +10,23 @@ import Typo from '@components/Typo';
 import {UniversityType} from '@src/apis/registerApis/types';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 
-interface Props {
+interface Props 
+{
   data?: UniversityType[];
   onClose: () => void;
   schoolHandler: (atr: string) => void;
 }
 const MyPageProfileScreen: FunctionComponent<Props> =
-  function MyPageProfileScreen() {
+  function MyPageProfileScreen() 
+  {
     const navigation = useScreenNavigation();
     const [Nickname, setNickname] = useState<string>();
     const [text, setText] = useState<string>();
     const [filterList, setFilterList] = useState<UniversityType[]>();
     const [listShow, setListShow] = useState(true);
 
-    const selectItemHandler = (item: string) => {
+    const selectItemHandler = (item: string) => 
+    {
       setText(item);
       setListShow(false);
     };
@@ -162,8 +165,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
-    // flexBasis : 10,
-    // display :'flex',
   },
   errtext: {
     paddingTop: 8,

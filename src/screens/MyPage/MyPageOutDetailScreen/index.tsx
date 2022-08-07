@@ -95,7 +95,6 @@ const MyPageOutDetailScreen: FunctionComponent<Props> =
             onPress={() => {
               setModal(true);
             }}
-            // onPress={() => navigation.navigate('MyPageProfile')}
           />
         </View>
       </SafeContainer>
@@ -104,10 +103,12 @@ const MyPageOutDetailScreen: FunctionComponent<Props> =
 export default MyPageOutDetailScreen;
 
 const styles = StyleSheet.create({
-  wrapper: {
+  wrapper: 
+  {
     // alignItems: 'center',
   },
-  MAINTEXT: {
+  MAINTEXT: 
+  {
     paddingTop: 28,
     paddingLeft: 30,
     color: colors.DARK_GREY4,
@@ -115,7 +116,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     // lineHeight : 24,
   },
-  SUBTEXT: {
+  SUBTEXT: 
+  {
     paddingTop: 10,
     paddingBottom: 10,
     fontSize: 16,
@@ -124,29 +126,34 @@ const styles = StyleSheet.create({
     lineHeight: 22.4,
     borderRadius: 12,
   },
-  buttonWrapper1: {
+  buttonWrapper1: 
+  {
     paddingTop: 38,
     paddingLeft: 30,
     paddingRight: 31,
   },
-  buttonWrapper2: {
+  buttonWrapper2: 
+  {
     paddingTop: 14,
     paddingLeft: 30,
     paddingRight: 31,
   },
-  buttonArea: {
+  buttonArea: 
+  {
     paddingLeft: 30,
     paddingRight : 30,
     position: 'absolute',
     bottom: '10%',
     width: '100%',
   },
-  input: {
+  input: 
+  {
     flex: 1,
     paddingTop: 14,
     paddingBottom: 68,
   },
-  inputWrapper: {
+  inputWrapper: 
+  {
     paddingLeft: 30,
     paddingRight: 31,
   },

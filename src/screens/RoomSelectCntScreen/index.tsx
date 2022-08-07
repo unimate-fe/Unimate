@@ -1,15 +1,18 @@
-import React, {FunctionComponent} from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import React, {FunctionComponent,useState} from 'react';
+import {View, Text, StyleSheet, Pressable, TextInput} from 'react-native';
 import {colors} from '@components/Styles/colors';
 import SafeContainer from '@components/SafeContainer';
 import Button from '@components/Button';
 import useScreenNavigation from '@hooks/useScreenNavigation';
 import {ProgressBar} from 'react-native-paper';
 import * as Progress from 'react-native-progress';
+import Input from '@components/Input';
 interface Props {}
 
 const RoomSelectCntScreen: FunctionComponent<Props> = function RoomSelectCntScreen() {
   const navigation = useScreenNavigation();
+  const [text, setText] = useState<string>();
+
   return (
     <SafeContainer style={[{backgroundColor: colors.WHITE}]}>
       <View style={styles.textContainer}>
@@ -28,11 +31,23 @@ const RoomSelectCntScreen: FunctionComponent<Props> = function RoomSelectCntScre
         </View>
 
       <View style={styles.buttonContainer}>
-        <Pressable
+      <Input
+      textAlignVertical='center'
+      style = {styles.input}
+            onChangeText={value => {
+              setText(value);
+            }}
+            />
+        {/* <Pressable
           style={styles.NextButton}
           onPress={() =>navigation.navigate('RoomSelectGender')}>
-          <Text style={styles.NextButtonText}>0명</Text>
-        </Pressable>
+            <Input
+            onChangeText={value => {
+              setText(value);
+            }}
+            />
+          <Text style={styles.NextButtonText}>명</Text>
+        </Pressable> */}
       </View>
     </SafeContainer>
   );
@@ -46,6 +61,9 @@ const styles = StyleSheet.create({
   //   top: {
   //     marginTop: 28,
   //   },
+  input: {
+    justifyContent: 'center',
+  },
   title: {
     color: '#212529',
     fontSize: 24,
@@ -55,7 +73,7 @@ const styles = StyleSheet.create({
   textContainer2: {
     paddingLeft : 30,
     paddingTop : 20 ,
-    borderColor : "#EAEBEF", 
+    borderColor : "#EAEBEF",
   },
   progressBar: {
     // width:315,
